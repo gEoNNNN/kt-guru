@@ -8,24 +8,45 @@ import {
   QueryClientProvider,
 } from 'react-query';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LoginPage from './Pages/LoginPage.tsx';
+import RegisterPage from './Pages/RegisterPage.tsx';
+import ForgotPasswordPage from './Pages/ForgotPassword.tsx';
+import ForgotPasswordCodePage from './Pages/ForgotPasswordCode.tsx';
+import NewPassword from './Pages/NewPassword.tsx';
+
+
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-  },
-  {
-    path: "Home",
     element: <HomePage />,
   },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/forgotpassword",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/forgotpasswordcode",
+    element: <ForgotPasswordCodePage />,
+  },
+  {
+    path: "/newpassword",
+    element: <NewPassword />,
+  },
 ]);
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
     <QueryClientProvider client={queryClient}>
-      <App />
     </QueryClientProvider>
   </React.StrictMode>,
 )
