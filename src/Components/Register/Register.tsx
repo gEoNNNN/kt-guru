@@ -18,7 +18,7 @@ export default function Register() {
       <h1 className='absolute text-white text-3xl font-main-font top-[27%] left-[37%]'>Registration:</h1>
       <form>
         <label className='flex text-xl font-main-font text-white'>Nickname:</label>
-        <Inputbox type="text" id="fname" name="fname" style="flex w-full px-[150px] py-2 my-4 border-2 border-black rounded-md" children={undefined} />
+        <Inputbox type="text" id="fname" name="fname" style="flex w-[400px] px-[10px] py-2 my-4 border-2 border-black rounded-md" children={undefined} />
         <label className='flex text-xl font-main-font text-white'>Email address:</label>
         <Inputbox type="text" id="fname" name="fname" style="w-full px-5 py-2 my-2 border-2 border-black rounded-md" children={undefined} />
         <label className='flex text-xl font-main-font text-white'>Password:</label>

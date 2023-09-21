@@ -6,6 +6,7 @@ interface IInputboxProps {
   id?: string;
   name?: string;
   children?: ReactNode;
+  register?:any;
 }
 
 export default function Inputbox({
@@ -14,6 +15,7 @@ export default function Inputbox({
   id,
   name,
   children,
+  register,
 }: IInputboxProps) {
   return (
     <input
@@ -22,6 +24,7 @@ export default function Inputbox({
       id={id}
       name={name}
       placeholder={children as string}
+      {...register}
     />
   );
 }
