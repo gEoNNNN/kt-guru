@@ -2,8 +2,11 @@ import React from "react";
 import fork from '../assets/bg.png';
 import plate from '../assets/homapageplate.png';
 import Navbar from "../Components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate()
+  const handleRecipe = () => { navigate("/recipe") }
   return (
     <>
     <Navbar />
@@ -33,7 +36,7 @@ function HomePage() {
             <h1>   TO COOK</h1>
           </div>
         </div>
-        <button className="absolute top-[70%] right-[58%] text-xl uppercase py-6 px-16 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"> Let's cook!</button>
+        <button className="absolute top-[70%] right-[58%] text-xl uppercase py-6 px-16 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"onClick={handleRecipe}> Let's cook!</button>
       </div>
     </>
   );

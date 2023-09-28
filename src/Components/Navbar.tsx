@@ -1,25 +1,29 @@
 import React from "react";
 import Button from "./Button/Button";
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/logo.png'
 
 function Navbar() {
   const navigate = useNavigate()
-  const handlelogin=()=>{navigate("/login")}
-  const handleregister=()=>{navigate("/register")}
-  return ( 
-    <div className=" max-w-7xl flex justify-between font-main-font fixed top-[5%] left-[17%] w-full z-10">
-        <div className="text-3xl font-bold "><a href="/">Kitchen Guru</a></div>
-        <ul className="flex gap-16 text-xl font-main-font text-black no-underline ">
-          <li><a href="/Test">AI Recipe</a></li>
-          <li><a href="/Test">Best 100</a></li>
-          <li><a href="/Test">About us</a></li>
-        </ul>
-        <div>
-          <Button style="bg-33B249 text-white px-4 py-1 mr-8 rounded-lg cursor-pointer transition duration-1000 hover:bg-black" onClick={handlelogin}>Login</Button>
-          <Button style="bg-33B249 text-white px-4 py-1 mr-8 rounded-lg cursor-pointer transition duration-1000 hover:bg-black" onClick={handleregister}>Register</Button>
-        </div>
-        <div className="no-underline text-white list-none text-xl cursor-pointer hidden"></div>
+  const handleLogin = () => { navigate("/login") }
+  const handleRegister = () => { navigate("/register") }
+
+  return (
+  <>
+    <div className="flex justify-between font-main-font fixed top-[3%] left-[-1%] right-[-3%] mx-auto px-4 md:px-8 lg:max-w-7xl lg:px-0">
+      <div className="text-2xl font-bold flex items-center"><img src={logo} className="w-[20%] gap-4"></img><a href="/">Kitchen Guru</a></div>
+
+      <ul className="hidden md:flex gap-8 lg:gap-16 text-lg md:text-xl font-main-font text-black no-underline">
+        <li><a href="/Test">AI Recipe</a></li>
+        <li><a href="/Test">Best 100</a></li>
+        <li><a href="/Test">About us</a></li>
+      </ul>
+      <div className="flex gap-4 md:gap-8">
+        <Button style="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-1000 hover:bg-black" onClick={handleLogin}>Login</Button>
+        <Button style="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-1000 hover:bg-black" onClick={handleRegister}>Register</Button>
+      </div>
     </div>
+    </>
   );
 }
 
