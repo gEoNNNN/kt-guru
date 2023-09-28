@@ -23,7 +23,7 @@ export default function Register() {
       <h1 className='absolute text-white text-3xl font-main-font top-[27%] left-[37%]'>Registration:</h1>
       <form onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))} className="flex flex-col items-start">
     <label className="flex text-xl font-main-font text-white mb-2">Nickname:</label>
-    <Inputbox register={register("nickname")} type="text" id="nickname" name="nickname" style="w-[400px] px-2.5 py-1 mb-4 border-2 border-black rounded-md" />
+    <Inputbox register={register("username")} type="text" id="nickname" name="nickname" style="w-[400px] px-2.5 py-1 mb-4 border-2 border-black rounded-md" />
 
     <label className="flex text-xl font-main-font text-white mb-2">Email:</label>
     <Inputbox register={register("email")} type="email" id="email" name="email" style="w-full px-2.5 py-1 mb-2 border-2 border-black rounded-md" />
@@ -32,7 +32,7 @@ export default function Register() {
     <Inputbox register={register("password")} type="password" id="password" name="password" style="w-full px-2.5 py-1 mb-2 border-2 border-black rounded-md" />
 
     <label className="flex text-xl font-main-font text-white mb-2">Repeat Password:</label>
-    <Inputbox register={register("repeat_Password")} type="password" id="repeatPassword" name="repeatPassword" style="w-full px-2.5 py-1 mb-2 border-2 border-black rounded-md" />
+    <Inputbox register={register("confrim_password")} type="password" id="repeatPassword" name="repeatPassword" style="w-full px-2.5 py-1 mb-2 border-2 border-black rounded-md" />
 
     <input type="submit" className="absolute top-[74%] right-[45%] text-base uppercase py-4 px-8 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black" value="Register" />
 </form>
