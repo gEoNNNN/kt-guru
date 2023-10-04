@@ -29,7 +29,7 @@ export default function Login() {
         <label className="text-xl font-main-font text-white">Nickname or Email</label>
         <Inputbox
           type="email"
-          style="flex w-full px-[150px] py-3 my-4 border-2 border-black rounded-md"
+          style="flex w-[500px] px-[15px] py-3 my-4 border-2 border-black rounded-md"
           register={register("email")}
         />
         <label className="text-xl font-main-font text-white">Password</label>

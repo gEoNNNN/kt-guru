@@ -13,6 +13,8 @@ import RegisterPage from './Pages/RegisterPage.tsx';
 import ForgotPasswordPage from './Pages/ForgotPassword.tsx';
 import ForgotPasswordCodePage from './Pages/ForgotPasswordCode.tsx';
 import NewPassword from './Pages/NewPassword.tsx';
+import MainPage from './Pages/Main.tsx';
+import ProfilePage from './Pages/ProfilePage.tsx';
 
 
 
@@ -42,6 +44,16 @@ const router = createBrowserRouter([
     path: "/newpassword",
     element: <NewPassword />,
   },
+  {
+    path: "/main",
+    element: <MainPage />,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
+  },
+
+
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
