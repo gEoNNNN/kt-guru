@@ -23,7 +23,6 @@ export default () => {
           height: 20
         }}
       >
-        🐰 Show me the Preact version
       </a>
     </div>
   );

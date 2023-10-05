@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "./index.css";
 import HomePage from "./Pages/home.tsx";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -13,6 +12,9 @@ import NewPassword from "./Pages/NewPassword.tsx";
 import MainPage from "./Pages/Main.tsx";
 import ProfilePage from "./Pages/ProfilePage.tsx";
 import AboutUs from "./Pages/AboutUs.tsx";
+import RecipePage from "./Pages/Recipe.tsx";
+import RecipeDisplayPage from "./Pages/RecipeDisplay.tsx";
+import TopPage from "./Pages/Top.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -43,6 +45,18 @@ const router = createBrowserRouter([
   {
     path: "/main",
     element: <MainPage />,
+  },
+  {
+    path: "/recipe",
+    element: <RecipePage />,
+  },
+  {
+    path: "/reciepdsiplay/:id",
+    element: <RecipeDisplayPage />,
+  },
+  {
+    path: "/top",
+    element: <TopPage />,
   },
   {
     path: "/profile",

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import bg from '../Login/Loginbg.png';
+import bg from '../../assets/Loginbg.png';
 import Inputbox from '../Inputbox/Inputbox';
 import Button from "../Button/Button";
 
