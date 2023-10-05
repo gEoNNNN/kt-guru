@@ -7,6 +7,7 @@ function Navbar() {
   const navigate = useNavigate()
   const handleLogin = () => { navigate("/login") }
   const handleRegister = () => { navigate("/register") }
+  const handleTop = () => { navigate("/top") }
 
   return (
   <>
@@ -14,8 +15,8 @@ function Navbar() {
       <div className="text-2xl font-bold flex items-center"><img src={logo} className="w-[20%] gap-4"></img><a href="/">Kitchen Guru</a></div>
 
       <ul className="hidden md:flex gap-8 lg:gap-16 text-lg md:text-xl font-main-font text-black no-underline">
-        <li><a href="/Test">AI Recipe</a></li>
-        <li><a href="/Test">Best 100</a></li>
+        <li><a href="/Test">AI Recipe</a></li>  
+        <li><Button onClick={handleTop}>Best 100</Button></li>
         <li><a href="/Test">About us</a></li>
       </ul>
       <div className="flex gap-4 md:gap-8">

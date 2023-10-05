@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
 import HomePage from "./Pages/home.tsx";
 import {
@@ -15,6 +14,8 @@ import ForgotPasswordCodePage from './Pages/ForgotPasswordCode.tsx';
 import NewPassword from './Pages/NewPassword.tsx';
 import RecipePage from './Pages/Recipe.tsx';
 import RecipeDisplayPage from './Pages/RecipeDisplay.tsx';
+import TopPage from './Pages/Top.tsx';
+import ProfilePage from './Pages/Profile.tsx';
 
 
 
@@ -51,6 +52,18 @@ const router = createBrowserRouter([
   {
     path: "/reciepdsiplay/:id",
     element: <RecipeDisplayPage />,
+      
+    
+  },
+  {
+    path: "/top",
+    element: <TopPage />,
+      
+    
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
       
     
   },
