@@ -4,15 +4,26 @@ interface IImage {
   style?: string;
   url: string;
   children?: ReactNode;
-  onMouseEnter?:any;
-  onMouseLeave?:any;
-
-  
+  onMouseEnter?: any;
+  onMouseLeave?: any;
+  onClick?: any;
 }
 
-export default function Image({ url, style, children, onMouseEnter, onMouseLeave }: IImage) {
+export default function Image({
+  url,
+  style,
+  children,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+}: IImage) {
   return (
-    <div className={style} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} >
+    <div
+      className={style}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+    >
       <img src={url} className="rounded-full" />
     </div>
   );

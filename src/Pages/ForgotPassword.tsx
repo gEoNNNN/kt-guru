@@ -1,11 +1,10 @@
-import React from 'react'
-import ForgotPassword from '../Components/ForgotPassword/ForgotPassword'
-
+import React from "react";
+import ForgotPassword from "../Components/ForgotPassword/ForgotPassword";
 
 export default function ForogotPasswordPage() {
   return (
     <div>
-      <ForgotPassword/>
+      <ForgotPassword />
     </div>
-  )
+  );
 }
