@@ -10,3 +10,22 @@
   .whitespace-pre {
     white-space: pre;
   }
+
+  .bg{
+    background-image: url(./assets/logo.png);
+    margin : 0;
+    
+    background-size: cover;
+  }
+  .circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  .circles-div {
+    width: 400px;
+    height: 400px;
+    align-self: center;
+    color: black;
+  }
+  
