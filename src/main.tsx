@@ -10,7 +10,7 @@ import ForgotPasswordPage from "./Pages/ForgotPassword.tsx";
 import ForgotPasswordCodePage from "./Pages/ForgotPasswordCode.tsx";
 import NewPassword from "./Pages/NewPassword.tsx";
 import MainPage from "./Pages/Main.tsx";
-import ProfilePage from "./Pages/ProfilePage.tsx";
+import ProfilePage from "./Pages/Profile.tsx";
 import AboutUs from "./Pages/AboutUs.tsx";
 import RecipePage from "./Pages/Recipe.tsx";
 import RecipeDisplayPage from "./Pages/RecipeDisplay.tsx";

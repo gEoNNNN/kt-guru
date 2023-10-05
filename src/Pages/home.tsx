@@ -44,7 +44,6 @@ function HomePage() {
         >
           Lets Cook
         </Button>
-        <button className="absolute top-[70%] right-[58%] text-xl uppercase py-6 px-16 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"onClick={handleRecipe}> Let's cook!</button>
       </div>
     </>
   );

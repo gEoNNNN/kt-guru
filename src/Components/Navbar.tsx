@@ -26,7 +26,7 @@ function Navbar() {
             <a href="/Test">AI Recipe</a>
           </li>
           <li>
-            <a href="/Test">Best 100</a>
+            <a href="/top">Best 100</a>
           </li>
           <li>
             <a href="/AboutUs">About us</a>
