@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import bg from '../../assets/Loginbg.png';
 import Inputbox from '../Inputbox/Inputbox';
 import Button from '../Button/Button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,23 +18,25 @@ export default function Login() {
   const [data,setdata] = useState()
   const { register, handleSubmit } = useForm();
   const handleButton = (data) => {
-    const jsonData = JSON.stringify(data);
-    fetch("http://127.0.0.1:8000/api/auth/login", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonData,
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Backend Response:", data["access_token"]);
-    })
-    .catch(error => {
-      console.error("Error fetching from backend:", error);
-    });
-    console.log(data)
+    return redirect('/main')
+    // const jsonData = JSON.stringify(data);
+    // axios.post("http://127.0.0.1:8000/api/auth/login", data)
+    // .then((response:any) => window.localStorage.setItem('access_token', response.data.access_token))
+    // .catch((error:any) => console.log(error))
+    // console.log(data)
+    // const temp = localStorage.getItem('access_token')
+    // console.log(temp)
+    // if (temp !== null) {
+    //   navigate('/main')
+    // }
   }
+  // useEffect(() => {
+  //   const temp = localStorage.getItem('access_token')
+  //   console.log(temp)
+  //   if (temp) {
+  //     redirect('/main')
+  //   }
+  // }, [navigate]);
   return (
     <div
       className="bg-cover bg-center bg-no-repeat min-h-screen flex justify-center items-center" style={{ backgroundImage: `url(${bg})` }}>
