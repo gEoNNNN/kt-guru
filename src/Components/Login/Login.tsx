@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
+
 export default function Login() {
   const navigate = useNavigate();
   const handleForgotPassword = () => {
@@ -18,16 +19,14 @@ export default function Login() {
   const [data,setdata] = useState()
   const { register, handleSubmit } = useForm();
   const handleButton = (data) => {
-    const jsonData = JSON.stringify(data);
     axios.post("http://127.0.0.1:8000/api/auth/login", data)
-    .then((response:any) => window.localStorage.setItem('access_token', response.data.access_token))
-    .catch((error:any) => console.log(error))
-    console.log(data)
-    const temp = localStorage.getItem('access_token')
-    console.log(localStorage.length)
-    if (localStorage.length >= 1) {
+    .then((response:any) => 
+    { if (response.status === 200) {
       navigate('/main')
+      localStorage.setItem('access_token', response.data.access_token)
     }
+    })
+    .catch((error:any) => console.log(error))
   }
   // useEffect(() => {
   //   const temp = localStorage.getItem('access_token')
@@ -39,6 +38,11 @@ export default function Login() {
   return (
     <div
       className="bg-cover bg-center bg-no-repeat min-h-screen flex justify-center items-center" style={{ backgroundImage: `url(${bg})` }}>
+      <div
+        className="mb-4 rounded-lg bg-danger-100 px-6 py-5 text-base text-danger-700"
+        role="alert">
+        A simple danger alert—check it out!
+      </div>
       <h1 className="absolute text-white text-5xl font-main-font top-[15%] left-[30%]">Welcome back!</h1>
       <h1 className="absolute text-white text-xl font-main-font top-[20%] left-[30.5%]">Keep in trend with new recipes!</h1>
       <h1 className="absolute text-white text-5xl font-main-font top-[31%] left-[37%]">Login:</h1>

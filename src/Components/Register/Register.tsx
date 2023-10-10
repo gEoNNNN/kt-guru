@@ -5,31 +5,22 @@ import Inputbox from '../Inputbox/Inputbox';
 import Button from "../Button/Button";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 export default function Register() {
   const navigate = useNavigate()
   const handleLogin=()=>{navigate("/login")} 
-  const [data, setData] = useState("");
 
   const { register, handleSubmit } = useForm();
-  let [dogImage, setDogImage] = useState(null);
 
   const handleButton = (data) => {
-    const jsonData = JSON.stringify(data);
-    fetch("http://127.0.0.1:8000/api/auth/registration", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonData,
+    axios.post("http://127.0.0.1:8000/api/auth/registration", data)
+    .then((response:any) => 
+    { if (response.status === 201) {
+      navigate('/login')
+    }
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Backend Response:", data);
-    })
-    .catch(error => {
-      console.error("Error fetching from backend:", error);
-    });
+    .catch((error:any) => console.log(error))
   }
   return (
     <div
