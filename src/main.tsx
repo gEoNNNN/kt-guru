@@ -12,9 +12,10 @@ import NewPassword from "./Pages/NewPassword.tsx";
 import MainPage from "./Pages/Main.tsx";
 import ProfilePage from "./Pages/Profile.tsx";
 import AboutUs from "./Pages/AboutUs.tsx";
-import RecipePage from "./Pages/Recipe.tsx";
+import RecipePage from "./Pages/RecipePage.tsx";
 import RecipeDisplayPage from "./Pages/RecipeDisplay.tsx";
 import TopPage from "./Pages/Top.tsx";
+import AIRecipePage from "./Pages/AIRecipePage.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
   {
     path: "/aboutus",
     element: <AboutUs />,
+  },
+  {
+    path: "/airecipe",
+    element: <AIRecipePage />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -3,7 +3,12 @@ import Button from "./Button/Button";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-function Navbar() {
+interface INavbar {
+  style?: string;
+}
+
+export default function Navbar({ style }: INavbar) {
+  <div>className={style}</div>;
   const navigate = useNavigate();
   const handleLogin = () => {
     navigate("/login");
@@ -23,7 +28,7 @@ function Navbar() {
         </div>
         <ul className="hidden md:flex gap-8 lg:gap-16 text-lg md:text-xl font-main-font text-black no-underline">
           <li>
-            <a href="/Test">AI Recipe</a>
+            <a href="/airecipe">AI Recipe</a>
           </li>
           <li>
             <a href="/top">Best 100</a>
@@ -50,5 +55,3 @@ function Navbar() {
     </>
   );
 }
-
-export default Navbar;

@@ -14,6 +14,7 @@ import soups from "../assets/category/soups.png";
 import meat from "../assets/category/meat.jpg";
 import seafood from "../assets/category/seafood.jpeg";
 import Inputbox from "../Components/Inputbox/Inputbox";
+import RecipePage from "./RecipePage";
 
 export default function MainPage() {
   const [data, setData] = useState<any[]>([]);

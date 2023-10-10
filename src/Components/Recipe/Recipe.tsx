@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 
 export default function Recipe() {
-  const handleClick = (title) => {
+  const handleClick = (title: any) => {
     let id = title
     // console.log(id);
   };

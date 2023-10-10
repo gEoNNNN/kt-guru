@@ -15,7 +15,6 @@ export default function Inputbox({
   type,
   id,
   name,
-  children,
   register,
   placeholder,
 }: IInputboxProps) {

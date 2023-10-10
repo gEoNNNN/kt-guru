@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Inputbox from '../Inputbox/Inputbox';
 
 export default function Top() {
-  const handleClick = (title) => {
+  const handleClick = (title: any) => {
     let id = title;
     // console.log(id);
   };
