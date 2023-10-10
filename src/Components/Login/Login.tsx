@@ -18,17 +18,16 @@ export default function Login() {
   const [data,setdata] = useState()
   const { register, handleSubmit } = useForm();
   const handleButton = (data) => {
-    return redirect('/main')
-    // const jsonData = JSON.stringify(data);
-    // axios.post("http://127.0.0.1:8000/api/auth/login", data)
-    // .then((response:any) => window.localStorage.setItem('access_token', response.data.access_token))
-    // .catch((error:any) => console.log(error))
-    // console.log(data)
-    // const temp = localStorage.getItem('access_token')
-    // console.log(temp)
-    // if (temp !== null) {
-    //   navigate('/main')
-    // }
+    const jsonData = JSON.stringify(data);
+    axios.post("http://127.0.0.1:8000/api/auth/login", data)
+    .then((response:any) => window.localStorage.setItem('access_token', response.data.access_token))
+    .catch((error:any) => console.log(error))
+    console.log(data)
+    const temp = localStorage.getItem('access_token')
+    console.log(localStorage.length)
+    if (localStorage.length >= 1) {
+      navigate('/main')
+    }
   }
   // useEffect(() => {
   //   const temp = localStorage.getItem('access_token')
