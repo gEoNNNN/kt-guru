@@ -16,6 +16,7 @@ import RecipePage from "./Pages/RecipePage.tsx";
 import RecipeDisplayPage from "./Pages/RecipeDisplay.tsx";
 import TopPage from "./Pages/Top.tsx";
 import AIRecipePage from "./Pages/AIRecipePage.tsx";
+import Profile from "./Pages/Profile.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <ProfilePage />,
+    element: <Profile />,
   },
   {
     path: "/aboutus",

@@ -4,19 +4,18 @@ import plate from "../assets/homapageplate.png";
 import Navbar from "../Components/Navbar";
 import ready from "../assets/ready_to_cook.png";
 import Button from "../Components/Button/Button";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const navigate = useNavigate();
   const MainPage = () => {
     navigate("/main");
   };
-  const handleRecipe = () => { navigate("/recipe") }
   return (
     <>
       <Navbar />
-      <div className="h-screen flex justify-center items-center transform">
-        <div className=" w-[44.2%] h-[78%] bg-33B249 opacity-50 rounded-custom1">
+      <div className="h-screen flex justify-center items-center transform pl-[10px]">
+        <div className="w-[44.2%] h-[78%] bg-33B249 opacity-50 rounded-custom1">
           <img src={fork} className="absolute object-cover w-[44.2%] h-[78%]" />
         </div>
         <div className=" flex items-center justify-center w-[44.2%] h-[78%] bg-33B249 opacity-80 rounded-custom1">

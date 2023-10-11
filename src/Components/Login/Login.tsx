@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bg from "../../assets/Loginbg.png";
 import Inputbox from "../Inputbox/Inputbox";
 import Button from "../Button/Button";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,28 +14,19 @@ export default function Login() {
   const handleRegister = () => {
     navigate("/register");
   };
-
+  const [data, setdata] = useState();
   const { register, handleSubmit } = useForm();
-  let [dogImage, setDogImage] = useState(null);
-
   const handleButton = (data: any) => {
-    const jsonData = JSON.stringify(data);
-    fetch("http://127.0.0.1:8000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: jsonData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Backend Response:", data);
+    axios
+      .post("http://127.0.0.1:8000/api/auth/login", data)
+      .then((response: any) => {
+        if (response.status === 200) {
+          navigate("/main");
+          localStorage.setItem("access_token", response.data.access_token);
+        }
       })
-      .catch((error) => {
-        console.error("Error fetching from backend:", error);
-      });
+      .catch((error: any) => console.log(error));
   };
-
   return (
     <div
       className="bg-cover bg-center bg-no-repeat min-h-screen flex justify-center items-center"
@@ -55,7 +46,7 @@ export default function Login() {
           Nickname or Email
         </label>
         <Inputbox
-          type="email"
+          type="text"
           style="flex w-[500px] px-[15px] py-3 my-4 border-2 border-black rounded-md"
           register={register("username_email")}
         />

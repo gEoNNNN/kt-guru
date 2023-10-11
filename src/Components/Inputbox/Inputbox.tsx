@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ForwardedRef } from 'react';
 
 interface IInputboxProps {
   style?: string;
@@ -7,25 +7,31 @@ interface IInputboxProps {
   name?: string;
   children?: ReactNode;
   register?: any;
-  placeholder?: string; // Add the placeholder prop
+  placeholder?: string;
+  value?: string; // Added
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void; 
 }
 
-export default function Inputbox({
-  style,
-  type,
-  id,
-  name,
-  register,
-  placeholder,
-}: IInputboxProps) {
-  return (
-    <input
-      className={style}
-      type={type}
-      id={id}
-      name={name}
-      placeholder={placeholder} // Include the placeholder prop here
-      {...register}
-    />
-  );
-}
+
+const Inputbox = React.forwardRef<HTMLInputElement, IInputboxProps>(
+  ({ style, type, id, name, register, placeholder, value, onChange, onKeyPress }, ref: ForwardedRef<HTMLInputElement>) => {
+    return (
+      <input
+        className={style}
+        type={type}
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        ref={ref}
+        value={value} 
+        onChange={onChange} 
+        onKeyPress={onKeyPress} 
+        {...register}
+      />
+    );
+  }
+);
+
+
+export default Inputbox;
