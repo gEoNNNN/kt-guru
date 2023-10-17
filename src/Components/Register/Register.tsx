@@ -14,7 +14,7 @@ export default function Register() {
   };
 
   const { register, handleSubmit } = useForm();
-
+  const [message, setMessage] = useState();
   const handleButton = (data: any) => {
     axios
       .post("http://127.0.0.1:8000/api/auth/registration", data)
@@ -23,7 +23,8 @@ export default function Register() {
           navigate("/login");
         }
       })
-      .catch((error: any) => console.log(error));
+      .catch((error: any) => {
+          setMessage(error.response.data.non_field_errors)});
   };
   return (
     <div
@@ -101,6 +102,10 @@ export default function Register() {
       >
         Login instead
       </Button>
+      {message && <pre className="absolute font-main-font text-base text-white bg-red-500 p-4 top-[67.5%] right-[39%] rounded-lg">
+    Error: {message}
+</pre>
+}
     </div>
   );
 }

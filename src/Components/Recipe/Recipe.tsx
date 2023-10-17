@@ -15,8 +15,6 @@ export default function Recipe() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  console.log(id);
-
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
     axios
@@ -28,7 +26,6 @@ export default function Recipe() {
       .then((response: any) => setData(response.data.results))
       .catch((error: any) => console.log(error));
   }, []);
-
   return (
     <div className="flex items-center justify-center mt-12 sm:mt-20">
       <div className="flex flex-wrap justify-center">

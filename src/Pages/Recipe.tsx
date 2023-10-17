@@ -2,7 +2,7 @@ import React from 'react'
 import Recipe from '../Components/Recipe/Recipe'
 
 
-export default function RecipePage() {
+export default function RecipeTest() {
   return (
     <div>
       <Recipe/>
