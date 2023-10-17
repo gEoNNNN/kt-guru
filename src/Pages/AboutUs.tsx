@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
-import template from "../assets/Renat.png";
+import template from "../assets/template.png";
 import food from "../assets/food.png";
 import contactUs from "../assets/contactUs.png";
 import CommentForm from "../Components/CommentForm";
@@ -37,49 +37,39 @@ export default function AboutUs() {
           <img src={template} className="w-[535px] h-[344px] rounded-lg"></img>
         </div>
       </div>
-      <div className="text-center p-[7%]">
+      <div className="text-center p-[5%]">
         <span className="text-6xl">Meet our team</span>
       </div>
-      <div className="pb-[7%] pl-[17.2%] flex flex-wrap h-full w-[1250px] gap-[25px]">
+      <div className="pb-[7%] ml-[17.2%] h-[770px] w-[959px] grid grid-rows-3 grid-flow-col gap-[10px]">
         <img
           src={template}
-          className="flex-none w-[650px] h-[500px] rounded-[7%]"
+          className="w-[626px] h-[440px] rounded-[7%] row-span-2 col-span-2"
         ></img>
         <img
           src={template}
-          className="flex-none w-[313px] h-[238px] rounded-[7%] absolute right-[228px] top-[1372px]"
+          className=" w-[310px] h-[220px] rounded-[7%] right-[228px] top-[1372px]"
         ></img>
-        <img
-          src={template}
-          className="flex-none w-[313px] h-[238px] rounded-[7%] "
-        ></img>
-        <img
-          src={template}
-          className="flex-none w-[313px] h-[238px] rounded-[7%] "
-        ></img>
-        <img
-          src={template}
-          className="flex-none w-[313px] h-[238px] rounded-[7%]"
-        ></img>
-        <img
-          src={template}
-          className="flex-none w-[313px] h-[238px] rounded-[7%]"
-        ></img>
+        <img src={template} className="w-[310px] h-[220px] rounded-[7%] "></img>
+        <img src={template} className="w-[310px] h-[220px] rounded-[7%] "></img>
+        <img src={template} className="w-[310px] h-[220px] rounded-[7%]"></img>
+        <img src={template} className="w-[310px] h-[220px] rounded-[7%]"></img>
       </div>
-      <div
-        className="w-full h-[600px] bg-contain bg-center bg-no-repeat pb-[50px]"
-        style={{ backgroundImage: `url(${contactUs})` }}
-      >
-        <div className="h-[600px] w-[] text-center p-[4%]">
-          <span className="text-6xl ">Contact Us</span>
-          <br />
-          <CommentForm
-            style="mt-[60px] h-[300px] w-[43%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none pb-[50px]"
-            placeholder="Send us a message..."
-            name="feedback"
-            buttonstyle="bg-33B249 border-black border-1 shadow-lg rounded-full w-[150px] h-[40px] text-white"
-            onSubmit={() => console.log}
-          />
+      <div className="flex justify-center">
+        <div
+          className="w-[700px] h-[500px] bg-contain bg-center bg-no-repeat pb-[50px] "
+          style={{ backgroundImage: `url(${contactUs})` }}
+        >
+          <div className="h-[600px] text-center p-[4%]">
+            <span className="text-5xl ">Contact Us</span>
+            <br />
+            <CommentForm
+              style="mt-[60px] h-[250px] w-[83%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none pb-[50px]"
+              placeholder="Send us a message..."
+              name="feedback"
+              buttonstyle="bg-33B249 border-black border-1 shadow-lg rounded-full w-[150px] h-[40px] text-white"
+              onSubmit={() => console.log}
+            />
+          </div>
         </div>
       </div>
     </div>

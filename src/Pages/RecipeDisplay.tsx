@@ -100,17 +100,21 @@ function RecipeDisplayPage() {
     <>
       <Navbar />
       <div className="recipe-display font-main-font">
-        <div className="mt-[150px] ">
-          <div className="flex flex-wrap justify-center items-center gap-[100px]">
-            <div className="flex flex-wrap w-1/3 justify-center items-center gap-[10px]">
-              <button className="" onClick={toggleFavorite}>
-                {isFavorite ? (
-                  <img src={favorite} className="w-[50px] h-[50px]" />
-                ) : (
-                  <img src={notFavorite} className="w-[50px] h-[50px]" />
-                )}
-              </button>
-              <span className=" text-4xl ">{recipe.title}</span>
+        <div className="mt-[150px]">
+          <div className="flex flex-wrap justify-center items-center">
+            <div className="flex flex-row w-[50%] justify-center items-center gap-[10px]">
+              <div>
+                <button className="" onClick={toggleFavorite}>
+                  {isFavorite ? (
+                    <img src={favorite} className="w-[50px] h-[50px]" />
+                  ) : (
+                    <img src={notFavorite} className="w-[50px] h-[50px]" />
+                  )}
+                </button>
+              </div>
+              <div>
+                <span className=" text-4xl ">{recipe.title}</span>
+              </div>
             </div>
             <img
               //src={`http://127.0.0.1:8000${recipe.images[0].image}`}

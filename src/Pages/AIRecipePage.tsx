@@ -37,8 +37,8 @@ export default function AIRecipe() {
   };
 
   useEffect(() => {
-    let index = 0;
-
+    let index = 1;
+    setDisplayedMessage(message[0]);
     const interval = setInterval(() => {
       if (index < message.length - 1) {
         setDisplayedMessage((prev) => prev + message[index]);
@@ -46,7 +46,7 @@ export default function AIRecipe() {
       } else {
         clearInterval(interval);
       }
-    }, 40);
+    }, 20);
 
     return () => clearInterval(interval);
   }, [message]);

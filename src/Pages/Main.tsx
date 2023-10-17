@@ -27,6 +27,8 @@ export default function MainPage() {
   const token = localStorage.getItem("access_token");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
+  const [googleImage, setGoogleImage] = useState<string>("");
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentIngredient(e.target.value);
   };
@@ -84,6 +86,7 @@ export default function MainPage() {
     if (response.status === 200 && Array.isArray(response.data)) {
       const ingredientNames = response.data.map(
         (ingredient) => ingredient.name
+        
       );
       setAllIngredients(ingredientNames);
     }
@@ -100,6 +103,7 @@ export default function MainPage() {
       if (response.status === 200) {
         const recipes = response.data.results.slice(0, 6);
         setData(recipes);
+        
       }
     };
     sendCategoriesToBackend();
