@@ -8,7 +8,7 @@ interface IInputboxProps {
   children?: ReactNode;
   register?: any;
   placeholder?: string;
-  value?: string; // Added
+  value?: string; 
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void; 
 }

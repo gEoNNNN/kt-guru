@@ -1,24 +1,49 @@
-import Inputbox from "../Components/Inputbox/Inputbox";
-import Navbar from "../Components/Navbar";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function RecipePage() {
+  const { id } = useParams();
+  const [recipe, setRecipe] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/recipes/${id}`
+        );
+        setRecipe(response.data);
+      } catch (error) {
+        console.error("Error fetching recipe:", error);
+      }
+    };
+
+    fetchRecipe();
+  }, [id]);
+
+  if (!recipe) return <div>Loading...</div>;
+
   return (
-    <>
+    <div>
+      <h1>{recipe.title}</h1>
+      {recipe.images && recipe.images[0] && (
+        <img
+          src={`http://127.0.0.1:8000${recipe.images[0].image}`}
+          alt={recipe.title}
+        />
+      )}
       <div>
-        <Navbar />
+        <h2>Ingredients:</h2>
+        <ul>
+          {recipe.ingredient_tags.map((ingredient: string, index: number) => (
+            <li key={index}>{ingredient}</li>
+          ))}
+        </ul>
       </div>
-      <div className="w-[550px] h-[auto]">
-        <span className="absolute top-[26%] text-2xl font-main-font">
-          Choose your ingredients:
-        </span>
-        <Inputbox
-          name="Search here"
-          style="flex w-[300px] px-[13px] py-[0.3%] my-4 border-2 border-black rounded-full absolute top-[30%]"
-        ></Inputbox>
-        <span className="absolute top-[39%] text-2xl font-main-font">
-          Selected:
-        </span>
+      <div>
+        <h2>Instructions:</h2>
+        <p>{recipe.instructions}</p>
       </div>
-    </>
+    </div>
   );
 }

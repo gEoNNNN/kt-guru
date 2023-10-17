@@ -25,6 +25,7 @@ export default function Register() {
       })
       .catch((error: any) => {
           setMessage(error.response.data.non_field_errors)});
+      
   };
   return (
     <div

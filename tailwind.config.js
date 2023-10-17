@@ -17,6 +17,8 @@ module.exports = {
       borderRadius: {
         'custom1': '40px',
       },
+      backfaceVisibility: ['hidden', 'visible'],
+
     },
   },
   plugins: [],

@@ -8,13 +8,10 @@ import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const navigate = useNavigate();
-  const MainPage = () => {
-    navigate("/main");
-  };
   return (
     <>
       <Navbar />
-      <div className="h-screen flex justify-center items-center transform pl-[10px]">
+      <div className="h-screen flex justify-center items-center transform">
         <div className="w-[44.2%] h-[78%] bg-33B249 opacity-50 rounded-custom1">
           <img src={fork} className="absolute object-cover w-[44.2%] h-[78%]" />
         </div>
@@ -39,7 +36,7 @@ function HomePage() {
         </div>
         <Button
           style="absolute top-[73%] right-[64%] text-xl uppercase py-[1.6%] px-[5%] rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black animate-bounce"
-          onClick={MainPage}
+          onClick={()=>navigate("/main")}
         >
           Lets Cook
         </Button>
