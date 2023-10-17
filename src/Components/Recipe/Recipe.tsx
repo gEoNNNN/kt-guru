@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import data from "../../assets/recipes.json";
 import Navbar from "../../Components/Navbar";
 import RecipeCart from "../RecipeCard/RecipeCard";
 import Button from "../Button/Button";
@@ -20,7 +19,7 @@ export default function Recipe() {
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
     axios
-      .get("http://127.0.0.1:8000/api/recipes/get-recipes?page=1", {
+      .post(`http://127.0.0.1:8000/api/recipes/get-recipe?recipe_id=${id}`, {
         headers: {
           Authorization: "Bearer " + access_token,
         },
@@ -34,7 +33,7 @@ export default function Recipe() {
       <div className="flex flex-wrap justify-center">
         {data?.map((el: any, i) => (
           <div className="w-full sm:w-1/3 p-2 space-y-8" key={el.title}>
-            <Link to={`/reciepdsiplay/${el.id}`}>
+            <Link to={`/recipedisplay/${id}`}>
               <RecipeCart
                 image={el.image}
                 title={el.title}

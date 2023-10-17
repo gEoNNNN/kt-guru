@@ -24,6 +24,7 @@ export default function Register() {
         }
       })
       .catch((error: any) => console.log(error));
+      
   };
   return (
     <div

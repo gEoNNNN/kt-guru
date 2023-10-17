@@ -67,17 +67,18 @@ export default function AboutUs() {
         ></img>
       </div>
       <div
-        className="w-full h-[600px] bg-contain bg-center bg-no-repeat"
+        className="w-full h-[600px] bg-contain bg-center bg-no-repeat pb-[50px]"
         style={{ backgroundImage: `url(${contactUs})` }}
       >
         <div className="h-[600px] w-[] text-center p-[4%]">
           <span className="text-6xl ">Contact Us</span>
           <br />
           <CommentForm
-            style="mt-[60px] h-[300px] w-[43%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none"
+            style="mt-[60px] h-[300px] w-[43%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none pb-[50px]"
             placeholder="Send us a message..."
             name="feedback"
             buttonstyle="bg-33B249 border-black border-1 shadow-lg rounded-full w-[150px] h-[40px] text-white"
+            onSubmit={() => console.log}
           />
         </div>
       </div>
