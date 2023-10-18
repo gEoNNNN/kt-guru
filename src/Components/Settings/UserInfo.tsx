@@ -1,37 +1,34 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import data from '../../assets/recipes.json';
-import RecipeCart from '../RecipeCard/RecipeCard';
-import avatar from "../../assets/image 25.png"
-
-
+import React, { useState } from "react";
+import avatar from "../../assets/profile_pic.png";
+import cameraIcon from "../../assets/add_recipe.png";
+import { useNavigate } from "react-router-dom";
 export default function UserInfo() {
-    const handleClick = (title) => {
-        let id = title
-      };
-      const navigate = useNavigate();
-      const {id}= useParams();
+  const [nickname, setNickname] = useState("UserNickname");
+  const [photo, setPhoto] = useState(avatar);
+  const navigate = useNavigate();
+
   return (
-<div>
-  <div className="absolute h-[7%] w-[12px] rounded-full bg-33B249 ml-[-2.1%] mt-[13.5%]"></div>
-    <div className="flex flex-col w-full p-4 mt-[3%]">
-        <div className="flex ml-[1%]">
-        <img className="w-[200px] ml-[5%] mr-[7%]" src={avatar} alt="Avatar" />
-        <span className="mt-[6%] font-main-font text-3xl">Nickname</span>
-    </div>
-    <div className='flex flex-wrap justify-center sm:mt-20 text-base'>
-      {data.slice(0, 6).map((el: any, i) => (
-        <div className='w-full sm:w-1/3 space-y-4' key={el.title}>
-          <Link to={`/reciepdsiplay/${el.id}`}>
-            <RecipeCart
-              image={el.image}
-              title={el.title}
-              onClick={() => handleClick(el.title)}
-            />
-          </Link>
+    <div className="w-screen h-screen flex flex-grow w-full p-4 mt-[3%] font-main-font">
+      <div className="flex flex-col ">
+        <div className="flex flex-row items-center gap-[5%] pb-[5%]">
+          <img
+            className="w-[200px] h-[200px] rounded-full"
+            src={photo}
+            alt="Avatar"
+          />
+          <span className="mt-[6%] font-main-font text-3xl">{nickname}</span>
         </div>
-      ))}
+        <div className="flex flex-col">
+          <span className="text-3xl"> Created Recipes :</span>
+          <button onClick={() => navigate("/create-recipe")}>
+            <img
+              className="w-[200px] h-[200px] mt-4 cursor-pointer"
+              src={cameraIcon}
+              alt="Create Recipe"
+            />
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   );
 }

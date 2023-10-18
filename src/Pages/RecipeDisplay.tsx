@@ -26,12 +26,22 @@ interface UserFeedback {
   feedback: string;
 }
 
+interface Review {
+  text: string;
+  rating: number;
+  user: {
+    avatar: string;
+    username: string;
+  };
+}
+
 function RecipeDisplayPage() {
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [userFeedback, setUserFeedback] = useState<UserFeedback | null>(null);
   const [userRating, setUserRating] = useState<number | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const toggleFavorite = () => {
     setIsFavorite((prevFavorite: any) => !prevFavorite);
@@ -80,6 +90,16 @@ function RecipeDisplayPage() {
         );
         setRecipe(response.data.results[0]);
         console.log(response.data.results[0]);
+
+        try {
+          const reviewResponse = await axios.get(
+            `http://127.0.0.1:8000/api/recipes/get-reviews?title=${response.data.results[0].title}`
+          );
+          setReviews(reviewResponse.data.results);
+          console.log(reviewResponse.data.results);
+        } catch (error) {
+          console.error("Error fetching the reviews:", error);
+        }
       } catch (error) {
         console.error("Error fetching the recipe:", error);
       }
@@ -202,6 +222,26 @@ function RecipeDisplayPage() {
                 </div>
               </div>
             )}
+            {[...reviews].reverse().map((review, index) => (
+              <div className="flex justify-center" key={index}>
+                <div className="mt-[100px] text-center w-[800px]">
+                  <div className="flex gap-[20px]">
+                    <div className="flex items-center space-x-2 flex-col ">
+                      <img
+                        src={review.user.avatar}
+                        alt={review.user.username}
+                        className="rounded-full w-[70px] h-[70px]"
+                      />
+                    </div>
+                    <div className="flex flex-col text-start items-start">
+                      <span className="text-xl">{review.user.username}</span>
+                      <StarRating value={review.rating} readOnly />
+                    </div>
+                  </div>
+                  <div className="mt-2 text-lg text-start">{review.text}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

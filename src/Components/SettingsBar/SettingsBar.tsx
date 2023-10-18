@@ -1,56 +1,25 @@
 import React, { useState } from "react";
-import avatar from "../../assets/image 25.png";
-import favorite from "../../assets/Favorite.png";
-import wlist from "../../assets/Book.png";
-import logout from "../../assets/Sign_out_squre.png";
-import settingsImage from "../../assets/Setting_line.png";
-import Button from "../Button/Button";
-import UserInfo from "../Settings/UserInfo";
+import Sidebar from "../SideBar";
 import Favorite from "../Settings/Favorite";
 import History from "../Settings/History";
 import Settings from "../Settings/Settings";
-
-const settingsOptions = [
-  { label: "User info", icon: avatar, data: "UserInfo" },
-  { label: "Favorites", icon: favorite, data: "Favorites" },
-  { label: "History", icon: wlist, data: "History" },
-  { label: "Settings", icon: settingsImage, data: "Settings" },
-];
+import UserInfo from "../Settings/UserInfo";
 
 function SettingsBar() {
-  const [selectedSetting, setSelectedSetting] = useState("UserInfo");
+  const [currentPage, setCurrentPage] = useState("profile");
 
   return (
-    <div className="flex gap-[20px]">
-      <div className="w-1/4 flex flex-col font-main-font text-3xl ml-[5%] mt-[7%]">
-        <div className="settings-bar">
-          <span>User profile</span>
-          <ul className="settings-list">
-            {settingsOptions.map((option) => (
-              <li key={option.data} className="settings-item">
-                <img
-                  src={option.icon}
-                  className="settings-icon"
-                  alt={option.label}
-                />
-                <Button onClick={() => setSelectedSetting(option.data)}>
-                  {option.label}
-                </Button>
-              </li>
-            ))}
-            <li className="settings-item">
-              <img src={logout} className="settings-icon" alt="Logout" />
-              <span>Log Out</span>
-            </li>
-          </ul>
-        </div>
+    <div className="flex flex-row">
+      <div className="w-1/4 h-screen">
+        <Sidebar onSelectionChange={setCurrentPage} />
       </div>
-      {selectedSetting === "UserInfo" && <UserInfo />}
-      {selectedSetting === "Favorites" && <Favorite />}
-      {selectedSetting === "History" && <History />}
-      {selectedSetting === "Settings" && <Settings />}
+      <div className="flex w-3/4 h-screen overflow-hidden">
+        {currentPage === "profile" && <UserInfo />}
+        {currentPage === "favorites" && <Favorite />}
+        {currentPage === "history" && <History />}
+        {currentPage === "settings" && <Settings />}
+      </div>
     </div>
   );
 }
-
 export default SettingsBar;
