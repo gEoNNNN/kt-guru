@@ -3,7 +3,6 @@ import React, { useState } from "react";
 interface IForm {
   buttonstyle?: string;
   style?: string;
-  type?: string;
   id?: string;
   name?: string;
   placeholder?: string;
@@ -12,7 +11,6 @@ interface IForm {
 
 export default function CommentForm({
   style,
-  type,
   id,
   name,
   buttonstyle,

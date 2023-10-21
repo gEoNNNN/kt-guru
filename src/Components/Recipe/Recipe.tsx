@@ -32,7 +32,6 @@ export default function Recipe() {
               <RecipeCart
                 image={el.image}
                 title={el.title}
-                {/*onClick={() => handleClick(el.title)}*/}
               />
             </Link>
           </div>

@@ -1,3 +1,4 @@
+/*
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import data from '../../assets/recipes.json';
 import RecipeCart from '../RecipeCard/RecipeCard';
@@ -35,3 +36,4 @@ export default function UserInfo() {
 </div>
   );
 }
+*/

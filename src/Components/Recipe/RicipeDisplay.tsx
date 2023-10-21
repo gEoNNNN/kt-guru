@@ -1,10 +1,8 @@
-import React from "react";
-import data from "../../assets/recipes.json";
+
+ /*import data from "../../assets/recipes.json";
 import photo from "../../assets/recipes_images/crispy-salt-and-pepper-potatoes-dan-kluger.jpg";
 import Navbar from "../../Components/Navbar";
-import ChildComponent from "../../Components/Recipe/Recipe";
-import { useNavigate, useParams } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function Recipe() {
   const { id } = useParams();
@@ -13,16 +11,13 @@ export default function Recipe() {
   const ingredients = item.ingredients;
   const instructions = item.instructions;
   const title = item.title;
-  const image = item.image_name;
-  const recipeid = Number(item.id);
   const cleanedString = ingredients.trim().replace(/'/g, "");
   const finalIngredients = cleanedString.split(",");
 
-  /*"ingredient1, ingredient2 ,ingredient3" 
+  "ingredient1, ingredient2 ,ingredient3" 
     .ingredient1
     .ingredient2
     .ingredient3
-*/
   function arangeIngredients(s: string) {
     return (
       <ul className="list-disc list-inside text-xl font-main-font">
@@ -33,7 +28,7 @@ export default function Recipe() {
     );
   }
 
-  /*"instruction1,instruction2,instruction3" 
+ "instruction1,instruction2,instruction3" 
     Step 1:
 
     instruction1
@@ -45,7 +40,7 @@ export default function Recipe() {
     Step 3:
 
     instruction1
-*/
+
   function arangeInstructions(s: string) {
     let steps = [];
     let text = "";
@@ -115,3 +110,4 @@ export default function Recipe() {
     </>
   );
 }
+*/

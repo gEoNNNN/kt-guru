@@ -26,9 +26,8 @@ export default function MainPage() {
   const [filteredIngredients, setFilteredIngredients] = useState<string[]>([]);
   const token = localStorage.getItem("access_token");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [accessToken,setAccessToken] = useState("")
 
-  const [googleImage, setGoogleImage] = useState<string>("");
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentIngredient(e.target.value);
@@ -123,7 +122,6 @@ export default function MainPage() {
   const handleLinkClick = async (recipeId: any) => {
     const token = localStorage.getItem('access_token');
     if (token !== null) {
-      setAccessToken(token);
       try {
         await axios.post(`http://127.0.0.1:8000/api/users/add-to-watch-list?recipe_id=${recipeId}`, {}, {
           headers: {

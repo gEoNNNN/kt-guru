@@ -1,3 +1,4 @@
+/*
 import React, { useState } from "react";
 import avatar from "../../assets/image 25.png"
 import favorite from "../../assets/Favorite1.png"
@@ -93,3 +94,4 @@ function SettingsBar() {
 }
 
 export default SettingsBar;
+*/

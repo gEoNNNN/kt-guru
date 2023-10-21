@@ -1,3 +1,4 @@
+/*
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import avatar from "../../assets/image 25.png"
 import Inputbox from '../Inputbox/Inputbox';
@@ -14,3 +15,4 @@ export default function Settings() {
     </div>
   );
 }
+*/

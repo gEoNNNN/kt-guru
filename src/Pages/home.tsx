@@ -1,4 +1,3 @@
-import React from "react";
 import fork from "../assets/bg.png";
 import plate from "../assets/homapageplate.png";
 import Navbar from "../Components/Navbar";

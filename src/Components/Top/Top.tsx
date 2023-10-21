@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Navbar from "../../Components/Navbar";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import test from "../../assets/category/general.jpg";
 import Button from '../Button/Button';
@@ -14,18 +14,19 @@ const categoryMap: { [key: string]: string } = {
   option6: 'seafood',
 };
 export default function Top() {
-  const handleClick = (title: any) => {
+  /*const handleClick = (title: any) => {
     let id = title;
-  };
-  const [sortby, setSortby] = useState<SortByOption>('');
+  };*/
+  const [sortby, setSortby] = useState/*<SortByOption>*/('');
   const [minDuration, setMinDuration] = useState('0');
   const [maxDuration, setMaxDuration] = useState('300');
-  const [categories, setCategories] = useState('');
   const [next, setNext] = useState('');
   const [prev, setPrev] = useState<string | null>(null);
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [accessToken,setAccessToken] = useState("")
+  const [categories, setCategories] = useState<string[]>([]);
+
+
+  /*const [accessToken,setAccessToken] = useState("")*/
 
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function Top() {
       console.log(error)});
   }, []);
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSortby(event.target.value as SortByOption);
+    setSortby(event.target.value /*as SortByOption*/);
     axios
         .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
         .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)
@@ -70,31 +71,40 @@ export default function Top() {
         .catch((error: any) => {
           console.log(error)});
   };
-const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
-    let updatedCategories = [];
+    let updatedCategories: string[] = Array.isArray(categories) ? [...categories] : [];
     
     if (checked) {
-      updatedCategories = [...categories, categoryMap[id]];
+      updatedCategories.push(categoryMap[id]);
     } else {
-      updatedCategories = categories.filter((category: string) => category !== categoryMap[id]);
+      updatedCategories = updatedCategories.filter((category: string) => category !== categoryMap[id]);
     }
+
     setCategories(updatedCategories);
+
+    const queryParams = [
+        `duration_min=${minDuration.toString()}`,
+        `duration_max=${maxDuration.toString()}`,
+        `category=${updatedCategories.toString()}`,
+        `sort_by=${sortby.toString()}`
+    ].join('&');
+
     axios
-        .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${updatedCategories.toString()}&sort_by=${sortby.toString()}`)
+        .get(`http://127.0.0.1:8000/api/recipes/best100?${queryParams}`)
         .then((response: any) => {
             setData(response.data.results);
             setNext(response.data.next);
-            setPrev(response.data.previous)
+            setPrev(response.data.previous);
         })
         .catch((error: any) => {
-          console.log(error);
+            console.log(error);
         });
 };
+
 const handleLinkClick = async (recipeId: any) => {
   const token = localStorage.getItem('access_token');
   if (token !== null) {
-    setAccessToken(token);
     try {
       await axios.post(`http://127.0.0.1:8000/api/users/add-to-watch-list?recipe_id=${recipeId}`, {}, {
         headers: {
@@ -120,33 +130,6 @@ const nextPage = (next: string) => {
         .catch((error: any) => {
           console.log(error)});
 }
-const API_KEY = 'AIzaSyBqorJmCpLLlf4zPYIaQu3HCNpmrufIWIQ';
-const CSE_ID = 'a268077d2792a4859';
-async function fetchImageUrlByTitle(title: string): Promise<string | null> {
-  const url = 'https://www.googleapis.com/customsearch/v1';
-
-  const params = {
-      q: title,
-      key: API_KEY,
-      cx: CSE_ID,
-      searchType: 'image',
-      num: 1 
-  };
-
-  try {
-      const response = await axios.get(url, { params });
-      const results = response.data;
-
-      if (results.items && results.items.length > 0) {
-          return results.items[0].link;
-      }
-  } catch (error) {
-      console.error('Error fetching image URL:', error);
-  }
-
-  return null;
-}
-console.log(fetchImageUrlByTitle("denis").promise)
   return (
     <>
     <Navbar/>
@@ -154,7 +137,7 @@ console.log(fetchImageUrlByTitle("denis").promise)
       <div className="flex">
         <div className="w-3/4 p-4">
         <div className="flex flex-wrap justify-center gap-4 mt-[15%]">
-        {data.slice(0, 3).map((recipe: any, i) => {
+        {data.slice(0, 3).map((recipe: any) => {
                   const ingredientTagsArray = recipe.ingredient_tags
                     ? recipe.ingredient_tags.split(", ")
                     : [];
@@ -214,7 +197,7 @@ console.log(fetchImageUrlByTitle("denis").promise)
                 })}
               </div>
               <div className="flex flex-wrap justify-center gap-4 mt-[8%]">
-                  {data.slice(3, 6).map((recipe: any, i) => {
+                  {data.slice(3, 6).map((recipe: any) => {
                   const ingredientTagsArray = recipe.ingredient_tags
                     ? recipe.ingredient_tags.split(", ")
                     : [];
