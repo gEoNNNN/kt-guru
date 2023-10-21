@@ -41,10 +41,6 @@ const router = createBrowserRouter([
     element: <ForgotPasswordCodePage />,
   },
   {
-    path: "/newpassword",
-    element: <NewPassword />,
-  },
-  {
     path: "/main",
     element: <MainPage />,
   },
@@ -75,6 +71,10 @@ const router = createBrowserRouter([
   {
     path: "/recipetest",
     element: <RecipeTest />,
+  },
+  {
+    path: "/newpassword/:encodedata",
+    element: <NewPassword />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -153,7 +153,7 @@ function RecipeDisplayPage() {
       </div>
       <div className="pt-[7%] relative">
         <div
-          className="w-full h-[600px] bg-contain bg-center bg-no-repeat"
+          className="w-full h-[600px] lg:h-[700px] bg-contain bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${contactUs})` }}
         >
           <div className="pl-[28%] pt-[3%] flex items-center space-x-2">

@@ -14,7 +14,7 @@ export default function Login() {
   const handleRegister = () => {
     navigate("/register");
   };
-  const [data, setdata] = useState();
+
   const { register, handleSubmit } = useForm();
   const [message, setMessage] = useState('');
   const handleButton = (data: any) => {

@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
-import data from '../../assets/recipes.json';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Navbar from "../../Components/Navbar";
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import RecipeCard from '../RecipeCard/RecipeCard';
 import axios from 'axios';
+import test from "../../assets/category/general.jpg";
+import Button from '../Button/Button';
 
 const categoryMap: { [key: string]: string } = {
   option1: 'fast_food',
@@ -21,16 +21,25 @@ export default function Top() {
   const [minDuration, setMinDuration] = useState('0');
   const [maxDuration, setMaxDuration] = useState('300');
   const [categories, setCategories] = useState('');
+  const [next, setNext] = useState('');
+  const [prev, setPrev] = useState<string | null>(null);
   const navigate = useNavigate();
-  const handleDiplay = () => {
-    navigate('/recipedisplay/2');
-  };
+  const [data, setData] = useState([]);
+  const [accessToken,setAccessToken] = useState("")
+
+
+  useEffect(() => {
+    axios
+    .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
+    .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)    })
+    .catch((error: any) => {
+      console.log(error)});
+  }, []);
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSortby(event.target.value as SortByOption);
     axios
         .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
-        .then((response: any) => {
-            console.log(response)
+        .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)
         })
         .catch((error: any) => {
           console.log(error)});
@@ -40,72 +49,233 @@ export default function Top() {
     if(minDuration === ""){
       axios
       .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${'0'}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
-      .then((response: any) => {
-          console.log(response)
+      .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)
       })
       .catch((error: any) => {
         console.log(error)});
     }else{
       axios
         .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
-        .then((response: any) => {
-            console.log(response)
+        .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)
         })
         .catch((error: any) => {
           console.log(error)});
     }
-    console.log("min: ",minDuration)
   };
   const handleMaxDurationChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMaxDuration(event.target.value);
     axios
         .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
-        .then((response: any) => {
-            console.log(response)
-        })
+        .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)        })
         .catch((error: any) => {
           console.log(error)});
+  };
+const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { id, checked } = event.target;
+    let updatedCategories = [];
+    
+    if (checked) {
+      updatedCategories = [...categories, categoryMap[id]];
+    } else {
+      updatedCategories = categories.filter((category: string) => category !== categoryMap[id]);
+    }
+    setCategories(updatedCategories);
+    axios
+        .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${updatedCategories.toString()}&sort_by=${sortby.toString()}`)
+        .then((response: any) => {
+            setData(response.data.results);
+            setNext(response.data.next);
+            setPrev(response.data.previous)
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+};
+const handleLinkClick = async (recipeId: any) => {
+  const token = localStorage.getItem('access_token');
+  if (token !== null) {
+    setAccessToken(token);
+    try {
+      await axios.post(`http://127.0.0.1:8000/api/users/add-to-watch-list?recipe_id=${recipeId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    } catch (error) {
+      console.error("Error adding to watch list:", error);
+    }
+  }
+};
+const prevPage = (prev: string) => {
+  axios
+    .get(prev)
+    .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)})
+        .catch((error: any) => {
+          console.log(error)});
+}
+const nextPage = (next: string) => {
+  axios
+    .get(next)
+    .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)})
+        .catch((error: any) => {
+          console.log(error)});
+}
+const API_KEY = 'AIzaSyBqorJmCpLLlf4zPYIaQu3HCNpmrufIWIQ';
+const CSE_ID = 'a268077d2792a4859';
+async function fetchImageUrlByTitle(title: string): Promise<string | null> {
+  const url = 'https://www.googleapis.com/customsearch/v1';
+
+  const params = {
+      q: title,
+      key: API_KEY,
+      cx: CSE_ID,
+      searchType: 'image',
+      num: 1 
   };
 
-  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, checked } = event.target;
-    if (checked) {
-      setCategories((prevCategories) => [...prevCategories, categoryMap[id]]);
-    } else {
-      setCategories((prevCategories) => prevCategories.filter((category: string) => category !== categoryMap[id]));
-    }
-    axios
-        .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
-        .then((response: any) => {
-            console.log(response)
-        })
-        .catch((error: any) => {
-          console.log(error)});
-  };
+  try {
+      const response = await axios.get(url, { params });
+      const results = response.data;
+
+      if (results.items && results.items.length > 0) {
+          return results.items[0].link;
+      }
+  } catch (error) {
+      console.error('Error fetching image URL:', error);
+  }
+
+  return null;
+}
+console.log(fetchImageUrlByTitle("denis").promise)
   return (
     <>
     <Navbar/>
     <div>
       <div className="flex">
         <div className="w-3/4 p-4">
-          <div className='flex p-4 mt-[5%]'>
-            <div className='flex flex-wrap justify-center'>
-              {data.slice(0, 6).map((el: any, i) => (
-                <div className='w-full sm:w-2/3 lg:w-1/3 p-2 space-y-8' key={el.title}>
-                  <Link to={`/recipedisplay/${el.id}`}>
-                    <div className='w-full'>
-                      <RecipeCard
-                        image={el.image} 
-                        title={el.title} 
-                        onClick={() => handleClick(el.title)}
-                        style='relative'
-                      />
-                    </div>
-                  </Link>
-                </div>
-                ))}
+        <div className="flex flex-wrap justify-center gap-4 mt-[15%]">
+        {data.slice(0, 3).map((recipe: any, i) => {
+                  const ingredientTagsArray = recipe.ingredient_tags
+                    ? recipe.ingredient_tags.split(", ")
+                    : [];
+                  const matchingIngredientsArray = recipe.matching_ingredients
+                    ? recipe.matching_ingredients.split(", ")
+                    : [];
+                  const matchingIngredients = ingredientTagsArray.filter(
+                    (ingredient: any) =>
+                      matchingIngredientsArray.includes(ingredient)
+                  );
+                  const notMatchingIngredients = ingredientTagsArray.filter(
+                    (ingredient: any) =>
+                      !matchingIngredientsArray.includes(ingredient)
+                  );
+                  return (
+                    <Link
+                      to={`/recipedisplay/${recipe.id}`}
+                      key={recipe.id}
+                      style={{ zIndex: 10 }}
+                      onClick={() => handleLinkClick(recipe.id)}
+                    >
+                      <div className="relative group w-[310px] h-[220px] rounded-md">
+                        <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
+                          {recipe.images && recipe.images[0] && (
+                            <img
+                              //src={http://127.0.0.1:8000${recipe.images[0].image}}
+                              src={test}
+                              alt={recipe.title}
+                              className="w-full h-[150px] object-cover rounded-[18px]"
+                            />
+                          )}
+                          <div className="mt-4 text-center">{recipe.title}</div>
+                        </div>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <div className="text-center font-bold mb-2">
+                          </div>
+                          <div className="mt-2 text-sm max-h-[150px] overflow-y-auto">
+                            {matchingIngredients.length > 0 && (
+                              <>
+                                <div className="text-green-500">
+                                  {matchingIngredients.join(", ")}
+                                </div>
+                              </>
+                            )}
+                            {notMatchingIngredients.length > 0 && (
+                              <>
+                                <div className="text-red-500 mt-2">
+                                  {notMatchingIngredients.join(", ")}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
-            </div>
+              <div className="flex flex-wrap justify-center gap-4 mt-[8%]">
+                  {data.slice(3, 6).map((recipe: any, i) => {
+                  const ingredientTagsArray = recipe.ingredient_tags
+                    ? recipe.ingredient_tags.split(", ")
+                    : [];
+                  const matchingIngredientsArray = recipe.matching_ingredients
+                    ? recipe.matching_ingredients.split(", ")
+                    : [];
+                  const matchingIngredients = ingredientTagsArray.filter(
+                    (ingredient: any) =>
+                      matchingIngredientsArray.includes(ingredient)
+                  );
+                  const notMatchingIngredients = ingredientTagsArray.filter(
+                    (ingredient: any) =>
+                      !matchingIngredientsArray.includes(ingredient)
+                  );
+                  return (
+                    <Link
+                      to={`/recipedisplay/${recipe.id}`}
+                      key={recipe.id}
+                      style={{ zIndex: 10 }}
+                      onClick={() => handleLinkClick(recipe.id)}
+                    >
+                      <div className="relative group w-[310px] h-[220px] rounded-md ">
+                        <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
+                          {recipe.images && recipe.images[0] && (
+                            <img
+                              //src={http://127.0.0.1:8000${recipe.images[0].image}}
+                              src={test}
+                              alt={recipe.title}
+                              className="w-full h-[150px] object-cover rounded-[18px]"
+                            />
+                          )}
+                          <div className="mt-4 text-center">{recipe.title}</div>
+                        </div>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <div className="text-center font-bold mb-2">
+                            Ingredients:
+                          </div>
+                          <div className="mt-2 text-sm max-h-[150px] overflow-y-auto">
+                            {matchingIngredients.length > 0 && (
+                              <>
+                                <div className="text-green-500">
+                                  {matchingIngredients.join(", ")}
+                                </div>
+                              </>
+                            )}
+                            {notMatchingIngredients.length > 0 && (
+                              <>
+                                <div className="text-red-500 mt-2">
+                                  {notMatchingIngredients.join(", ")}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+              {next && (<Button style="absolute mt-[-16%] ml-[67%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black" onClick={() => nextPage(next)}>Next</Button>)}
+              {prev && (<Button style="absolute mt-[-14%] ml-[67%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black" onClick={() => prevPage(prev)}>Prev</Button>)}
           </div>
             <div className="w-1/4 p-4">
             <div className="mt-[7%] ml-[3%] p-8 absolute border rounded-lg font-main-font bg-green-500 text-xl">

@@ -1,4 +1,3 @@
-import React from "react";
 let renderCount = 0;
 
 export default () => {

@@ -76,7 +76,7 @@ export default function AIRecipe() {
             <iframe
               src={robot_cook}
               title="Robot Cooking"
-              className="w-[500px] h-[500px]"
+              className="w-[500px] h-[500px] lg :w-[580px] lg:h-[580px]"
             ></iframe>
             <span className="text-font-main text-xl">AI is cooking...</span>
           </>
@@ -85,7 +85,7 @@ export default function AIRecipe() {
             <div className="flex flex-col items-center z-10">
               <iframe
                 src={robot_reading}
-                className="w-[500px] h-[500px]"
+                className="w-[500px] h-[500px] lg:w-[580px] lg:h-[580px]"
               ></iframe>
               <button
                 onClick={handleRefresh}
@@ -112,7 +112,7 @@ export default function AIRecipe() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-4 h-screen z-10">
-            <iframe src={robot_think} className="w-[480px] h-[500px]"></iframe>
+            <iframe src={robot_think} className="w-[480px] h-[500px] lg:w-[560px] lg:h-[580px]"></iframe>
             <input
               type="text"
               placeholder="Enter category (ex. dessert)"

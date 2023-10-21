@@ -26,6 +26,7 @@ export default function MainPage() {
   const [filteredIngredients, setFilteredIngredients] = useState<string[]>([]);
   const token = localStorage.getItem("access_token");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [accessToken,setAccessToken] = useState("")
 
   const [googleImage, setGoogleImage] = useState<string>("");
 
@@ -85,9 +86,7 @@ export default function MainPage() {
     );
     if (response.status === 200 && Array.isArray(response.data)) {
       const ingredientNames = response.data.map(
-        (ingredient) => ingredient.name
-        
-      );
+        (ingredient) => ingredient.name);
       setAllIngredients(ingredientNames);
     }
   };
@@ -120,6 +119,22 @@ export default function MainPage() {
       setFilteredIngredients([]);
     }
   }, [currentIngredient, allIngredients]);
+
+  const handleLinkClick = async (recipeId: any) => {
+    const token = localStorage.getItem('access_token');
+    if (token !== null) {
+      setAccessToken(token);
+      try {
+        await axios.post(`http://127.0.0.1:8000/api/users/add-to-watch-list?recipe_id=${recipeId}`, {}, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (error) {
+        console.error("Error adding to watch list:", error);
+      }
+    }
+  };
 
   return (
     <div className="flex justify-center">
@@ -203,6 +218,7 @@ export default function MainPage() {
                       to={`/recipedisplay/${recipe.id}`}
                       key={recipe.id}
                       style={{ zIndex: 10 }}
+                      onClick={() => handleLinkClick(recipe.id)}
                     >
                       <div className="relative group w-[310px] h-[220px] rounded-md ">
                         <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
@@ -311,10 +327,7 @@ export default function MainPage() {
             ))}
           </div>
           <div className="absolute top-[80%]">
-            <Button
-              onClick={sendIngredientsToBackend}
-              style="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
-            >
+            <Button onClick={sendIngredientsToBackend} style="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black">
               Send
             </Button>
           </div>
