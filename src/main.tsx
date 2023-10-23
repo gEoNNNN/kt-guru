@@ -16,6 +16,7 @@ import RecipeDisplayPage from "./Pages/RecipeDisplay.tsx";
 import TopPage from "./Pages/Top.tsx";
 import AIRecipePage from "./Pages/AIRecipePage.tsx";
 import Profile from "./Pages/Profile.tsx";
+import CreateRecipe from "./Pages/CreateRecipe.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
   {
     path: "/airecipe",
     element: <AIRecipePage />,
+  },
+  {
+    path: "/create-recipe",
+    element: <CreateRecipe />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(

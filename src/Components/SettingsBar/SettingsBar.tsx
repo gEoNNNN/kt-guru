@@ -13,7 +13,7 @@ function SettingsBar() {
       <div className="w-1/4 h-screen">
         <Sidebar onSelectionChange={setCurrentPage} />
       </div>
-      <div className="flex w-3/4 h-screen overflow-hidden">
+      <div className="flex w-3/4 h-screen ">
         {currentPage === "profile" && <UserInfo />}
         {currentPage === "favorites" && <Favorite />}
         {currentPage === "history" && <History />}

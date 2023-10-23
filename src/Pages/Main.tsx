@@ -14,7 +14,6 @@ import seafood from "../assets/category/seafood.jpeg";
 import Inputbox from "../Components/Inputbox/Inputbox";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import test from "../assets/category/general.jpg";
 
 export default function MainPage() {
   const [data, setData] = useState<any[]>([]);
@@ -26,8 +25,6 @@ export default function MainPage() {
   const [filteredIngredients, setFilteredIngredients] = useState<string[]>([]);
   const token = localStorage.getItem("access_token");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-
-  const [googleImage, setGoogleImage] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentIngredient(e.target.value);
@@ -86,7 +83,6 @@ export default function MainPage() {
     if (response.status === 200 && Array.isArray(response.data)) {
       const ingredientNames = response.data.map(
         (ingredient) => ingredient.name
-        
       );
       setAllIngredients(ingredientNames);
     }
@@ -101,9 +97,9 @@ export default function MainPage() {
         `http://127.0.0.1:8000/api/recipes/get-recipes?category=${category}`
       );
       if (response.status === 200) {
-        const recipes = response.data.results.slice(0, 6);
+        console.log(response);
+        const recipes = response.data.results;
         setData(recipes);
-        
       }
     };
     sendCategoriesToBackend();
@@ -208,8 +204,9 @@ export default function MainPage() {
                         <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                           {recipe.images && recipe.images[0] && (
                             <img
-                              //src={`http://127.0.0.1:8000${recipe.images[0].image}`}
-                              src={test}
+                              src={decodeURIComponent(
+                                recipe.images[0].image.slice(1)
+                              )}
                               alt={recipe.title}
                               className="w-full h-[150px] object-cover rounded-[18px]"
                             />

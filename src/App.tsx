@@ -41,21 +41,21 @@ export default App
 */
 import { useEffect } from "react";
 import Navbar from "./Components/Navbar";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 export default function App() {
+  const token:any = localStorage.getItem("access_token")
+  const decodedToken = jwt_decode(token)
+  console.log(decodedToken)
   const navigate = useNavigate();
   useEffect(() => {
-    const temp = localStorage.getItem('access_token')
-    console.log(temp)
+    const temp = localStorage.getItem("access_token");
+    console.log(temp);
     if (temp !== null) {
-      navigate('/main')
+      navigate("/main");
     }
   }, [localStorage]);
-  return (
-    <div className="App">
-      <Navbar />
-    </div>
-  );
-}
 
+  return <div className="App">{/* <Navbar /> */}</div>;
+}

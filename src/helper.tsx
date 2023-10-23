@@ -1,23 +1,12 @@
-import React, { useState } from 'react';
-import './App.css';
+import { createContext, useState } from "react";
+import jwt_decode from "jwt-decode";
 
-function App() {
-  const [isShown, setIsShown] = useState(false);
+const ThemeContext = createContext("light");
+
+export default function App() {
+  const [theme, setTheme] = useState("light");
 
   return (
-    <div className="App">
-      <button
-        onMouseEnter={() => setIsShown(true)}
-        onMouseLeave={() => setIsShown(false)}>
-        Hover over me!
-      </button>
-      {isShown && (
-        <div>
-          
-        </div>
-      )}
-    </div>
+    <ThemeContext.Provider value={theme}></ThemeContext.Provider>
   );
 }
-
-export default App;

@@ -30,7 +30,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="w-screen flex justify-between items-center font-main-font fixed top-[3%] z-50 pl-[100px] pr-[150px]">
+    <div className="w-screen flex justify-between items-center font-main-font fixed top-[0%] z-50 pl-[100px] pr-[150px] pt-[30px] pb-[10px] bg-white">
       <div className="flex items-center w-auto">
         <img src={logo} className="w-[17%] hover:animate-spin"></img>
         <button

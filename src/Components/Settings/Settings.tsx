@@ -1,56 +1,118 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import avatar from "../../assets/profile_pic.png";
 import newAvatar from "../../assets/change_pic.png";
+import axios from "axios";
 
-export default function UserInfo() {
+export default function Settings() {
   const [nickname, setNickname] = useState("UserNickname");
   const [newNickname, setNewNickname] = useState("");
-  const [showNicknameInput, setShowNicknameInput] = useState(false); 
+  const [showNicknameInput, setShowNicknameInput] = useState(false);
   const [photo, setPhoto] = useState(avatar);
-  const [newPhoto, setNewPhoto] = useState(avatar);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [email, setEmail] = useState("user@example.com");
   const [newEmail, setNewEmail] = useState("");
-  const [showEmailInput, setShowEmailInput] = useState(false); 
-  const [showPasswordInput, setShowPasswordInput] = useState(false); 
+  const [showEmailInput, setShowEmailInput] = useState(false);
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
 
-  const handleNicknameChange = () => {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+  };
+
+  useEffect(() => {
+    async function fetchUserProfile() {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/users/profile",
+          { headers }
+        );
+        setUserProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    }
+
+    fetchUserProfile();
+  }, []);
+
+  const handleNicknameChange = async () => {
     if (newNickname) {
-      setNickname(newNickname);
-      setNewNickname("");
-      setShowNicknameInput(false);
+      try {
+        const response = await axios.patch(
+          "http://127.0.0.1:8000/api/users/update-username",
+          {
+            username: newNickname,
+          },
+          { headers }
+        );
+        console.log(response.data);
+        setNickname(newNickname);
+        setNewNickname("");
+        setShowNicknameInput(false);
+      } catch (error) {
+        console.error("Error updating username:", error);
+      }
     }
   };
 
-  const handleEmailChange = () => {
+  const handleEmailChange = async () => {
     if (newEmail) {
-      setEmail(newEmail);
-      setNewEmail("");
-      setShowEmailInput(false); 
+      try {
+        const response = await axios.patch(
+          "http://127.0.0.1:8000/api/users/update-email",
+          {
+            email: newEmail,
+          },
+          { headers }
+        );
+        console.log(newEmail);
+        console.log(response.data);
+        setEmail(newEmail);
+        setNewEmail("");
+        setShowEmailInput(false);
+      } catch (error) {
+        console.error("Error updating email:", error);
+      }
     }
   };
 
-  const handlePasswordChange = () => {
-    if (newPassword) {
-      setPassword(newPassword);
+  const handlePasswordChange = async () => {
+    try {
+      const response = await axios.put(
+        "http://127.0.0.1:8000/api/auth/change-password/",
+        {
+          password: currentPassword,
+          new_password: newPassword,
+          confirm_new_password: confirmNewPassword,
+        },
+        { headers }
+      );
+      console.log(response.data);
+      setCurrentPassword("");
       setNewPassword("");
-      setShowPasswordInput(false); 
+      setConfirmNewPassword("");
+      setShowPasswordInput(false);
+    } catch (error) {
+      console.error("Error changing password:", error);
     }
   };
 
-  const handlePhotoChange = (e:any) => {
+  const [newPhoto, setNewPhoto] = useState("");
+  const handlePhotoChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setNewPhoto(URL.createObjectURL(e.target.files[0]));
     }
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen font-main-font pl-[20%] gap-[50px]">
+    <div className="flex flex-col w-screen h-screen font-main-font pl-[20%] gap-[30px]">
       <div className="flex flex-row pt-[10%] gap-[20px]">
         <img
           className="w-[200px] h-[200px] rounded-full "
-          src={newPhoto}
+          src={newPhoto || userProfile?.profile.avatar}
           alt="Avatar"
         />
         <label htmlFor="photoInput" className="cursor-pointer">
@@ -88,7 +150,7 @@ export default function UserInfo() {
             </div>
           ) : (
             <div className="">
-              <span className="text-2xl pr-[5%]">{nickname}</span>
+              <span className="text-2xl pr-[5%]">{userProfile?.username}</span>
               <button
                 onClick={() => setShowNicknameInput(true)}
                 className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black pl-[100px]"
@@ -130,16 +192,31 @@ export default function UserInfo() {
         <div className="flex flex-col">
           <span className="font-main-font">Password</span>
           {showPasswordInput ? (
-            <div className="flex gap-[50px]">
+            <div className="flex flex-col gap-[20px]">
               <input
-                type="text"
+                type="password"
+                placeholder="Current Password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
+              />
+              <input
+                type="password"
+                placeholder="New Password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
               />
+              <input
+                type="password"
+                placeholder="Confirm New Password"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
+              />
               <button
                 onClick={handlePasswordChange}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black"
+                className="w-[150px] bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black"
               >
                 Change
               </button>
