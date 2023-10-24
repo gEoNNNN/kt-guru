@@ -1,11 +1,9 @@
-import React from "react";
 import fork from "../assets/bg.png";
 import plate from "../assets/homapageplate.png";
 import Navbar from "../Components/Navbar";
 import ready from "../assets/ready_to_cook.png";
 import Button from "../Components/Button/Button";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 
 function HomePage() {
   const navigate = useNavigate();

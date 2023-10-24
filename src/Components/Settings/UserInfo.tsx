@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import cameraIcon from "../../assets/add_recipe.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,8 +7,9 @@ import test from "../../assets/category/general.jpg";
 export default function UserInfo() {
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState("");
-  const [username, setUsername] = useState("");
-  const [recipes, setRecipes] = useState<any>([]);
+  const [username, setUsername] = useState(null);
+  const [recipes, setRecipes] = useState<any[]>([]);
+  const [photo, setPhoto] = useState("");
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -27,6 +28,7 @@ export default function UserInfo() {
         setAvatar(response.data.profile.avatar);
         setUsername(response.data.username);
         setRecipes(response.data.recipes);
+        setPhoto(response.data.recipes[0].images[0].image);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -34,6 +36,31 @@ export default function UserInfo() {
 
     fetchUserProfile();
   }, []);
+
+  const handleDeleteRecipe = async (recipeId: number) => {
+    const accessToken = localStorage.getItem("access_token");
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    try {
+      await axios.delete("http://127.0.0.1:8000/api/recipes/delete-recipe", {
+        headers,
+        data: {
+          recipe_id: recipeId,
+        },
+      });
+      // Refresh user profile or remove the recipe from the state after successful deletion
+      setUserProfile((prevProfile) => ({
+        ...prevProfile,
+        recipes: prevProfile?.recipes.filter(
+          (recipe) => recipe.id !== recipeId
+        ),
+      }));
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+    }
+  };
 
   return (
     <div className="w-screen h-screen flex flex-grow w-full p-4 mt-[3%] font-main-font">
@@ -83,10 +110,20 @@ export default function UserInfo() {
                   style={{ zIndex: 10 }}
                 >
                   <div className="relative group w-[310px] h-[220px] rounded-md ">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDeleteRecipe(recipe.id);
+                      }}
+                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center m-2 z-50"
+                    >
+                      X
+                    </button>
+
                     <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                       <img
-                        //src={`http://127.0.0.1:8000${recipe.images[0].image}`}
-                        src={test}
+                        src={`http://127.0.0.1:8000${photo}`}
                         alt={recipe.title}
                         className="w-full h-[150px] object-cover rounded-[18px]"
                       />

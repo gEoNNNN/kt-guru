@@ -1,10 +1,11 @@
 import { useState } from "react";
 import defaultImage from "../assets/change_pic.png";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+// import { useForm } from "react-hook-form";
 
 function CreateRecipe() {
-  const [selectedImage] = useState(defaultImage);
+  const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [newPhoto, setNewPhoto] = useState(defaultImage);
   const [newAvatar, setNewAvatar] = useState(defaultImage);
   const [ingredients, setIngredients] = useState([""]);
@@ -13,8 +14,8 @@ function CreateRecipe() {
   const [category, setCategory] = useState("fast_food");
   const [duration, setDuration] = useState("");
   const [ingredientTags, setIngredientTags] = useState("");
-  const [images, setImages] = useState<any[]>([]);
-  // const navigate = useNavigate();
+  const [images, setImages] = useState<any>();
+  const navigate = useNavigate();
 
   const handleImageUpload = () => {
     const inputElement = document.getElementById("imageUpload");
@@ -26,8 +27,9 @@ function CreateRecipe() {
   const handleImageChange = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       console.log(e.target.files[0]);
+      setSelectedImage(URL.createObjectURL(e.target.files[0]));
       const gg = e.target.files[0];
-      setImages([...images, { image: gg }]);
+      setImages(gg);
     }
   };
 
@@ -65,16 +67,16 @@ function CreateRecipe() {
   };
 
   const handleSubmitRecipe = async () => {
-    console.log(images);
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("ingredients", ingredients.join("\n"));
-    formData.append("instructions", instructions.join("\n."));
-    formData.append("category", category);
-    formData.append("duration", duration.toString());
-    formData.append("ingredient_tags", ingredientTags);
-    formData.append("image", images as any);
-
+    const formData = {
+      title,
+      ingredients: ingredients.join("/n"),
+      instructions: instructions.join("/n"),
+      category,
+      duration,
+      ingredient_tags: ingredientTags,
+      image: images,
+    };
+    console.log(formData);
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/recipes/create-recipe",
@@ -86,6 +88,7 @@ function CreateRecipe() {
           },
         }
       );
+      navigate("/profile");
       console.log("Recipe saved:", response.data);
     } catch (error) {
       console.error("Error saving recipe:", error);
@@ -96,6 +99,7 @@ function CreateRecipe() {
     <div className="container mx-auto p-4">
       <input
         type="file"
+        multiple
         id="imageUpload"
         style={{ display: "none" }}
         onChange={handleImageChange}

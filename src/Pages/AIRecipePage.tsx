@@ -84,18 +84,16 @@ export default function AIRecipe() {
             <span className="text-font-main text-xl">AI is cooking...</span>
           </>
         ) : showResults ? (
-          <div className="flex items-center justify-start h-screen">
-            <div className="flex flex-col items-center z-10">
+          <div className="flex items-center justify-start h-screen mt-[100px] overflow-hidden">
+            <div className="flex flex-col items-center z-10 border-4 h-screen overflow-hidden">
               <img
                 src={photo}
-                className="rounded-full w-[250px] h-[250px]"
+                className="rounded-full w-[300px] h-[300px]"
               ></img>
-              <div className="w-[200px] h-[200px] border-4">
-                <iframe
-                  src={robot_reading}
-                  className="w-[500px] h-[500px] flex flex-wrap items-center"
-                ></iframe>
-              </div>
+              <img
+                src={robot_reading}
+                className="w-[300px] h-[300px]"
+              ></img>
               <button
                 onClick={handleRefresh}
                 className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
@@ -104,7 +102,7 @@ export default function AIRecipe() {
               </button>
             </div>
             <div
-              className=" text-left text-xl w-[65%] ml-8 pr-[50px] h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200"
+              className="border-4 text-left text-xl w-2/3 ml-8 pr-[50px] h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200"
               ref={messageContainerRef}
             >
               {displayedMessage &&

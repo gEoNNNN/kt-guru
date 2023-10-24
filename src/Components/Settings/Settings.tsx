@@ -103,8 +103,8 @@ export default function Settings() {
       const selectedFile = e.target.files[0];
       setNewPhoto(URL.createObjectURL(selectedFile));
 
-      const formData = new FormData();
-      formData.append("avatar", selectedFile);
+      const formData = { avatar: selectedFile };
+      console.log(formData);
 
       try {
         const response = await axios.patch(

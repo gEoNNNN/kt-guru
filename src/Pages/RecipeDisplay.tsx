@@ -118,15 +118,17 @@ function RecipeDisplayPage() {
   useEffect(() => {
     const fetchRecipe = async () => {
       console.log(id);
+
+      const token = localStorage.getItem("access_token");
+      const headers: any = {};
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
       try {
         const response = await axios.get(
           `http://127.0.0.1:8000/api/recipes/get-recipe?recipe_id=${id}`,
-
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
+          { headers }
         );
 
         setRecipe(response.data.recipe);
@@ -135,7 +137,8 @@ function RecipeDisplayPage() {
 
         try {
           const reviewResponse = await axios.get(
-            `http://127.0.0.1:8000/api/recipes/get-reviews?recipe_id=${id}`
+            `http://127.0.0.1:8000/api/recipes/get-reviews?recipe_id=${id}`,
+            { headers }
           );
           setReviews(reviewResponse.data.results);
           console.log(reviewResponse);
@@ -179,7 +182,11 @@ function RecipeDisplayPage() {
               </div>
             </div>
             <img
-              src={decodeURIComponent(recipe.images[0].image.slice(1))}
+              src={
+                recipe.images[0].image.startsWith("/recipe")
+                  ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                  : decodeURIComponent(recipe.images[0].image.slice(1))
+              }
               alt={recipe.title}
               className="rounded-full w-[300px] h-[300px]"
             />
