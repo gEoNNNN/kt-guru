@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import cameraIcon from "../../assets/add_recipe.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,9 @@ import test from "../../assets/category/general.jpg";
 
 export default function UserInfo() {
   const navigate = useNavigate();
-  const [userProfile, setUserProfile] = useState(null);
+  const [avatar, setAvatar] = useState("");
+  const [username, setUsername] = useState("");
+  const [recipes, setRecipes] = useState<any>([]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -22,7 +24,9 @@ export default function UserInfo() {
           { headers }
         );
         console.log(response.data);
-        setUserProfile(response.data);
+        setAvatar(response.data.profile.avatar);
+        setUsername(response.data.username);
+        setRecipes(response.data.recipes);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -37,12 +41,10 @@ export default function UserInfo() {
         <div className="flex flex-row items-center gap-[5%] pb-[5%]">
           <img
             className="w-[200px] h-[200px] rounded-full"
-            src={userProfile?.profile.avatar}
+            src={avatar}
             alt="Avatar"
           />
-          <span className="mt-[6%] font-main-font text-3xl">
-            {userProfile?.username}
-          </span>
+          <span className="mt-[6%] font-main-font text-3xl">{username}</span>
         </div>
         <div className="flex flex-col">
           <span className="text-3xl"> Created Recipes :</span>
@@ -59,7 +61,7 @@ export default function UserInfo() {
               </button>
             </div>
 
-            {userProfile?.recipes.map((recipe: any) => {
+            {recipes.map((recipe: any) => {
               const ingredientTagsArray = recipe.ingredient_tags
                 ? recipe.ingredient_tags.split(", ")
                 : [];

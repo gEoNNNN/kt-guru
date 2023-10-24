@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import avatar from "../../assets/profile_pic.png";
+import { useEffect, useState } from "react";
 import newAvatar from "../../assets/change_pic.png";
 import axios from "axios";
 
@@ -7,8 +6,7 @@ export default function Settings() {
   const [nickname, setNickname] = useState("UserNickname");
   const [newNickname, setNewNickname] = useState("");
   const [showNicknameInput, setShowNicknameInput] = useState(false);
-  const [photo, setPhoto] = useState(avatar);
-  const [password, setPassword] = useState("");
+  const [newPhoto, setNewPhoto] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -16,7 +14,6 @@ export default function Settings() {
   const [newEmail, setNewEmail] = useState("");
   const [showEmailInput, setShowEmailInput] = useState(false);
   const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
 
   const headers = {
     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -29,7 +26,9 @@ export default function Settings() {
           "http://127.0.0.1:8000/api/users/profile",
           { headers }
         );
-        setUserProfile(response.data);
+        setNickname(response.data.username);
+        setEmail(response.data.email);
+        setNewPhoto(response.data.profile.avatar);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -42,7 +41,7 @@ export default function Settings() {
     if (newNickname) {
       try {
         const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-username",
+          "http://127.0.0.1:8000/api/users/update-profile",
           {
             username: newNickname,
           },
@@ -62,13 +61,12 @@ export default function Settings() {
     if (newEmail) {
       try {
         const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-email",
+          "http://127.0.0.1:8000/api/users/update-profile",
           {
             email: newEmail,
           },
           { headers }
         );
-        console.log(newEmail);
         console.log(response.data);
         setEmail(newEmail);
         setNewEmail("");
@@ -100,10 +98,29 @@ export default function Settings() {
     }
   };
 
-  const [newPhoto, setNewPhoto] = useState("");
-  const handlePhotoChange = (e: any) => {
+  const handlePhotoChange = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      setNewPhoto(URL.createObjectURL(e.target.files[0]));
+      const selectedFile = e.target.files[0];
+      setNewPhoto(URL.createObjectURL(selectedFile));
+
+      const formData = new FormData();
+      formData.append("avatar", selectedFile);
+
+      try {
+        const response = await axios.patch(
+          "http://127.0.0.1:8000/api/users/update-profile",
+          formData,
+          {
+            headers: {
+              ...headers,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error updating avatar:", error);
+      }
     }
   };
 
@@ -112,7 +129,7 @@ export default function Settings() {
       <div className="flex flex-row pt-[10%] gap-[20px]">
         <img
           className="w-[200px] h-[200px] rounded-full "
-          src={newPhoto || userProfile?.profile.avatar}
+          src={newPhoto}
           alt="Avatar"
         />
         <label htmlFor="photoInput" className="cursor-pointer">
@@ -150,7 +167,7 @@ export default function Settings() {
             </div>
           ) : (
             <div className="">
-              <span className="text-2xl pr-[5%]">{userProfile?.username}</span>
+              <span className="text-2xl pr-[5%]">{nickname}</span>
               <button
                 onClick={() => setShowNicknameInput(true)}
                 className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black pl-[100px]"

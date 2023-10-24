@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import RecipeCart from "../RecipeCard/RecipeCard";
-import Button from "../Button/Button";
-import test from "../../assets/category/general.jpg";
 
 export default function Favorite() {
-  const [userProfile, setUserProfile] = useState(null);
+  const [avatar, setAvatar] = useState("");
+  const [username, setUsername] = useState("");
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   useEffect(() => {
@@ -23,13 +21,13 @@ export default function Favorite() {
           { headers }
         );
         console.log(response.data);
-        setUserProfile(response.data);
+        setUsername(response.data.username);
+        setAvatar(response.data.profile.avatar);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
     };
 
-    // Fetch favorite recipes
     const fetchFavoriteRecipes = async () => {
       try {
         const response = await axios.get(
@@ -53,12 +51,10 @@ export default function Favorite() {
       <div className="flex flex-row items-center gap-[5%] pb-[5%]">
         <img
           className="w-[200px] h-[200px] rounded-full"
-          src={userProfile?.profile.avatar}
+          src={avatar}
           alt="Avatar"
         />
-        <span className="mt-[6%] font-main-font text-3xl">
-          {userProfile?.username}
-        </span>
+        <span className="mt-[6%] font-main-font text-3xl">{username}</span>
       </div>
       <div>
         <div className="absolute h-[7%] w-[12px] rounded-full bg-33B249 ml-[-1.85%] mt-[6.8%]"></div>
@@ -87,8 +83,9 @@ export default function Favorite() {
                   <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                     {recipe.images && recipe.images[0] && (
                       <img
-                        //src={`http://127.0.0.1:8000${recipe.images[0].image}`}
-                        src={test}
+                        src={decodeURIComponent(
+                          recipe.images[0].image.slice(1)
+                        )}
                         alt={recipe.title}
                         className="w-full h-[150px] object-cover rounded-[18px]"
                       />

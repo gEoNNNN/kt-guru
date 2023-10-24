@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Navbar from "../Components/Navbar";
@@ -39,7 +39,7 @@ function RecipeDisplayPage() {
   const { id: idString } = useParams<{ id: any }>();
   const id = parseInt(idString, 10);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [userFeedback, setUserFeedback] = useState<UserFeedback | null>(null);
   const [userRating, setUserRating] = useState<number | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -120,10 +120,17 @@ function RecipeDisplayPage() {
       console.log(id);
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/recipes/get-recipe?recipe_id=${id}`
+          `http://127.0.0.1:8000/api/recipes/get-recipe?recipe_id=${id}`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
         );
 
         setRecipe(response.data.recipe);
+        setIsFavorite(response.data.is_favorite);
         console.log(response);
 
         try {

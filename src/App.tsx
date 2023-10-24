@@ -40,7 +40,6 @@ function App() {
 export default App
 */
 import { useEffect } from "react";
-import Navbar from "./Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
