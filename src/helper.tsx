@@ -1,23 +1,9 @@
-import { useState } from 'react';
-import './App.css';
+import { createContext, useState } from "react";
 
-function App() {
-  const [isShown, setIsShown] = useState(false);
+const ThemeContext = createContext("light");
 
-  return (
-    <div className="App">
-      <button
-        onMouseEnter={() => setIsShown(true)}
-        onMouseLeave={() => setIsShown(false)}>
-        Hover over me!
-      </button>
-      {isShown && (
-        <div>
-          
-        </div>
-      )}
-    </div>
-  );
+export default function App() {
+  const [theme] = useState("light");
+
+  return <ThemeContext.Provider value={theme}></ThemeContext.Provider>;
 }
-
-export default App;

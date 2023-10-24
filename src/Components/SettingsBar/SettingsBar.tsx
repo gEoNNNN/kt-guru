@@ -8,12 +8,14 @@ import logout from "../../assets/Sign_out_squre.png"
 import settings from "../../assets/Setting_line.png"
 import Button from "../Button/Button";
 import UserInfo from "../Settings/Favorite";
+import Sidebar from "../SideBar";
 import Favorite from "../Settings/Favorite";
 import Settings from "../Settings/Settings";
 import History from "../Settings/Settings";
+import UserInfo from "../Settings/UserInfo";
 
 function SettingsBar() {
-  const [selectedSetting, setSelectedSetting] = useState("UserInfo");
+  const [currentPage, setCurrentPage] = useState("profile");
 
   return (
     <div className="flex">
@@ -84,14 +86,18 @@ function SettingsBar() {
         <div>
           <span></span>
         </div>
+    <div className="flex flex-row">
+      <div className="w-1/4 h-screen">
+        <Sidebar onSelectionChange={setCurrentPage} />
       </div>
-      {selectedSetting === "UserInfo" && <UserInfo />}
-      {selectedSetting === "Favorites" && <Favorite />}
-      {selectedSetting === "History" && <History />}
-      {selectedSetting === "Settings" && <Settings />}
+      <div className="flex w-3/4 h-screen ">
+        {currentPage === "profile" && <UserInfo />}
+        {currentPage === "favorites" && <Favorite />}
+        {currentPage === "history" && <History />}
+        {currentPage === "settings" && <Settings />}
+      </div>
     </div>
   );
 }
-
 export default SettingsBar;
 */

@@ -18,6 +18,7 @@ import AIRecipePage from "./Pages/AIRecipePage.tsx";
 import Profile from "./Pages/Profile.tsx";
 import RecipeTest from "./Pages/Recipe.tsx";
 import Image from "./Pages/test.tsx";
+import CreateRecipe from "./Pages/CreateRecipe.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: "/image",
     element: <Image/>,
+  },
+  {
+    path: "/create-recipe",
+    element: <CreateRecipe />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -26,15 +26,57 @@ interface UserFeedback {
   feedback: string;
 }
 
+interface Review {
+  text: string;
+  rating: number;
+  user: {
+    avatar: string;
+    username: string;
+  };
+}
+
 function RecipeDisplayPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id: idString } = useParams<{ id: any }>();
+  const id = parseInt(idString, 10);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [userFeedback, setUserFeedback] = useState<UserFeedback | null>(null);
   const [userRating, setUserRating] = useState<number | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
-  const toggleFavorite = () => {
-    setIsFavorite((prevFavorite: any) => !prevFavorite);
+  const toggleFavorite = async () => {
+    const token = localStorage.getItem("access_token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const data = {
+      recipe_id: id,
+    };
+
+    console.log("Sending request with data:", data);
+
+    try {
+      if (isFavorite) {
+        await axios.delete(
+          "http://127.0.0.1:8000/api/recipes/delete-favorites",
+          {
+            headers: headers,
+            data: data,
+          }
+        );
+        console.log("Recipe removed from favorites");
+      } else {
+        await axios.post(
+          "http://127.0.0.1:8000/api/recipes/add-favorites",
+          data,
+          { headers }
+        );
+        console.log("Recipe added to favorites");
+      }
+      setIsFavorite((prevFavorite) => !prevFavorite);
+    } catch (error) {
+      console.error("Error updating favorite status:", error);
+    }
   };
 
   const handleFeedbackSubmit = async (feedback: string) => {
@@ -45,12 +87,13 @@ function RecipeDisplayPage() {
       feedback: feedback,
     });
     const payload = {
-      title: recipe?.title,
+      id: id,
       text: feedback,
       rating: userRating || 0,
     };
 
     const accessToken = localStorage.getItem("access_token");
+    console.log(payload);
 
     try {
       const response = await axios.post(
@@ -74,12 +117,31 @@ function RecipeDisplayPage() {
 
   useEffect(() => {
     const fetchRecipe = async () => {
+      console.log(id);
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/recipes/get-recipe?recipe_id=${id}`
+          `http://127.0.0.1:8000/api/recipes/get-recipe?recipe_id=${id}`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
         );
-        setRecipe(response.data.results[0]);
-        console.log(response.data.results[0]);
+
+        setRecipe(response.data.recipe);
+        setIsFavorite(response.data.is_favorite);
+        console.log(response);
+
+        try {
+          const reviewResponse = await axios.get(
+            `http://127.0.0.1:8000/api/recipes/get-reviews?recipe_id=${id}`
+          );
+          setReviews(reviewResponse.data.results);
+          console.log(reviewResponse);
+        } catch (error) {
+          console.error("Error fetching the reviews:", error);
+        }
       } catch (error) {
         console.error("Error fetching the recipe:", error);
       }
@@ -117,8 +179,7 @@ function RecipeDisplayPage() {
               </div>
             </div>
             <img
-              //src={`http://127.0.0.1:8000${recipe.images[0].image}`}
-              src={test}
+              src={decodeURIComponent(recipe.images[0].image.slice(1))}
               alt={recipe.title}
               className="rounded-full w-[300px] h-[300px]"
             />
@@ -158,8 +219,7 @@ function RecipeDisplayPage() {
         >
           <div className="pl-[28%] pt-[3%] flex items-center space-x-2">
             <img
-              // src={`http://127.0.0.1:8000${recipe.images[0].image}`}
-              src={test}
+              src={decodeURIComponent(recipe.images[0].image.slice(1))}
               className="rounded-full w-[50px] h-[50px]"
             />
             <span className="text-xl">{recipe.title}</span>
@@ -173,7 +233,7 @@ function RecipeDisplayPage() {
             <div className="text-2xl pl-[28%] pt-[1%]">Your Review :</div>
             <div className="text-center">
               <CommentForm
-                style="mt-[30px] h-[230px] w-[43%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none "
+                style="mt-[30px] h-[230px] w-[43%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none mb-[20px]"
                 placeholder="Feedback for the recipe..."
                 name="feedback"
                 buttonstyle="bg-33B249 border-black border-1 shadow-lg rounded-full w-[150px] h-[40px] text-white"
@@ -181,10 +241,10 @@ function RecipeDisplayPage() {
               />
             </div>
             {userFeedback && (
-              <div className="flex justify-center pb-[50px]">
-                <div className="mt-[100px] text-center w-[800px]">
-                  <div className="flex gap-[20px]">
-                    <div className="flex items-center space-x-2 flex-col ">
+              <div className="flex justify-center rounded-3xl">
+                <div className="mt-[50px] text-center w-[800px] border-4 p-[25px] rounded-3xl">
+                  <div className="flex gap-[20px] border-b-[2px]">
+                    <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
                       <img
                         src={userFeedback.photo}
                         alt={userFeedback.name}
@@ -202,6 +262,26 @@ function RecipeDisplayPage() {
                 </div>
               </div>
             )}
+            {[...reviews].reverse().map((review, index) => (
+              <div className="flex justify-center " key={index}>
+                <div className="mt-[50px] text-center w-[800px] border-4 p-[25px] rounded-3xl">
+                  <div className="flex gap-[20px] border-b-[2px]">
+                    <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
+                      <img
+                        src={review.user.avatar}
+                        alt={review.user.username}
+                        className="rounded-full w-[70px] h-[70px]"
+                      />
+                    </div>
+                    <div className="flex flex-col text-start items-start">
+                      <span className="text-xl">{review.user.username}</span>
+                      <StarRating value={review.rating} readOnly />
+                    </div>
+                  </div>
+                  <div className="mt-2 text-lg text-start">{review.text}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

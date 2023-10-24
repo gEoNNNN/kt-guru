@@ -4,13 +4,15 @@ import Navbar from "../Components/Navbar";
 import ready from "../assets/ready_to_cook.png";
 import Button from "../Components/Button/Button";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 function HomePage() {
   const navigate = useNavigate();
+
   return (
     <>
       <Navbar />
-      <div className="h-screen flex justify-center items-center transform">
+      <div className="h-screen flex justify-center items-center transform overflow-hidden">
         <div className="w-[44.2%] h-[78%] bg-33B249 opacity-50 rounded-custom1">
           <img src={fork} className="absolute object-cover w-[44.2%] h-[78%]" />
         </div>
@@ -35,7 +37,7 @@ function HomePage() {
         </div>
         <Button
           style="absolute top-[73%] right-[64%] text-xl uppercase py-[1.6%] px-[5%] rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black animate-bounce"
-          onClick={()=>navigate("/main")}
+          onClick={() => navigate("/main")}
         >
           Lets Cook
         </Button>

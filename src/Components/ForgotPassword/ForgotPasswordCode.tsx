@@ -1,4 +1,3 @@
-
 import { useNavigate } from 'react-router-dom';
 import bg from '../../assets/Loginbg.png';
 import Inputbox from '../Inputbox/Inputbox';

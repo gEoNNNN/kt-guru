@@ -10,6 +10,7 @@ export default function AIRecipe() {
   const [ingredients, setIngredients] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [photo, setPhoto] = useState("");
   const [displayedMessage, setDisplayedMessage] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
@@ -26,8 +27,10 @@ export default function AIRecipe() {
         "http://127.0.0.1:8000/api/recipes/ai-recipes",
         requestData
       );
-      console.log(response.data.message);
+      console.log(response.data);
       setMessage(response.data.message);
+      setPhoto(response.data.image_url);
+
       setShowResults(true);
     } catch (error) {
       console.error("Error fetching AI recipes:", error);
@@ -83,13 +86,19 @@ export default function AIRecipe() {
         ) : showResults ? (
           <div className="flex items-center justify-start h-screen">
             <div className="flex flex-col items-center z-10">
-              <iframe
-                src={robot_reading}
-                className="w-[500px] h-[500px] lg:w-[580px] lg:h-[580px]"
-              ></iframe>
+              <img
+                src={photo}
+                className="rounded-full w-[250px] h-[250px]"
+              ></img>
+              <div className="w-[200px] h-[200px] border-4">
+                <iframe
+                  src={robot_reading}
+                  className="w-[500px] h-[500px] flex flex-wrap items-center"
+                ></iframe>
+              </div>
               <button
                 onClick={handleRefresh}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black mt-4"
+                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
               >
                 Test AI Again
               </button>

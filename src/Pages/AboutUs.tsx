@@ -42,16 +42,16 @@ export default function AboutUs() {
       <div className="pb-[7%] ml-[17.2%] h-[770px] w-[959px] grid grid-rows-3 grid-flow-col gap-[10px]">
         <img
           src={template}
-          className="w-[626px] h-[440px] rounded-[7%] row-span-2 col-span-2"
+          className="w-[100%] rounded-[7%] row-span-2 col-span-2"
         ></img>
         <img
           src={template}
-          className=" w-[310px] h-[220px] rounded-[7%] right-[228px] top-[1372px]"
+          className=" w-[100%] rounded-[7%] right-[228px] top-[1372px]"
         ></img>
-        <img src={template} className="w-[310px] h-[220px] rounded-[7%] "></img>
-        <img src={template} className="w-[310px] h-[220px] rounded-[7%] "></img>
-        <img src={template} className="w-[310px] h-[220px] rounded-[7%]"></img>
-        <img src={template} className="w-[310px] h-[220px] rounded-[7%]"></img>
+        <img src={template} className="w-[100%] rounded-[7%] "></img>
+        <img src={template} className="w-[100%] rounded-[7%] "></img>
+        <img src={template} className="w-[100%] rounded-[7%]"></img>
+        <img src={template} className="w-[100%] rounded-[7%]"></img>
       </div>
       <div className="flex justify-center">
         <div

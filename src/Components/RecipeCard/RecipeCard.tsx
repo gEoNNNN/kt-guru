@@ -1,5 +1,3 @@
-
-
 interface ACarD {
   title?: string;
   image?: string;
