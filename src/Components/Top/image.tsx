@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+export default function image1() {
 const API_KEY = 'AIzaSyBqorJmCpLLlf4zPYIaQu3HCNpmrufIWIQ';
 const CSE_ID = 'a268077d2792a4859';
 async function fetchImageUrlByTitle(title: string): Promise<string | null> {
@@ -27,3 +27,4 @@ async function fetchImageUrlByTitle(title: string): Promise<string | null> {
   return null;
 }
 console.log(fetchImageUrlByTitle("denis"))
+}

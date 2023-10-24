@@ -17,6 +17,7 @@ import TopPage from "./Pages/Top.tsx";
 import AIRecipePage from "./Pages/AIRecipePage.tsx";
 import Profile from "./Pages/Profile.tsx";
 import RecipeTest from "./Pages/Recipe.tsx";
+import Image from "./Pages/test.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
   {
     path: "/newpassword/:encodedata",
     element: <NewPassword />,
+  },
+  {
+    path: "/image",
+    element: <Image/>,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
