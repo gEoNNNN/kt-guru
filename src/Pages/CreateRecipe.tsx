@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import defaultImage from "../assets/change_pic.png";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+// import { useNavigate } from "react-router-dom";
 
 function CreateRecipe() {
-  const [selectedImage, setSelectedImage] = useState(defaultImage);
+  const [selectedImage] = useState(defaultImage);
   const [newPhoto, setNewPhoto] = useState(defaultImage);
   const [newAvatar, setNewAvatar] = useState(defaultImage);
   const [ingredients, setIngredients] = useState([""]);
@@ -15,7 +14,7 @@ function CreateRecipe() {
   const [duration, setDuration] = useState("");
   const [ingredientTags, setIngredientTags] = useState("");
   const [images, setImages] = useState<any[]>([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleImageUpload = () => {
     const inputElement = document.getElementById("imageUpload");
@@ -28,7 +27,7 @@ function CreateRecipe() {
     if (e.target.files && e.target.files.length > 0) {
       console.log(e.target.files[0]);
       const gg = e.target.files[0];
-      setImages([gg]);
+      setImages([...images, { image: gg }]);
     }
   };
 
@@ -74,7 +73,7 @@ function CreateRecipe() {
     formData.append("category", category);
     formData.append("duration", duration.toString());
     formData.append("ingredient_tags", ingredientTags);
-    formData.append("image", images[0]);
+    formData.append("image", images as any);
 
     try {
       const response = await axios.post(
