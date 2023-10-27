@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import Navbar from "../../Components/Navbar";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import test from "../../assets/category/general.jpg";
 import Button from '../Button/Button';
 
 const categoryMap: { [key: string]: string } = {
@@ -14,20 +13,13 @@ const categoryMap: { [key: string]: string } = {
   option6: 'seafood',
 };
 export default function Top() {
-  /*const handleClick = (title: any) => {
-    let id = title;
-  };*/
-  const [sortby, setSortby] = useState/*<SortByOption>*/('');
+  const [sortby, setSortby] = useState('favorites_count');
   const [minDuration, setMinDuration] = useState('0');
   const [maxDuration, setMaxDuration] = useState('300');
   const [next, setNext] = useState('');
   const [prev, setPrev] = useState<string | null>(null);
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState<string[]>([]);
-
-
-  /*const [accessToken,setAccessToken] = useState("")*/
-
 
   useEffect(() => {
     axios
@@ -37,20 +29,28 @@ export default function Top() {
       console.log(error)});
   }, []);
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSortby(event.target.value /*as SortByOption*/);
+    const newSortByValue = event.target.value;
+    setSortby(newSortByValue);
+    console.log(newSortByValue);
+
     axios
-        .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
-        .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)
+        .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${newSortByValue}`)
+        .then((response: any) => {
+            setData(response.data.results);
+            setNext(response.data.next);
+            setPrev(response.data.previous);
         })
         .catch((error: any) => {
-          console.log(error)});
-  };
+            console.log(error);
+        });
+};
+
   const handleMinDurationChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMinDuration(event.target.value);
     if(minDuration === ""){
       axios
       .get(`http://127.0.0.1:8000/api/recipes/best100?duration_min=${'0'}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`)
-      .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)
+      .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous);
       })
       .catch((error: any) => {
         console.log(error)});
@@ -96,6 +96,7 @@ export default function Top() {
             setData(response.data.results);
             setNext(response.data.next);
             setPrev(response.data.previous);
+            console.log(response)
         })
         .catch((error: any) => {
             console.log(error);
@@ -119,7 +120,7 @@ const handleLinkClick = async (recipeId: any) => {
 const prevPage = (prev: string) => {
   axios
     .get(prev)
-    .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous)})
+    .then((response: any) => {setData(response.data.results);setNext(response.data.next);setPrev(response.data.previous);})
         .catch((error: any) => {
           console.log(error)});
 }
@@ -159,12 +160,12 @@ const nextPage = (next: string) => {
                       style={{ zIndex: 10 }}
                       onClick={() => handleLinkClick(recipe.id)}
                     >
-                      <div className="relative group w-[310px] h-[220px] rounded-md">
+                      <div className="relative group w-[310px] h-[220px] rounded-md font-main-font">
                         <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                           {recipe.images && recipe.images[0] && (
                             <img
-                              //src={http://127.0.0.1:8000${recipe.images[0].image}}
-                              src={test}
+                            src={decodeURIComponent(
+                              recipe.images[0].image.slice(1))}
                               alt={recipe.title}
                               className="w-full h-[150px] object-cover rounded-[18px]"
                             />
@@ -190,7 +191,16 @@ const nextPage = (next: string) => {
                               </>
                             )}
                           </div>
-                        </div>
+                          </div>
+                          {(sortby === "favorites_count") && <div className='mt-[4%] ml-[35%]'>
+                            <span>Favorites: {Number(recipe.favorites_count) % 1 === 0 ? Number(recipe.favorites_count) : Number(recipe.favorites_count).toFixed(2)}</span>
+                          </div>}
+                          {(sortby === "average_rating") && <div className='mt-[4%] ml-[40%]'>
+                            <span>Rating: {Number(recipe.average_rating) % 1 === 0 ? Number(recipe.average_rating) : Number(recipe.average_rating).toFixed(2)}</span>
+                          </div>}
+                          {(sortby === "review_count") && <div className='mt-[4%] ml-[40%]'>
+                            <span>Review: {Number(recipe.review_count) % 1 === 0 ? Number(recipe.review_count) : Number(recipe.review_count).toFixed(2)}</span>
+                          </div>}
                       </div>
                     </Link>
                   );
@@ -219,12 +229,13 @@ const nextPage = (next: string) => {
                       style={{ zIndex: 10 }}
                       onClick={() => handleLinkClick(recipe.id)}
                     >
-                      <div className="relative group w-[310px] h-[220px] rounded-md ">
+                      <div className="relative group w-[310px] h-[220px] rounded-md font-main-font">
                         <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                           {recipe.images && recipe.images[0] && (
                             <img
                               //src={http://127.0.0.1:8000${recipe.images[0].image}}
-                              src={test}
+                              src={decodeURIComponent(
+                                recipe.images[0].image.slice(1))}
                               alt={recipe.title}
                               className="w-full h-[150px] object-cover rounded-[18px]"
                             />
@@ -252,6 +263,15 @@ const nextPage = (next: string) => {
                             )}
                           </div>
                         </div>
+                        {(sortby === "favorites_count") && <div className='mt-[4%] ml-[35%] '>
+                            <span>Favorites: {Number(recipe.favorites_count) % 1 === 0 ? Number(recipe.favorites_count) : Number(recipe.favorites_count).toFixed(2)}</span>
+                          </div>}
+                          {(sortby === "average_rating") && <div className='mt-[4%] ml-[40%]'>
+                            <span>Rating: {Number(recipe.average_rating) % 1 === 0 ? Number(recipe.average_rating) : Number(recipe.average_rating).toFixed(2)}</span>
+                          </div>}
+                          {(sortby === "review_count") && <div className='mt-[4%] ml-[40%]'>
+                            <span>Review: {Number(recipe.review_count) % 1 === 0 ? Number(recipe.review_count) : Number(recipe.review_count).toFixed(2)}</span>
+                          </div>}
                       </div>
                     </Link>
                   );
@@ -260,8 +280,9 @@ const nextPage = (next: string) => {
               {next && (<Button style="absolute mt-[-16%] ml-[67%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black" onClick={() => nextPage(next)}>Next</Button>)}
               {prev && (<Button style="absolute mt-[-14%] ml-[67%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black" onClick={() => prevPage(prev)}>Prev</Button>)}
           </div>
-            <div className="w-1/4 p-4">
-            <div className="mt-[7%] ml-[3%] p-8 absolute border rounded-lg font-main-font bg-green-500 text-xl">
+          <div className="w-1/4 p-4 mt-[10%] flex flex-col">
+            <div className=" h-32 w-64 flex items-center justify-center text-white">
+            <div className="p-8 absolute border rounded-lg font-main-font bg-green-500 text-xl">
       <div className="flex flex-col space-y-4">
         <label className="flex items-center">
           <input
@@ -295,7 +316,9 @@ const nextPage = (next: string) => {
         </label>
       </div>
     </div>
-    <div className='absolute font-main-font text-xl mt-[19%] ml-[3%]'>
+            </div>
+            <div className="ml-[-10%] mt-[10%] h-32 w-64 flex items-center justify-center">
+            <div className='absolute font-main-font text-xl'>
       <span>Duration</span>
       <div className='absolute flex flex-row items-center'>
         <input
@@ -316,10 +339,13 @@ const nextPage = (next: string) => {
         <span className='mx-2'>minutes</span>
       </div>
     </div>
-            <div className='absolute text-xl font-main-font mt-[25%] ml-[2.5%]'>
+            </div>
+            <div className="ml-[-20%] h-32 w-64 flex items-center justify-center text-white">
+            <div>
+            <div className='absolute text-xl font-main-font'>
               <span>Select Food Categories:</span>
             </div>
-            <div className="absolute justify-center mt-[28%] ml-[3%]">
+            <div className="absolute justify-center ">
               <div className="bg-green-500 p-8 rounded-lg shadow-lg">
               <div className="flex flex-col items-start space-y-4">
                 <div className="flex items-center">
@@ -349,8 +375,10 @@ const nextPage = (next: string) => {
               </div>
             </div>
             </div>
-          </div>
+            </div>
+            </div>
         </div>
+      </div>
       </div>
     </>
   );

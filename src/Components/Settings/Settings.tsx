@@ -1,260 +1,126 @@
 import { useEffect, useState } from "react";
-import newAvatar from "../../assets/change_pic.png";
+import cameraIcon from "../../assets/add_recipe.png";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import test from "../../assets/category/general.jpg";
 
-export default function Settings() {
-  const [nickname, setNickname] = useState("UserNickname");
-  const [newNickname, setNewNickname] = useState("");
-  const [showNicknameInput, setShowNicknameInput] = useState(false);
-  const [newPhoto, setNewPhoto] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [email, setEmail] = useState("user@example.com");
-  const [newEmail, setNewEmail] = useState("");
-  const [showEmailInput, setShowEmailInput] = useState(false);
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
-
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-  };
+export default function UserInfo() {
+  const navigate = useNavigate();
+  const [avatar, setAvatar] = useState("");
+  const [username, setUsername] = useState("");
+  const [recipes, setRecipes] = useState<any>([]);
 
   useEffect(() => {
-    async function fetchUserProfile() {
+    const accessToken = localStorage.getItem("access_token");
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
           "http://127.0.0.1:8000/api/users/profile",
           { headers }
         );
-        setNickname(response.data.username);
-        setEmail(response.data.email);
-        setNewPhoto(response.data.profile.avatar);
+        console.log(response.data);
+        setAvatar(response.data.profile.avatar);
+        setUsername(response.data.username);
+        setRecipes(response.data.recipes);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
-    }
+    };
 
     fetchUserProfile();
   }, []);
 
-  const handleNicknameChange = async () => {
-    if (newNickname) {
-      try {
-        const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-profile",
-          {
-            username: newNickname,
-          },
-          { headers }
-        );
-        console.log(response.data);
-        setNickname(newNickname);
-        setNewNickname("");
-        setShowNicknameInput(false);
-      } catch (error) {
-        console.error("Error updating username:", error);
-      }
-    }
-  };
-
-  const handleEmailChange = async () => {
-    if (newEmail) {
-      try {
-        const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-profile",
-          {
-            email: newEmail,
-          },
-          { headers }
-        );
-        console.log(response.data);
-        setEmail(newEmail);
-        setNewEmail("");
-        setShowEmailInput(false);
-      } catch (error) {
-        console.error("Error updating email:", error);
-      }
-    }
-  };
-
-  const handlePasswordChange = async () => {
-    try {
-      const response = await axios.put(
-        "http://127.0.0.1:8000/api/auth/change-password/",
-        {
-          password: currentPassword,
-          new_password: newPassword,
-          confirm_new_password: confirmNewPassword,
-        },
-        { headers }
-      );
-      console.log(response.data);
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmNewPassword("");
-      setShowPasswordInput(false);
-    } catch (error) {
-      console.error("Error changing password:", error);
-    }
-  };
-
-  const handlePhotoChange = async (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      setNewPhoto(URL.createObjectURL(selectedFile));
-
-      const formData = new FormData();
-      formData.append("avatar", selectedFile);
-
-      try {
-        const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-profile",
-          formData,
-          {
-            headers: {
-              ...headers,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error updating avatar:", error);
-      }
-    }
-  };
-
   return (
-    <div className="flex flex-col w-screen h-screen font-main-font pl-[20%] gap-[30px]">
-      <div className="flex flex-row pt-[10%] gap-[20px]">
-        <img
-          className="w-[200px] h-[200px] rounded-full "
-          src={newPhoto}
-          alt="Avatar"
-        />
-        <label htmlFor="photoInput" className="cursor-pointer">
+    <div className="w-screen h-screen flex flex-grow w-full p-4 mt-[3%] font-main-font">
+      <div className="flex flex-col ">
+        <div className="flex flex-row items-center gap-[5%] pb-[5%]">
           <img
-            className="w-[200px] h-[200px] rounded-full hover:border-4 border-black"
-            src={newAvatar}
-            alt="newAvatar"
+            className="w-[200px] h-[200px] rounded-full"
+            src={avatar}
+            alt="Avatar"
           />
-          <input
-            type="file"
-            accept="image/*"
-            id="photoInput"
-            className="hidden"
-            onChange={handlePhotoChange}
-          />
-        </label>
-      </div>
-      <div className="flex flex-col mt-[5%] gap-[50px] ">
-        <div className="flex flex-col">
-          <span className="font-main-font">Username</span>
-          {showNicknameInput ? (
-            <div className="flex gap-[50px]">
-              <input
-                type="text"
-                value={newNickname}
-                onChange={(e) => setNewNickname(e.target.value)}
-                className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
-              />
-              <button
-                onClick={handleNicknameChange}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black "
-              >
-                Change
-              </button>
-            </div>
-          ) : (
-            <div className="">
-              <span className="text-2xl pr-[5%]">{nickname}</span>
-              <button
-                onClick={() => setShowNicknameInput(true)}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black pl-[100px]"
-              >
-                Edit
-              </button>
-            </div>
-          )}
+          <span className="mt-[6%] font-main-font text-3xl">{username}</span>
         </div>
         <div className="flex flex-col">
-          <span className="font-main-font">Email</span>
-          {showEmailInput ? (
-            <div className="flex gap-[50px]">
-              <input
-                type="text"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
-              />
-              <button
-                onClick={handleEmailChange}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black"
-              >
-                Change
+          <span className="text-3xl"> Created Recipes :</span>
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            <div className="relative group w-[310px] h-[220px] rounded-md">
+              <button className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full">
+                <img
+                  src={cameraIcon}
+                  alt="Add Recipe"
+                  className="w-full h-[150px] object-cover rounded-[18px]"
+                  onClick={() => navigate("/create-recipe")}
+                />
+                <div className="mt-4 text-center">Add Recipe</div>
               </button>
             </div>
-          ) : (
-            <div>
-              <span className="text-2xl pr-[5%]">{email}</span>
-              <button
-                onClick={() => setShowEmailInput(true)}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black"
-              >
-                Edit
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col">
-          <span className="font-main-font">Password</span>
-          {showPasswordInput ? (
-            <div className="flex flex-col gap-[20px]">
-              <input
-                type="password"
-                placeholder="Current Password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
-              />
-              <input
-                type="password"
-                placeholder="New Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
-              />
-              <input
-                type="password"
-                placeholder="Confirm New Password"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                className="border-[1px] border-black rounded-full px-[15px] w-[250px]"
-              />
-              <button
-                onClick={handlePasswordChange}
-                className="w-[150px] bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black"
-              >
-                Change
-              </button>
-            </div>
-          ) : (
-            <div>
-              <span className="text-2xl pr-[5%]">*********</span>
-              <button
-                onClick={() => setShowPasswordInput(true)}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-full cursor-pointer transition duration-200 hover:bg-black"
-              >
-                Edit
-              </button>
-            </div>
-          )}
+
+            {recipes.map((recipe: any) => {
+              const ingredientTagsArray = recipe.ingredient_tags
+                ? recipe.ingredient_tags.split(", ")
+                : [];
+              const matchingIngredientsArray = recipe.matching_ingredients
+                ? recipe.matching_ingredients.split(", ")
+                : [];
+              const matchingIngredients = ingredientTagsArray.filter(
+                (ingredient: any) =>
+                  matchingIngredientsArray.includes(ingredient)
+              );
+              const notMatchingIngredients = ingredientTagsArray.filter(
+                (ingredient: any) =>
+                  !matchingIngredientsArray.includes(ingredient)
+              );
+              return (
+                <Link
+                  to={`/recipedisplay/${recipe.id}`}
+                  key={recipe.id}
+                  style={{ zIndex: 10 }}
+                >
+                  <div className="relative group w-[310px] h-[220px] rounded-md ">
+                    <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
+                      <img
+                        //src={`http://127.0.0.1:8000${recipe.images[0].image}`}
+                        src={test}
+                        alt={recipe.title}
+                        className="w-full h-[150px] object-cover rounded-[18px]"
+                      />
+
+                      <div className="mt-4 text-center">{recipe.title}</div>
+                    </div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="text-center font-bold mb-2">
+                        Ingredients:
+                      </div>
+                      <div className="mt-2 text-sm max-h-[150px] ">
+                        {matchingIngredients.length > 0 && (
+                          <>
+                            <div className="text-green-500">
+                              {matchingIngredients.join(", ")}
+                            </div>
+                          </>
+                        )}
+                        {notMatchingIngredients.length > 0 && (
+                          <>
+                            <div className="text-red-500 mt-2">
+                              {notMatchingIngredients.join(", ")}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
   );
 }
-<<<<<<< HEAD
-*/
-=======
->>>>>>> 4447b620f58f0d690b9ce117ce86764149ddd972

@@ -1,4 +1,4 @@
-/*import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import data from '../../assets/recipes.json';
 import RecipeCart from '../RecipeCard/RecipeCard';
 import avatar from "../../assets/image 25.png"
@@ -35,4 +35,3 @@ export default function History() {
 </div>
   );
 }
-*/

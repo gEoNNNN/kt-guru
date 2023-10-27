@@ -48,20 +48,28 @@ export default function ForgotPassword() {
       className="bg-cover bg-center bg-no-repeat min-h-screen flex flex-col justify-center items-center"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <h1 className='text-white text-2xl font-main-font mb-4'>Enter the email address of your account and we’ll </h1>
-      <form onSubmit={handleSubmit(handleButton)} className="w-full max-w-md text-center">
-        <label className='text-xl font-main-font text-white'>Email</label>
-        <Inputbox type="text" register={register("email")} id="fname" name="fname" style="py-3 px-4 mb-4 border-2 border-black rounded-sm" />
-        <button type='submit' className='text-sm uppercase py-4 px-14 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black'>Submit</button>
+      <h1 className='text-white text-2xl font-main-font mt-[-7%]'>Enter the email address of your account and we’ll </h1>
+      <form onSubmit={handleSubmit(handleButton)} className="w-full max-w-md text-center mt-[2%] flex flex-col items-center">
+        <label className='text-2xl font-main-font text-white mr-[60%]'>Email</label>
+        <Inputbox 
+          type="text" 
+          register={register("email")} 
+          id="fname" 
+          name="fname" 
+          style="py-3 px-4 mb-4 border-2 border-black rounded-md w-3/4"
+        />
+        <button type='submit' className='text-sm uppercase py-4 px-14 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black mt-2'>Submit</button>
       </form>
-      {message && <pre className="font-main-font text-base text-white bg-red-500 p-2 mt-4 rounded-lg">
-        Error: {message}
-      </pre>
+      {message && 
+        <pre className="font-main-font text-base text-white bg-red-500 p-2 mt-4 rounded-lg">
+            Error: {message}
+        </pre>
       }
-      {succesMessage && <pre className="font-main-font text-base text-black bg-gray-300 p-4 mt-4 rounded-lg">
-        {succesMessage}
-      </pre>
+      {succesMessage && 
+        <pre className="font-main-font text-base text-black bg-gray-300 p-4 mt-4 rounded-lg">
+            {succesMessage}
+        </pre>
       }
     </div>
-  );
+);
 }

@@ -4,6 +4,7 @@ import Inputbox from "../Inputbox/Inputbox";
 import Button from "../Button/Button";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useState } from "react";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -27,84 +28,80 @@ export default function Register() {
   };
   return (
     <div
-      className="bg-cover bg-center bg-no-repeat min-h-screen flex justify-center items-center"
+      className="bg-cover bg-center bg-no-repeat min-h-screen flex flex-col justify-center items-center px-4"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <h1 className="absolute text-white text-[60px] font-main-font top-[9.5%] left-[29.5%]">
-        Welcome
-      </h1>
-      <h1 className="absolute text-white text-xl font-main-font top-[16%] left-[29.9%]">
-        To the best app for the best cooks!{" "}
-      </h1>
-      <h1 className="absolute text-white text-xl font-main-font top-[18%] left-[30%]">
-        Fill all the spaces to continue navigation{" "}
-      </h1>
-      <h1 className="absolute text-white text-3xl font-main-font top-[27%] left-[37%]">
-        Registration:
-      </h1>
+      <div className="text-center mb-8">
+        <h1 className="text-white text-4xl lg:text-[60px] font-main-font mb-2">Welcome</h1>
+        <h2 className="text-white text-lg lg:text-xl font-main-font mb-2">To the best app for the best cooks!</h2>
+        <h3 className="text-white text-lg lg:text-xl font-main-font mb-4">Fill all the spaces to continue navigation</h3>
+        <h4 className="text-white text-2xl lg:text-3xl font-main-font mb-8">Registration:</h4>
+      </div>
+
       <form
         onSubmit={handleSubmit(handleButton)}
-        className="flex flex-col items-start"
+        className="w-full max-w-lg flex flex-col items-start"
       >
-        <label className="flex text-xl font-main-font text-white mb-2">
-          Nickname:
-        </label>
+        {/* Nickname */}
+        <label className="text-xl font-main-font text-white mb-2">Nickname:</label>
         <Inputbox
           register={register("username")}
           type="text"
           id="nickname"
           name="nickname"
-          style="w-[400px] px-2.5 py-1 mb-4 border-2 border-black rounded-md"
+          style="w-full px-2.5 py-1 mb-4 border-2 border-black rounded-md"
         />
-        <label className="flex text-xl font-main-font text-white mb-2">
-          Email:
-        </label>
+
+        {/* Email */}
+        <label className="text-xl font-main-font text-white mb-2">Email:</label>
         <Inputbox
           register={register("email")}
           type="email"
           id="email"
           name="email"
-          style="w-full px-2.5 py-1 mb-2 border-2 border-black rounded-md"
+          style="w-full px-2.5 py-1 mb-4 border-2 border-black rounded-md"
         />
-        <label className="flex text-xl font-main-font text-white mb-2">
-          Password:
-        </label>
+
+        {/* Password */}
+        <label className="text-xl font-main-font text-white mb-2">Password:</label>
         <Inputbox
           register={register("password")}
           type="password"
           id="password"
           name="password"
-          style="w-full px-2.5 py-1 mb-2 border-2 border-black rounded-md"
+          style="w-full px-2.5 py-1 mb-4 border-2 border-black rounded-md"
         />
 
-        <label className="flex text-xl font-main-font text-white mb-2">
-          Repeat Password:
-        </label>
+        {/* Repeat Password */}
+        <label className="text-xl font-main-font text-white mb-2">Repeat Password:</label>
         <Inputbox
           register={register("confirm_password")}
           type="password"
           id="repeatPassword"
           name="repeatPassword"
-          style="w-full px-2.5 py-1 mb-2 border-2 border-black rounded-md"
+          style="w-full px-2.5 py-1 mb-4 border-2 border-black rounded-md"
         />
 
-        <input
-          type="submit"
-          className="absolute top-[74%] right-[45%] text-base uppercase py-4 px-8 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"
-          value="Register"
-        />
-      </form>
-
-      <Button
-        style="absolute top-[69.5%] right-[56%] font-main-font text-white text-lg"
+        <Button
+        style="mt-4 font-main-font text-white text-lg"
         onClick={handleLogin}
       >
         Login instead
       </Button>
-      {message && <pre className="absolute font-main-font text-base text-white bg-red-500 p-4 top-[67.5%] right-[39%] rounded-lg">
-    Error: {message}
-</pre>
-}
+      <div className="lg:ml-[70%] ml-[35%] mb-[2%]">
+        <input
+          type="submit"
+          className="text-base uppercase py-4 px-8 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"
+          value="Register"
+          />
+        </div>
+      </form>
+      {message && 
+        <pre className="mt-4 font-main-font text-base text-white bg-red-500 p-4 rounded-lg">
+            Error: {message}
+        </pre>
+      }
     </div>
-  );
+);
+
 }

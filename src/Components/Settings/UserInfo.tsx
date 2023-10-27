@@ -1,9 +1,3 @@
-/*
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import data from '../../assets/recipes.json';
-import RecipeCart from '../RecipeCard/RecipeCard';
-import avatar from "../../assets/image 25.png"
-
 import { useEffect, useState } from "react";
 import cameraIcon from "../../assets/add_recipe.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -130,7 +124,3 @@ export default function UserInfo() {
     </div>
   );
 }
-<<<<<<< HEAD
-*/
-=======
->>>>>>> 4447b620f58f0d690b9ce117ce86764149ddd972
