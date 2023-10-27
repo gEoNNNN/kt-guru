@@ -72,7 +72,7 @@ export default function Login() {
           </Button>
         </div>
 
-        <Button style="ml-[70%] mt-[3%] text-sm uppercase py-4 px-14 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-green-500 hover:text-black mt-4">
+        <Button style="lg:ml-[70%] mt-[3%] ml-[35%] text-sm uppercase py-4 px-14 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-green-500 hover:text-black mt-4">
           <input type="submit" value="Login" />
         </Button>
       </form>

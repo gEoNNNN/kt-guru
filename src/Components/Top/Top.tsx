@@ -383,127 +383,143 @@ export default function Top() {
               </Button>
             )}
           </div>
-          <div className="w-1/4 p-4">
-            <div className="mt-[7%] ml-[3%] p-8 absolute border rounded-lg font-main-font bg-green-500 text-xl">
-              <div className="flex flex-col space-y-4">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    className="form-radio h-5 w-5"
-                    value="average_rating"
-                    checked={sortby === "average_rating"}
-                    onChange={handleSortChange}
-                  />
-                  <span className="ml-2 text-white">Rating</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    className="form-radio h-5 w-5"
-                    value="review_count"
-                    checked={sortby === "review_count"}
-                    onChange={handleSortChange}
-                  />
-                  <span className="ml-2 text-white">Comments</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    className="form-radio h-5 w-5"
-                    value="favorites_count"
-                    checked={sortby === "favorites_count"}
-                    onChange={handleSortChange}
-                  />
-                  <span className="ml-2 text-white">Favorites</span>
-                </label>
+          <div className="w-1/4 p-4 mt-[10%] flex flex-col">
+            <div className=" h-32 w-64 flex items-center justify-center text-white">
+              <div className="p-8 absolute border rounded-lg font-main-font bg-green-500 text-xl">
+                <div className="flex flex-col space-y-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-5 w-5"
+                      value="average_rating"
+                      checked={sortby === "average_rating"}
+                      onChange={handleSortChange}
+                    />
+                    <span className="ml-2 text-white">Rating</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-5 w-5"
+                      value="review_count"
+                      checked={sortby === "review_count"}
+                      onChange={handleSortChange}
+                    />
+                    <span className="ml-2 text-white">Comments</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-5 w-5"
+                      value="favorites_count"
+                      checked={sortby === "favorites_count"}
+                      onChange={handleSortChange}
+                    />
+                    <span className="ml-2 text-white">Favorites</span>
+                  </label>
+                </div>
               </div>
             </div>
-            <div className="absolute font-main-font text-xl mt-[19%] ml-[3%]">
-              <span>Duration</span>
-              <div className="absolute flex flex-row items-center">
-                <input
-                  type="text"
-                  className="w-12 border border-green-500"
-                  placeholder="0"
-                  value={minDuration}
-                  onChange={handleMinDurationChange}
-                />
-                <span className="mx-2">-</span>
-                <input
-                  type="text"
-                  className="w-12 border border-green-500"
-                  placeholder="300"
-                  value={maxDuration}
-                  onChange={handleMaxDurationChange}
-                />
-                <span className="mx-2">minutes</span>
+            <div className="ml-[-10%] mt-[10%] h-32 w-64 flex items-center justify-center">
+              <div className="absolute font-main-font text-xl">
+                <span>Duration</span>
+                <div className="absolute flex flex-row items-center">
+                  <input
+                    type="text"
+                    className="w-12 border border-green-500"
+                    placeholder="0"
+                    value={minDuration}
+                    onChange={handleMinDurationChange}
+                  />
+                  <span className="mx-2">-</span>
+                  <input
+                    type="text"
+                    className="w-12 border border-green-500"
+                    placeholder="300"
+                    value={maxDuration}
+                    onChange={handleMaxDurationChange}
+                  />
+                  <span className="mx-2">minutes</span>
+                </div>
               </div>
             </div>
-            <div className="absolute text-xl font-main-font mt-[25%] ml-[2.5%]">
-              <span>Select Food Categories:</span>
-            </div>
-            <div className="absolute justify-center mt-[28%] ml-[3%]">
-              <div className="bg-green-500 p-8 rounded-lg shadow-lg">
-                <div className="flex flex-col items-start space-y-4">
-                  <div className="flex items-center">
-                    <input
-                      onChange={handleCheckboxChange}
-                      type="checkbox"
-                      name="options"
-                      id="option1"
-                      className="form-checkbox text-green-600 h-6 w-6"
-                    />
-                    <label className="text-white ml-4 text-lg">Fast food</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      onChange={handleCheckboxChange}
-                      type="checkbox"
-                      name="options"
-                      id="option2"
-                      className="form-checkbox text-green-600 h-6 w-6"
-                    />
-                    <label className="text-white ml-4 text-lg">Desserts</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      onChange={handleCheckboxChange}
-                      type="checkbox"
-                      name="options"
-                      id="option3"
-                      className="form-checkbox text-green-600 h-6 w-6"
-                    />
-                    <label className="text-white ml-4 text-lg">Soups</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      onChange={handleCheckboxChange}
-                      type="checkbox"
-                      name="options"
-                      id="option4"
-                      className="form-checkbox text-green-600 h-6 w-6"
-                    />
-                    <label className="text-white ml-4 text-lg">Salads</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      onChange={handleCheckboxChange}
-                      type="checkbox"
-                      name="options"
-                      id="option5"
-                      className="form-checkbox text-green-600 h-6 w-6"
-                    />
-                    <label className="text-white ml-4 text-lg">Meat</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      onChange={handleCheckboxChange}
-                      type="checkbox"
-                      name="options"
-                      id="option6"
-                      className="form-checkbox text-green-600 h-6 w-6"
-                    />
-                    <label className="text-white ml-4 text-lg">Seafood</label>
+            <div className="ml-[-20%] h-32 w-64 flex items-center justify-center text-white">
+              <div>
+                <div className="absolute text-xl font-main-font">
+                  <span>Select Food Categories:</span>
+                </div>
+                <div className="absolute justify-center ">
+                  <div className="bg-green-500 p-8 rounded-lg shadow-lg">
+                    <div className="flex flex-col items-start space-y-4">
+                      <div className="flex items-center">
+                        <input
+                          onChange={handleCheckboxChange}
+                          type="checkbox"
+                          name="options"
+                          id="option1"
+                          className="form-checkbox text-green-600 h-6 w-6"
+                        />
+                        <label className="text-white ml-4 text-lg">
+                          Fast food
+                        </label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          onChange={handleCheckboxChange}
+                          type="checkbox"
+                          name="options"
+                          id="option2"
+                          className="form-checkbox text-green-600 h-6 w-6"
+                        />
+                        <label className="text-white ml-4 text-lg">
+                          Desserts
+                        </label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          onChange={handleCheckboxChange}
+                          type="checkbox"
+                          name="options"
+                          id="option3"
+                          className="form-checkbox text-green-600 h-6 w-6"
+                        />
+                        <label className="text-white ml-4 text-lg">Soups</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          onChange={handleCheckboxChange}
+                          type="checkbox"
+                          name="options"
+                          id="option4"
+                          className="form-checkbox text-green-600 h-6 w-6"
+                        />
+                        <label className="text-white ml-4 text-lg">
+                          Salads
+                        </label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          onChange={handleCheckboxChange}
+                          type="checkbox"
+                          name="options"
+                          id="option5"
+                          className="form-checkbox text-green-600 h-6 w-6"
+                        />
+                        <label className="text-white ml-4 text-lg">Meat</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          onChange={handleCheckboxChange}
+                          type="checkbox"
+                          name="options"
+                          id="option6"
+                          className="form-checkbox text-green-600 h-6 w-6"
+                        />
+                        <label className="text-white ml-4 text-lg">
+                          Seafood
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
