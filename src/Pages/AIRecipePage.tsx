@@ -24,7 +24,7 @@ export default function AIRecipe() {
         ingredients: ingredients,
       };
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/recipes/ai-recipes",
+        "http://127.0.0.1:8000/api/recipes/generate-ai-recipes",
         requestData
       );
       console.log(response.data);
@@ -70,47 +70,75 @@ export default function AIRecipe() {
     }
   }, [displayedMessage]);
 
+  // const handleSaveRecipe = async () => {
+  //   try {
+  //     const requestData = {
+  //       message: message,
+  //       image_url: photo,
+  //     };
+
+  //     const token = localStorage.getItem("access_token");
+  //     const headers = {
+  //       Authorization: `Bearer ${token}`,
+  //     };
+
+  //     const response = await axios.post(
+  //       "http://127.0.0.1:8000/api/recipes/create-ai-recipes",
+  //       requestData,
+  //       { headers: headers }
+  //     );
+
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error("Error saving AI recipe:", error);
+  //   }
+  // };
+
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
       <div className="flex-grow flex flex-col justify-center items-center">
         {loading ? (
           <>
-            <iframe
+            <img
               src={robot_cook}
               title="Robot Cooking"
               className="w-[500px] h-[500px]"
-            ></iframe>
+            ></img>
             <span className="text-font-main text-xl">AI is cooking...</span>
           </>
         ) : showResults ? (
-          <div className="flex items-center justify-start h-screen mt-[100px] overflow-hidden">
-            <div className="flex flex-col items-center z-10 border-4 h-screen overflow-hidden">
+          <div className="flex items-center justify-start h-screen overflow-hidden">
+            <div className="flex flex-col items-center z-10 h-[70vh]">
               <img
                 src={photo}
-                className="rounded-full w-[300px] h-[300px]"
+                className="rounded-full w-[250px] h-[250px]"
               ></img>
-              <img
-                src={robot_reading}
-                className="w-[300px] h-[300px]"
-              ></img>
-              <button
-                onClick={handleRefresh}
-                className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
-              >
-                Test AI Again
-              </button>
+              <img src={robot_reading} className="w-[350px] h-[350px]"></img>
+              <div className="flex space-x-4 mt-4">
+                <button
+                  onClick={handleRefresh}
+                  className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
+                >
+                  Test AI Again
+                </button>
+                {/* <button
+                  onClick={handleSaveRecipe}
+                  className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
+                >
+                  Save AI Recipe
+                </button> */}
+              </div>
             </div>
-            <div
-              className="border-4 text-left text-xl w-2/3 ml-8 pr-[50px] h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200"
-              ref={messageContainerRef}
-            >
-              {displayedMessage &&
-                displayedMessage
-                  .split("\n")
-                  .map((line, index) => <p key={index}>{line}</p>)}
+
+            <div className=" text-left text-xl w-[900px] ml-8 pr-[50px] h-[70vh] overflow-hidden">
+              <div className="h-full overflow-y-auto" ref={messageContainerRef}>
+                {displayedMessage && (
+                  <p className="whitespace-pre-wrap">{displayedMessage}</p>
+                )}
+              </div>
               {showScrollDown && (
-                <div className="absolute bottom-[50px] right-[30%] text-gray-500 animate-bounce">
+                <div className="absolute bottom-[50px] right-[35%] text-gray-500 animate-bounce">
                   <span className="mr-2">Scroll down</span>
                   <span>&#8595;</span>
                 </div>
@@ -118,8 +146,8 @@ export default function AIRecipe() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center space-y-4 h-screen z-10">
-            <iframe src={robot_think} className="w-[480px] h-[500px]"></iframe>
+          <div className="flex flex-col items-center justify-center space-y-4 z-10">
+            <img src={robot_think} className="w-[80%]"></img>
             <input
               type="text"
               placeholder="Enter category (ex. dessert)"

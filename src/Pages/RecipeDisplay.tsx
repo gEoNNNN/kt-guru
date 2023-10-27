@@ -44,6 +44,8 @@ function RecipeDisplayPage() {
   const [userRating, setUserRating] = useState<number | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
 
+  const token = localStorage.getItem("access_token");
+
   const toggleFavorite = async () => {
     const token = localStorage.getItem("access_token");
     const headers = {
@@ -97,7 +99,7 @@ function RecipeDisplayPage() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/recipes/recipe-review",
+        "http://127.0.0.1:8000/wpi/recipes/recipe-review",
         payload,
         {
           headers: {
@@ -244,7 +246,7 @@ function RecipeDisplayPage() {
                 placeholder="Feedback for the recipe..."
                 name="feedback"
                 buttonstyle="bg-33B249 border-black border-1 shadow-lg rounded-full w-[150px] h-[40px] text-white"
-                onSubmit={handleFeedbackSubmit}
+                onSubmit={token ? handleFeedbackSubmit : () => {}}
               />
             </div>
             {userFeedback && (

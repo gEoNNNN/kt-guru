@@ -12,7 +12,6 @@ interface IForm {
 
 export default function CommentForm({
   style,
-  type,
   id,
   name,
   buttonstyle,

@@ -44,9 +44,9 @@ import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 export default function App() {
-  const token:any = localStorage.getItem("access_token")
-  const decodedToken = jwt_decode(token)
-  console.log(decodedToken)
+  const token: any = localStorage.getItem("access_token");
+  const decodedToken = jwt_decode(token);
+  console.log(decodedToken);
   const navigate = useNavigate();
   useEffect(() => {
     const temp = localStorage.getItem("access_token");

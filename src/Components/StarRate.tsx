@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 interface StarRatingProps {
-  value?: number; // The rating value to display
-  readOnly?: boolean; // Whether the component is interactive or not
-  onRate?: (rating: number) => void; // Callback to handle rating
+  value?: number;
+  readOnly?: boolean;
+  onRate?: (rating: number) => void;
 }
 
 const StarRating: React.FC<StarRatingProps> = ({

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface IImage {
   style?: string;
@@ -7,15 +7,18 @@ interface IImage {
   onMouseEnter?: any;
   onMouseLeave?: any;
   onClick?: any;
+  text?: any;
+  text_style?: string;
 }
 
 export default function Image({
   url,
   style,
-  children,
   onMouseEnter,
   onMouseLeave,
   onClick,
+  text,
+  text_style,
 }: IImage) {
   return (
     <div
@@ -25,6 +28,7 @@ export default function Image({
       onClick={onClick}
     >
       <img src={url} className="rounded-full" />
+      <span className={text_style}>{text}</span>
     </div>
   );
 }

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Sidebar from "../SideBar";
 import Favorite from "../Settings/Favorite";
 import History from "../Settings/History";
 import Settings from "../Settings/Settings";
 import UserInfo from "../Settings/UserInfo";
+// import AIRecipe from "../Settings/AIRecipe";
 
 function SettingsBar() {
   const [currentPage, setCurrentPage] = useState("profile");
@@ -16,6 +17,7 @@ function SettingsBar() {
       <div className="flex w-3/4 h-screen ">
         {currentPage === "profile" && <UserInfo />}
         {currentPage === "favorites" && <Favorite />}
+        {/* {currentPage === "airecipe" && <AIRecipe />} */}
         {currentPage === "history" && <History />}
         {currentPage === "settings" && <Settings />}
       </div>

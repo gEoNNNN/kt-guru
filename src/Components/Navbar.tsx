@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Button from "./Button/Button";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -45,7 +45,7 @@ export default function Navbar() {
         <a href="/top">Best 100</a>
         <a href="/AboutUs">About us</a>
       </div>
-      <div className="flex gap-4 md:gap-8">
+      <div className="flex gap-4 md:gap-8 z-50">
         {!isLoggedIn ? (
           <>
             <Button
@@ -64,7 +64,11 @@ export default function Navbar() {
         ) : (
           <>
             <Button onClick={() => navigate("/profile")}>
-              <img src={profile} alt="Profile" className="h-[30px] w-[30px]" />
+              <img
+                src={profile}
+                alt="Profile"
+                className="h-[30px] w-[30px] z-50"
+              />
             </Button>
             <Button
               style="bg-red-500 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-500 hover:bg-black"

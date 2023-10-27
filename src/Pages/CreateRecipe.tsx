@@ -2,12 +2,9 @@ import { useState } from "react";
 import defaultImage from "../assets/change_pic.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import { useForm } from "react-hook-form";
 
 function CreateRecipe() {
   const [selectedImage, setSelectedImage] = useState(defaultImage);
-  const [newPhoto, setNewPhoto] = useState(defaultImage);
-  const [newAvatar, setNewAvatar] = useState(defaultImage);
   const [ingredients, setIngredients] = useState([""]);
   const [instructions, setInstructions] = useState([""]);
   const [title, setTitle] = useState("");
@@ -30,19 +27,6 @@ function CreateRecipe() {
       setSelectedImage(URL.createObjectURL(e.target.files[0]));
       const gg = e.target.files[0];
       setImages(gg);
-    }
-  };
-
-  const handlePhotoChange = (e: any) => {
-    if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        setNewPhoto(event.target?.result as string);
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-      setNewAvatar(URL.createObjectURL(e.target.files[0]));
     }
   };
 
@@ -114,28 +98,6 @@ function CreateRecipe() {
             onClick={handleImageUpload}
           />
         </button>
-      </div>
-
-      <div className="flex flex-row pt-[10%] gap-[20px]">
-        <img
-          className="w-[200px] h-[200px] rounded-full "
-          src={newPhoto}
-          alt="Avatar"
-        />
-        <label htmlFor="photoInput" className="cursor-pointer">
-          <img
-            className="w-[200px] h-[200px] rounded-full hover:border-4 border-black"
-            src={newAvatar}
-            alt="newAvatar"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            id="photoInput"
-            className="hidden"
-            onChange={handlePhotoChange}
-          />
-        </label>
       </div>
 
       {/* Title */}

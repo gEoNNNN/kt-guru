@@ -1,4 +1,3 @@
-import React from "react";
 let renderCount = 0;
 
 export default () => {
@@ -20,10 +19,9 @@ export default () => {
         href="https://codesandbox.io/s/preact-2zsw6?file=/src/index.js"
         style={{
           fontSize: 10,
-          height: 20
+          height: 20,
         }}
-      >
-      </a>
+      ></a>
     </div>
   );
 };

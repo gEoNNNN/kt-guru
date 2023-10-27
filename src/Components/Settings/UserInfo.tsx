@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import cameraIcon from "../../assets/add_recipe.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import test from "../../assets/category/general.jpg";
 
 export default function UserInfo() {
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState("");
   const [username, setUsername] = useState(null);
   const [recipes, setRecipes] = useState<any[]>([]);
-  const [photo, setPhoto] = useState("");
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -28,7 +26,6 @@ export default function UserInfo() {
         setAvatar(response.data.profile.avatar);
         setUsername(response.data.username);
         setRecipes(response.data.recipes);
-        setPhoto(response.data.recipes[0].images[0].image);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -50,13 +47,9 @@ export default function UserInfo() {
           recipe_id: recipeId,
         },
       });
-      // Refresh user profile or remove the recipe from the state after successful deletion
-      setUserProfile((prevProfile) => ({
-        ...prevProfile,
-        recipes: prevProfile?.recipes.filter(
-          (recipe) => recipe.id !== recipeId
-        ),
-      }));
+      setRecipes((prevRecipes) =>
+        prevRecipes.filter((recipe) => recipe.id !== recipeId)
+      );
     } catch (error) {
       console.error("Error deleting recipe:", error);
     }
@@ -64,8 +57,8 @@ export default function UserInfo() {
 
   return (
     <div className="w-screen h-screen flex flex-grow w-full p-4 mt-[3%] font-main-font">
-      <div className="flex flex-col ">
-        <div className="flex flex-row items-center gap-[5%] pb-[5%]">
+      <div className="flex flex-col gap-[30px]">
+        <div className="flex flex-row items-center gap-[20px] mb-[5%]">
           <img
             className="w-[200px] h-[200px] rounded-full"
             src={avatar}
@@ -89,6 +82,7 @@ export default function UserInfo() {
             </div>
 
             {recipes.map((recipe: any) => {
+              console.log(recipe)
               const ingredientTagsArray = recipe.ingredient_tags
                 ? recipe.ingredient_tags.split(", ")
                 : [];
@@ -123,7 +117,7 @@ export default function UserInfo() {
 
                     <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                       <img
-                        src={`http://127.0.0.1:8000${photo}`}
+                        src={`http://127.0.0.1:8000${recipe.images[0]?.image}`}
                         alt={recipe.title}
                         className="w-full h-[150px] object-cover rounded-[18px]"
                       />

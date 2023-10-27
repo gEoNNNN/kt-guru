@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../Components/Navbar";
 import template from "../assets/template.png";
 import food from "../assets/food.png";

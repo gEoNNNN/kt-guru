@@ -47,17 +47,16 @@ export default function Favorite() {
   }, []);
 
   return (
-    <div className="mt-[5%]">
-      <div className="flex flex-row items-center gap-[5%] pb-[5%]">
+    <div className="flex flex-col gap-[30px] mt-[5%]">
+      <div className="flex flex-row items-center gap-[20px] mb-[5%]">
         <img
           className="w-[200px] h-[200px] rounded-full"
           src={avatar}
           alt="Avatar"
         />
-        <span className="mt-[6%] font-main-font text-3xl">{username}</span>
+        <span className="ml-[20px] font-main-font text-3xl">{username}</span>
       </div>
-      <div>
-        <div className="absolute h-[7%] w-[12px] rounded-full bg-33B249 ml-[-1.85%] mt-[6.8%]"></div>
+      <div className="">
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           {favoriteRecipes.map((recipe: any) => {
             const ingredientTagsArray = recipe.ingredient_tags

@@ -13,7 +13,7 @@ import meat from "../assets/category/meat.jpg";
 import seafood from "../assets/category/seafood.jpeg";
 import Inputbox from "../Components/Inputbox/Inputbox";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function MainPage() {
   const [data, setData] = useState<any[]>([]);
@@ -26,20 +26,23 @@ export default function MainPage() {
   const token = localStorage.getItem("access_token");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
+  const navigate = useNavigate();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentIngredient(e.target.value);
   };
 
   const fetchRecipes = async (url: string) => {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setData(response.data.results);
-    setNextURL(response.data.next);
-    setPrevURL(response.data.previous);
-    setIngredients([]);
+    try {
+      const response = await axios.get(url);
+
+      setData(response.data.results);
+      setNextURL(response.data.next);
+      setPrevURL(response.data.previous);
+      setIngredients([]);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
   };
 
   const handlePagination = (url: string | null) => {
@@ -116,6 +119,30 @@ export default function MainPage() {
       setFilteredIngredients([]);
     }
   }, [currentIngredient, allIngredients]);
+
+  const handleRecipeClick = async (recipeId: number) => {
+    try {
+      if (token) {
+        navigate(`/recipedisplay/${recipeId}`);
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        await axios.post(
+          `http://127.0.0.1:8000/api/users/add-to-watch-list?recipe_id=${recipeId}`,
+          {},
+          {
+            headers,
+          }
+        );
+      } else {
+        navigate(`/recipedisplay/${recipeId}`);
+      }
+    } catch (error) {
+      console.error("Error adding recipe to watch list:", error);
+    }
+  };
 
   return (
     <div className="flex justify-center">
@@ -195,9 +222,10 @@ export default function MainPage() {
                       !matchingIngredientsArray.includes(ingredient)
                   );
                   return (
-                    <Link
-                      to={`/recipedisplay/${recipe.id}`}
+                    <div
                       key={recipe.id}
+                      onClick={() => handleRecipeClick(recipe.id)}
+                      className="relative group w-[310px] h-[220px] rounded-md cursor-pointer"
                       style={{ zIndex: 10 }}
                     >
                       <div className="relative group w-[310px] h-[220px] rounded-md ">
@@ -235,7 +263,7 @@ export default function MainPage() {
                           </div>
                         </div>
                       </div>
-                    </Link>
+                    </div>
                   );
                 })}
               </div>
