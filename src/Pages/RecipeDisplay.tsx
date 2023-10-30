@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import notFavorite from "../assets/not_favorite.png";
 import favorite from "../assets/favorite.png";
-import test from "../assets/category/general.jpg";
 import CommentForm from "../Components/CommentForm";
 import contactUs from "../assets/contactUs.png";
 import StarRating from "../Components/StarRate";
@@ -29,10 +28,8 @@ interface UserFeedback {
 interface Review {
   text: string;
   rating: number;
-  user: {
-    avatar: string;
-    username: string;
-  };
+  avatar: string;
+  username: string;
 }
 
 function RecipeDisplayPage() {
@@ -43,6 +40,8 @@ function RecipeDisplayPage() {
   const [userFeedback, setUserFeedback] = useState<UserFeedback | null>(null);
   const [userRating, setUserRating] = useState<number | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [nickname, setNickname] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string | null>(null);
 
   const token = localStorage.getItem("access_token");
 
@@ -82,12 +81,6 @@ function RecipeDisplayPage() {
   };
 
   const handleFeedbackSubmit = async (feedback: string) => {
-    setUserFeedback({
-      photo: test,
-      name: "Nickname",
-      stars: userRating || 0,
-      feedback: feedback,
-    });
     const payload = {
       id: id,
       text: feedback,
@@ -99,7 +92,7 @@ function RecipeDisplayPage() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/wpi/recipes/recipe-review",
+        "http://127.0.0.1:8000/api/recipes/recipe-review",
         payload,
         {
           headers: {
@@ -108,6 +101,29 @@ function RecipeDisplayPage() {
         }
       );
       console.log("Review sent successfully:", response.data);
+
+      // Fetch user profile to get nickname and avatar
+      try {
+        const userProfileResponse = await axios.get(
+          "http://127.0.0.1:8000/api/users/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setNickname(userProfileResponse.data.username);
+        setAvatar(userProfileResponse.data.profile.avatar);
+
+        setUserFeedback({
+          photo: userProfileResponse.data.profile.avatar, // use the avatar from the profile response
+          name: userProfileResponse.data.username, // use the nickname from the profile response
+          stars: userRating || 0,
+          feedback: feedback,
+        });
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
     } catch (error) {
       console.error("There was an error sending the review:", error);
     }
@@ -139,7 +155,7 @@ function RecipeDisplayPage() {
 
         try {
           const reviewResponse = await axios.get(
-            `http://127.0.0.1:8000/api/recipes/get-reviews?recipe_id=${id}`,
+            `http://127.0.0.1:8000/api/recipes/recipe-review?recipe_id=${id}`,
             { headers }
           );
           setReviews(reviewResponse.data.results);
@@ -223,7 +239,7 @@ function RecipeDisplayPage() {
       </div>
       <div className="pt-[7%] relative">
         <div
-          className="w-full h-[600px] lg:h-[700px] bg-contain bg-center bg-no-repeat"
+          className="w-full h-[600px] bg-contain bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${contactUs})` }}
         >
           <div className="pl-[28%] pt-[3%] flex items-center space-x-2">
@@ -255,13 +271,13 @@ function RecipeDisplayPage() {
                   <div className="flex gap-[20px] border-b-[2px]">
                     <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
                       <img
-                        src={userFeedback.photo}
-                        alt={userFeedback.name}
+                        src={avatar || userFeedback.photo}
+                        alt={nickname || "Nickname"}
                         className="rounded-full w-[70px] h-[70px]"
                       />
                     </div>
                     <div className="flex flex-col text-start items-start">
-                      <span className="text-xl">{userFeedback.name}</span>
+                      <span className="text-xl">{nickname || "Nickname"}</span>
                       <StarRating value={userFeedback.stars} readOnly />
                     </div>
                   </div>
@@ -271,19 +287,20 @@ function RecipeDisplayPage() {
                 </div>
               </div>
             )}
+
             {[...reviews].reverse().map((review, index) => (
               <div className="flex justify-center " key={index}>
                 <div className="mt-[50px] text-center w-[800px] border-4 p-[25px] rounded-3xl">
                   <div className="flex gap-[20px] border-b-[2px]">
                     <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
                       <img
-                        src={review.user.avatar}
-                        alt={review.user.username}
+                        src={`http://127.0.0.1:8000${review.avatar}`}
+                        alt={review.username}
                         className="rounded-full w-[70px] h-[70px]"
                       />
                     </div>
                     <div className="flex flex-col text-start items-start">
-                      <span className="text-xl">{review.user.username}</span>
+                      <span className="text-xl">{review.username}</span>
                       <StarRating value={review.rating} readOnly />
                     </div>
                   </div>

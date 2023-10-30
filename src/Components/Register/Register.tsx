@@ -23,19 +23,27 @@ export default function Register() {
         }
       })
       .catch((error: any) => {
-          setMessage(error.response.data.non_field_errors)});
-      
+        setMessage(error.response.data.non_field_errors);
+      });
   };
   return (
     <div
       className="bg-cover bg-center bg-no-repeat min-h-screen flex flex-col justify-center items-center px-4"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="text-center mb-8">
-        <h1 className="text-white text-4xl lg:text-[60px] font-main-font mb-2">Welcome</h1>
-        <h2 className="text-white text-lg lg:text-xl font-main-font mb-2">To the best app for the best cooks!</h2>
-        <h3 className="text-white text-lg lg:text-xl font-main-font mb-4">Fill all the spaces to continue navigation</h3>
-        <h4 className="text-white text-2xl lg:text-3xl font-main-font mb-8">Registration:</h4>
+      <div className="text-center mt-8">
+        <h1 className="text-white text-xl lg:text-[60px] font-main-font mb-2">
+          Welcome
+        </h1>
+        <h2 className="text-white text-lg lg:text-xl font-main-font mb-2">
+          To the best app for the best cooks!
+        </h2>
+        <h3 className="text-white text-lg lg:text-xl font-main-font mb-4">
+          Fill all the spaces to continue navigation
+        </h3>
+        <h4 className="text-white text-2xl lg:text-3xl font-main-font mb-8">
+          Registration:
+        </h4>
       </div>
 
       <form
@@ -43,7 +51,9 @@ export default function Register() {
         className="w-full max-w-lg flex flex-col items-start"
       >
         {/* Nickname */}
-        <label className="text-xl font-main-font text-white mb-2">Nickname:</label>
+        <label className="text-xl font-main-font text-white mb-2">
+          Nickname:
+        </label>
         <Inputbox
           register={register("username")}
           type="text"
@@ -63,7 +73,9 @@ export default function Register() {
         />
 
         {/* Password */}
-        <label className="text-xl font-main-font text-white mb-2">Password:</label>
+        <label className="text-xl font-main-font text-white mb-2">
+          Password:
+        </label>
         <Inputbox
           register={register("password")}
           type="password"
@@ -73,7 +85,9 @@ export default function Register() {
         />
 
         {/* Repeat Password */}
-        <label className="text-xl font-main-font text-white mb-2">Repeat Password:</label>
+        <label className="text-xl font-main-font text-white mb-2">
+          Repeat Password:
+        </label>
         <Inputbox
           register={register("confirm_password")}
           type="password"
@@ -83,25 +97,24 @@ export default function Register() {
         />
 
         <Button
-        style="mt-4 font-main-font text-white text-lg"
-        onClick={handleLogin}
-      >
-        Login instead
-      </Button>
-      <div className="lg:ml-[70%] ml-[35%] mb-[2%]">
-        <input
-          type="submit"
-          className="text-base uppercase py-4 px-8 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"
-          value="Register"
+          style="mt-4 font-main-font text-white text-lg hover:underline"
+          onClick={handleLogin}
+        >
+          Login instead
+        </Button>
+        <div className="lg:ml-[70%] ml-[35%] mb-[2%]">
+          <input
+            type="submit"
+            className="text-base uppercase py-4 px-8 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"
+            value="Register"
           />
         </div>
       </form>
-      {message && 
+      {message && (
         <pre className="mt-4 font-main-font text-base text-white bg-red-500 p-4 rounded-lg">
-            Error: {message}
+          Error: {message}
         </pre>
-      }
+      )}
     </div>
-);
-
+  );
 }

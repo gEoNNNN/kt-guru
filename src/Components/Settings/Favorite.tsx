@@ -82,9 +82,13 @@ export default function Favorite() {
                   <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                     {recipe.images && recipe.images[0] && (
                       <img
-                        src={decodeURIComponent(
-                          recipe.images[0].image.slice(1)
-                        )}
+                        src={
+                          recipe.images[0].image.startsWith("/recipe")
+                            ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                            : decodeURIComponent(
+                                recipe.images[0].image.slice(1)
+                              )
+                        }
                         alt={recipe.title}
                         className="w-full h-[150px] object-cover rounded-[18px]"
                       />

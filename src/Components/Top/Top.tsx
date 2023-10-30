@@ -210,9 +210,13 @@ export default function Top() {
                       <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                         {recipe.images && recipe.images[0] && (
                           <img
-                            src={decodeURIComponent(
-                              recipe.images[0].image.slice(1)
-                            )}
+                            src={
+                              recipe.images[0].image.startsWith("/recipe")
+                                ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                                : decodeURIComponent(
+                                    recipe.images[0].image.slice(1)
+                                  )
+                            }
                             alt={recipe.title}
                             className="w-full h-[150px] object-cover rounded-[18px]"
                           />
@@ -301,9 +305,13 @@ export default function Top() {
                         {recipe.images && recipe.images[0] && (
                           <img
                             //src={http://127.0.0.1:8000${recipe.images[0].image}}
-                            src={decodeURIComponent(
-                              recipe.images[0].image.slice(1)
-                            )}
+                            src={
+                              recipe.images[0].image.startsWith("/recipe")
+                                ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                                : decodeURIComponent(
+                                    recipe.images[0].image.slice(1)
+                                  )
+                            }
                             alt={recipe.title}
                             className="w-full h-[150px] object-cover rounded-[18px]"
                           />
@@ -367,16 +375,18 @@ export default function Top() {
               })}
             </div>
             {next && (
-              <Button
-                style="absolute mt-[-16%] ml-[67%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
-                onClick={() => nextPage(next)}
-              >
-                Next
-              </Button>
+              <div className="mb-[15px]">
+                <Button
+                  style="absolute mt-[-16%] ml-[71%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
+                  onClick={() => nextPage(next)}
+                >
+                  Next
+                </Button>
+              </div>
             )}
             {prev && (
               <Button
-                style="absolute mt-[-14%] ml-[67%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
+                style="absolute mt-[-14%] ml-[71%] bg-33B249 w-[80px] h-[30px] text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
                 onClick={() => prevPage(prev)}
               >
                 Prev

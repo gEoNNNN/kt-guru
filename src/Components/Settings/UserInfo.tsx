@@ -82,7 +82,7 @@ export default function UserInfo() {
             </div>
 
             {recipes.map((recipe: any) => {
-              console.log(recipe)
+              console.log(recipe);
               const ingredientTagsArray = recipe.ingredient_tags
                 ? recipe.ingredient_tags.split(", ")
                 : [];
