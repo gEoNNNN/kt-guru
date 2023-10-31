@@ -105,7 +105,7 @@ export default function Register() {
         <div className="lg:ml-[70%] ml-[35%] mb-[2%]">
           <input
             type="submit"
-            className="text-base uppercase py-4 px-8 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-33B249 hover:text-black"
+            className="text-base uppercase py-4 px-8 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-gray-300 hover:text-black z-50"
             value="Register"
           />
         </div>

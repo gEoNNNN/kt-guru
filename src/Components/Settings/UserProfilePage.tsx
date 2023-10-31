@@ -1,33 +1,23 @@
 import { useEffect, useState } from "react";
-import cameraIcon from "../../assets/add_recipe.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
-export default function UserInfo() {
-  const navigate = useNavigate();
+export default function UserProfilePage() {
+  const { username } = useParams<{ username: string }>();
+  console.log(username);
+
   const [avatar, setAvatar] = useState("");
-  const [username, setUsername] = useState(null);
   const [recipes, setRecipes] = useState<any[]>([]);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) {
-      navigate("/login");
-      return;
-    }
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-
     const fetchUserProfile = async () => {
+      console.log(username);
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/users/profile",
-          { headers }
+          `http://127.0.0.1:8000/api/users/profile?username=${username}`
         );
         console.log(response.data);
         setAvatar(response.data.profile.avatar);
-        setUsername(response.data.username);
         setRecipes(response.data.recipes);
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -35,28 +25,7 @@ export default function UserInfo() {
     };
 
     fetchUserProfile();
-  }, []);
-
-  const handleDeleteRecipe = async (recipeId: number) => {
-    const accessToken = localStorage.getItem("access_token");
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    try {
-      await axios.delete("http://127.0.0.1:8000/api/recipes/delete-recipe", {
-        headers,
-        data: {
-          recipe_id: recipeId,
-        },
-      });
-      setRecipes((prevRecipes) =>
-        prevRecipes.filter((recipe) => recipe.id !== recipeId)
-      );
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
-    }
-  };
+  }, [username]);
 
   return (
     <div className="w-screen h-screen flex flex-grow w-full p-4 mt-[3%] font-main-font">
@@ -72,18 +41,6 @@ export default function UserInfo() {
         <div className="flex flex-col">
           <span className="text-3xl"> Created Recipes :</span>
           <div className="flex flex-wrap justify-center gap-4 mt-8">
-            <div className="relative group w-[310px] h-[220px] rounded-md">
-              <button className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full">
-                <img
-                  src={cameraIcon}
-                  alt="Add Recipe"
-                  className="w-full h-[150px] object-cover rounded-[18px]"
-                  onClick={() => navigate("/create-recipe")}
-                />
-                <div className="mt-4 text-center">Add Recipe</div>
-              </button>
-            </div>
-
             {recipes.map((recipe: any) => {
               console.log(recipe);
               const ingredientTagsArray = recipe.ingredient_tags
@@ -107,17 +64,6 @@ export default function UserInfo() {
                   style={{ zIndex: 10 }}
                 >
                   <div className="relative group w-[310px] h-[220px] rounded-md ">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleDeleteRecipe(recipe.id);
-                      }}
-                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center m-2 z-50"
-                    >
-                      X
-                    </button>
-
                     <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                       <img
                         src={`http://127.0.0.1:8000${recipe.images[0]?.image}`}

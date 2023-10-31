@@ -8,12 +8,6 @@ import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
-  const handleForgotPassword = () => {
-    navigate("/forgotpassword");
-  };
-  const handleRegister = () => {
-    navigate("/register");
-  };
 
   const { register, handleSubmit } = useForm();
   const [message, setMessage] = useState("");
@@ -61,18 +55,21 @@ export default function Login() {
           register={register("password")}
         />
         <div className="flex mt-4 space-x-4 ml-[15%]">
-          <Button
-            style="font-main-font text-white"
-            onClick={handleForgotPassword}
+          <a
+            href="/forgotpassword"
+            className="font-main-font text-white z-200 hover:underline p-2"
           >
             Forgot password?
-          </Button>
-          <Button style="font-main-font text-white" onClick={handleRegister}>
+          </a>
+          <a
+            href="/register"
+            className="font-main-font text-white hover:underline p-2"
+          >
             Don’t have an account?
-          </Button>
+          </a>
         </div>
 
-        <Button style="lg:ml-[70%] mt-[3%] ml-[35%] text-sm uppercase py-4 px-14 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-green-500 hover:text-black mt-4">
+        <Button style="lg:ml-[70%] mt-[3%] ml-[35%] text-sm uppercase py-4 px-14 rounded-full transition font-main-font duration-500 text-white bg-black hover:bg-gray-300 hover:text-black mt-4">
           <input type="submit" value="Login" />
         </Button>
       </form>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import defaultImage from "../assets/change_pic.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,14 @@ function CreateRecipe() {
   const [ingredientTags, setIngredientTags] = useState("");
   const [images, setImages] = useState<any>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    if (!accessToken) {
+      navigate("/login");
+      return;
+    }
+  }, []);
 
   const handleImageUpload = () => {
     const inputElement = document.getElementById("imageUpload");

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import notFavorite from "../assets/not_favorite.png";
 import favorite from "../assets/favorite.png";
@@ -44,6 +44,8 @@ function RecipeDisplayPage() {
   const [avatar, setAvatar] = useState<string | null>(null);
 
   const token = localStorage.getItem("access_token");
+
+  const navigate = useNavigate();
 
   const toggleFavorite = async () => {
     const token = localStorage.getItem("access_token");
@@ -102,7 +104,6 @@ function RecipeDisplayPage() {
       );
       console.log("Review sent successfully:", response.data);
 
-      // Fetch user profile to get nickname and avatar
       try {
         const userProfileResponse = await axios.get(
           "http://127.0.0.1:8000/api/users/profile",
@@ -116,8 +117,8 @@ function RecipeDisplayPage() {
         setAvatar(userProfileResponse.data.profile.avatar);
 
         setUserFeedback({
-          photo: userProfileResponse.data.profile.avatar, // use the avatar from the profile response
-          name: userProfileResponse.data.username, // use the nickname from the profile response
+          photo: userProfileResponse.data.profile.avatar,
+          name: userProfileResponse.data.username,
           stars: userRating || 0,
           feedback: feedback,
         });
@@ -185,7 +186,7 @@ function RecipeDisplayPage() {
       <div className="recipe-display font-main-font">
         <div className="mt-[150px]">
           <div className="flex flex-wrap justify-center items-center">
-            <div className="flex flex-row w-[50%] justify-center items-center gap-[10px]">
+            <div className="flex flex-row w-[50%] h-[50%] justify-center items-center gap-[10px]">
               <div>
                 <button className="" onClick={toggleFavorite}>
                   {isFavorite ? (
@@ -195,8 +196,23 @@ function RecipeDisplayPage() {
                   )}
                 </button>
               </div>
-              <div>
+              <div className="flex flex-col">
                 <span className=" text-4xl ">{recipe.title}</span>
+                <div>
+                  {recipe.created_by !== null ? (
+                    <>
+                      <span>Created by : </span>
+                      <button
+                        className="font-bold hover:underline"
+                        onClick={() =>
+                          navigate(`/profile/${recipe.created_by}`)
+                        }
+                      >
+                        @{recipe.created_by}
+                      </button>
+                    </>
+                  ) : null}
+                </div>
               </div>
             </div>
             <img
@@ -216,11 +232,13 @@ function RecipeDisplayPage() {
               Ingredients:
             </span>
             <span className="space-y-4">
-              {recipe.ingredients
-                .split("\n")
-                .map((ingredient: any, index: any) => (
-                  <li key={index}>{ingredient}</li>
-                ))}
+              <span className="space-y-4">
+                {decodeURI(recipe.ingredients)
+                  .split("\n")
+                  .map((ingredient: any, index: any) => (
+                    <ol key={index}>{ingredient}</ol>
+                  ))}
+              </span>
             </span>
           </div>
           <div className="w-[50%] grid justify-items-center pr-[20px]">
@@ -228,34 +246,38 @@ function RecipeDisplayPage() {
               Instructions:
             </span>
             <ol className="list-decimal pl-5 space-y-4">
-              {recipe.instructions
+              {decodeURI(recipe.instructions)
                 .split("\n")
                 .map((instruction: any, index: any) => (
-                  <li key={index}>{instruction}</li>
+                  <ol key={index}>{instruction}</ol>
                 ))}
             </ol>
           </div>
         </div>
       </div>
-      <div className="pt-[7%] relative">
+      <div className="mt-[7%] relative">
         <div
-          className="w-full h-[600px] bg-contain bg-center bg-no-repeat"
+          className="h-[600px] bg-contain bg-center bg-no-repeat "
           style={{ backgroundImage: `url(${contactUs})` }}
         >
-          <div className="pl-[28%] pt-[3%] flex items-center space-x-2">
+          <div className="ml-[28%] pt-[3%] flex items-center space-x-2">
             <img
-              src={decodeURIComponent(recipe.images[0].image.slice(1))}
+              src={
+                recipe.images[0].image.startsWith("/recipe")
+                  ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                  : decodeURIComponent(recipe.images[0].image.slice(1))
+              }
               className="rounded-full w-[50px] h-[50px]"
             />
             <span className="text-xl">{recipe.title}</span>
           </div>
 
-          <div className="">
-            <div className="text-2xl pl-[28%] pt-[2%]">Your Rating : </div>
-            <div className="pl-[28%] pt-[1%]">
+          <div className="h-[100%] w-[100%]">
+            <div className="text-2xl ml-[28%] mt-[2%]">Your Rating : </div>
+            <div className="ml-[28%] mt-[1%]">
               <StarRating onRate={handleRating} />
             </div>
-            <div className="text-2xl pl-[28%] pt-[1%]">Your Review :</div>
+            <div className="text-2xl ml-[28%] mt-[1%]">Your Review :</div>
             <div className="text-center">
               <CommentForm
                 style="mt-[30px] h-[230px] w-[43%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none mb-[20px]"
@@ -267,7 +289,7 @@ function RecipeDisplayPage() {
             </div>
             {userFeedback && (
               <div className="flex justify-center rounded-3xl">
-                <div className="mt-[50px] text-center w-[800px] border-4 p-[25px] rounded-3xl">
+                <div className="mt-[50px] text-center w-[800px] border-4 -[25px] rounded-3xl">
                   <div className="flex gap-[20px] border-b-[2px]">
                     <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
                       <img
