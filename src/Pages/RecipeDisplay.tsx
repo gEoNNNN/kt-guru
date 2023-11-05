@@ -7,7 +7,6 @@ import favorite from "../assets/favorite.png";
 import CommentForm from "../Components/CommentForm";
 import contactUs from "../assets/contactUs.png";
 import StarRating from "../Components/StarRate";
-// Comment
 interface Recipe {
   category: string;
   created_by: any;
@@ -23,13 +22,17 @@ interface UserFeedback {
   name: string;
   stars: number;
   feedback: string;
+  minutes_passed: string;
 }
 
 interface Review {
+  id: number;
   text: string;
   rating: number;
   avatar: string;
   username: string;
+  created_time: string;
+  minutes_passed: string;
 }
 
 function RecipeDisplayPage() {
@@ -46,6 +49,55 @@ function RecipeDisplayPage() {
   const token = localStorage.getItem("access_token");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        try {
+          const userProfileResponse = await axios.get(
+            "http://127.0.0.1:8000/api/users/profile",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(userProfileResponse.data);
+          setNickname(userProfileResponse.data.username);
+          setAvatar(userProfileResponse.data.profile.avatar);
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  const deleteReview = async () => {
+    setUserFeedback(null);
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    try {
+      await axios.delete(
+        `http://127.0.0.1:8000/api/recipes/update-review/${id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Review deleted successfully");
+
+      setReviews(reviews.filter((review) => review.username !== nickname));
+    } catch (error) {
+      console.error("Error deleting the review:", error);
+    }
+  };
 
   const toggleFavorite = async () => {
     const token = localStorage.getItem("access_token");
@@ -83,22 +135,23 @@ function RecipeDisplayPage() {
   };
 
   const handleFeedbackSubmit = async (feedback: string) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
     const payload = {
       id: id,
       text: feedback,
       rating: userRating || 0,
     };
-
-    const accessToken = localStorage.getItem("access_token");
-    console.log(payload);
-
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/recipes/recipe-review",
         payload,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -109,10 +162,11 @@ function RecipeDisplayPage() {
           "http://127.0.0.1:8000/api/users/profile",
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
+        console.log(userProfileResponse.data);
         setNickname(userProfileResponse.data.username);
         setAvatar(userProfileResponse.data.profile.avatar);
 
@@ -121,6 +175,7 @@ function RecipeDisplayPage() {
           name: userProfileResponse.data.username,
           stars: userRating || 0,
           feedback: feedback,
+          minutes_passed: userProfileResponse.data.minutes_passed,
         });
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -172,6 +227,22 @@ function RecipeDisplayPage() {
     fetchRecipe();
   }, [id]);
 
+  const CalculateTime = (time: any) => {
+    if (time >= 518400) {
+      return `${Math.floor(time / 518400)} years ago`;
+    } else if (time >= 43200) {
+      return `${Math.floor(time / 43200)} months ago`;
+    } else if (time >= 10080) {
+      return `${Math.floor(time / 10080)} weeks ago`;
+    } else if (time >= 1440) {
+      return `${Math.floor(time / 1440)} days ago`;
+    } else if (time >= 60) {
+      return `${Math.floor(time / 60)} hours ago`;
+    } else {
+      return `${time} minutes ago`;
+    }
+  };
+
   if (!recipe) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
@@ -179,6 +250,15 @@ function RecipeDisplayPage() {
       </div>
     );
   }
+
+  const confirmAndDeleteReview = async () => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete the review?"
+    );
+    if (isConfirmed) {
+      deleteReview();
+    }
+  };
 
   return (
     <>
@@ -289,7 +369,8 @@ function RecipeDisplayPage() {
             </div>
             {userFeedback && (
               <div className="flex justify-center rounded-3xl">
-                <div className="mt-[50px] text-center w-[800px] border-4 -[25px] rounded-3xl">
+                <div className="mt-[50px] text-center w-[800px] border-2 border-black p-[25px] rounded-3xl">
+                  {" "}
                   <div className="flex gap-[20px] border-b-[2px]">
                     <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
                       <img
@@ -312,8 +393,17 @@ function RecipeDisplayPage() {
 
             {[...reviews].reverse().map((review, index) => (
               <div className="flex justify-center " key={index}>
-                <div className="mt-[50px] text-center w-[800px] border-4 p-[25px] rounded-3xl">
-                  <div className="flex gap-[20px] border-b-[2px]">
+                <div className="mt-[50px] text-center w-[800px] border-2 border-black p-[25px] rounded-3xl relative">
+                  {nickname === review.username && (
+                    <button
+                      onClick={confirmAndDeleteReview}
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center m-2 z-50"
+                      aria-label="Delete review"
+                    >
+                      X
+                    </button>
+                  )}
+                  <div className="flex gap-[20px] border-b-[2px] items-center">
                     <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
                       <img
                         src={`http://127.0.0.1:8000${review.avatar}`}
@@ -327,6 +417,9 @@ function RecipeDisplayPage() {
                     </div>
                   </div>
                   <div className="mt-2 text-lg text-start">{review.text}</div>
+                  <div className="mt-2 text-start text-zinc-600">
+                    <span>{CalculateTime(review.minutes_passed)}</span>
+                  </div>
                 </div>
               </div>
             ))}

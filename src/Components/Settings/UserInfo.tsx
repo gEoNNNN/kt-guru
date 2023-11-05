@@ -58,6 +58,15 @@ export default function UserInfo() {
     }
   };
 
+  const confirmAndDeleteRecipe = async (recipeId: any) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete the created recipe?"
+    );
+    if (isConfirmed) {
+      handleDeleteRecipe(recipeId);
+    }
+  };
+
   return (
     <div className="w-screen h-screen flex flex-grow w-full p-4 mt-[3%] font-main-font">
       <div className="flex flex-col gap-[30px]">
@@ -111,7 +120,7 @@ export default function UserInfo() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleDeleteRecipe(recipe.id);
+                        confirmAndDeleteRecipe(recipe.id);
                       }}
                       className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center m-2 z-50"
                     >
