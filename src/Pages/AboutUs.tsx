@@ -3,6 +3,12 @@ import template from "../assets/template.png";
 import food from "../assets/food.png";
 import contactUs from "../assets/contactUs.png";
 import CommentForm from "../Components/CommentForm";
+import Renat from "../assets/Renat2.jpeg";
+import Danik from "../assets/Danik.jpeg";
+import Victor from "../assets/Victor.jpeg";
+import Eugen from "../assets/Eugen.jpeg"
+import Toti from "../assets/toti.jpeg";
+import Sergiu from "../assets/Sergiu.jpeg"
 
 export default function AboutUs() {
   return (
@@ -39,19 +45,19 @@ export default function AboutUs() {
       <div className="text-center p-[5%]">
         <span className="text-6xl">Meet our team</span>
       </div>
-      <div className="pb-[7%] ml-[17.2%] h-[770px] w-[959px] grid grid-rows-3 grid-flow-col gap-[10px]">
+      <div className="pb-[4%] ml-[17.2%] h-[770px] w-[959px] grid grid-rows-3 grid-flow-col gap-[25px]">
         <img
-          src={template}
+          src={Toti}
           className="w-[100%] rounded-[7%] row-span-2 col-span-2"
         ></img>
         <img
-          src={template}
+          src={Eugen}
           className=" w-[100%] rounded-[7%] right-[228px] top-[1372px]"
         ></img>
-        <img src={template} className="w-[100%] rounded-[7%] "></img>
-        <img src={template} className="w-[100%] rounded-[7%] "></img>
-        <img src={template} className="w-[100%] rounded-[7%]"></img>
-        <img src={template} className="w-[100%] rounded-[7%]"></img>
+        <img src={Renat} className="w-[100%] rounded-[7%] "></img>
+        <img src={Danik} className="w-[100%] rounded-[7%] "></img>
+        <img src={Victor} className="w-[100%] rounded-[7%]"></img>
+        <img src={Sergiu} className="w-[100%] rounded-[7%]"></img>
       </div>
       <div className="flex justify-center">
         <div

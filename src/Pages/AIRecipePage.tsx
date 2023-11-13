@@ -29,7 +29,7 @@ export default function AIRecipe() {
       );
       console.log(response.data);
       setMessage(response.data.message);
-      setPhoto(response.data.image_url);
+      setPhoto(response.data.image);
 
       setShowResults(true);
     } catch (error) {
@@ -111,7 +111,7 @@ export default function AIRecipe() {
           <div className="flex items-center justify-start h-screen overflow-hidden">
             <div className="flex flex-col items-center z-10 h-[70vh]">
               <img
-                src={photo}
+                src={`http://127.0.0.1:8000${photo}`}
                 className="rounded-full w-[250px] h-[250px]"
               ></img>
               <img src={robot_reading} className="w-[350px] h-[350px]"></img>
