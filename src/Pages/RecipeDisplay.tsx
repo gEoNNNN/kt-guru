@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../Components/Navbar";
-import notFavorite from "../../assets/not_favorite.png";
-import favorite from "../assets/favorite.png";
+import notFavorite from "../assets/not_favorite.png";
+// import favorite from "../assets/favorite.png";
 import CommentForm from "../Components/CommentForm";
-import contactUs from "../../assets/contactUs.png";
+// import contactUs from "../assets/contactUs.png";
 import StarRating from "../Components/StarRate";
 interface Recipe {
   category: string;
