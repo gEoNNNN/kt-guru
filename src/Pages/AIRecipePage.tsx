@@ -16,6 +16,7 @@ export default function AIRecipe() {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
 
+  
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -70,29 +71,29 @@ export default function AIRecipe() {
     }
   }, [displayedMessage]);
 
-  // const handleSaveRecipe = async () => {
-  //   try {
-  //     const requestData = {
-  //       message: message,
-  //       image_url: photo,
-  //     };
+  const handleSaveRecipe = async () => {
+    try {
+      const requestData = {
+        message: message,
+        image: photo,
+      };
 
-  //     const token = localStorage.getItem("access_token");
-  //     const headers = {
-  //       Authorization: `Bearer ${token}`,
-  //     };
+      const token = localStorage.getItem("access_token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
 
-  //     const response = await axios.post(
-  //       "http://127.0.0.1:8000/api/recipes/create-ai-recipes",
-  //       requestData,
-  //       { headers: headers }
-  //     );
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/recipes/create-ai-recipes",
+        requestData,
+        { headers: headers }
+      );
 
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error("Error saving AI recipe:", error);
-  //   }
-  // };
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error saving AI recipe:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -122,12 +123,12 @@ export default function AIRecipe() {
                 >
                   Test AI Again
                 </button>
-                {/* <button
+                <button
                   onClick={handleSaveRecipe}
                   className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
                 >
                   Save AI Recipe
-                </button> */}
+                </button>
               </div>
             </div>
 

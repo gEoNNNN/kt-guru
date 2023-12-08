@@ -17,7 +17,7 @@ import TopPage from "./Pages/Top.tsx";
 import Profile from "./Pages/Profile.tsx";
 import CreateRecipe from "./Pages/CreateRecipe.tsx";
 import Token from "./Components/RefreshToken/token.tsx";
-
+import AIRecipeDisplay from "./Pages/AIRecipeDisplay.tsx"
 import UserProfile from "./Pages/UserProfile.tsx";
 import AIRecipe from "./Pages/AIRecipePage.tsx";
 
@@ -64,6 +64,10 @@ function App() {
     {
       path: "/recipedisplay/:id",
       element: <RecipeDisplayPage />,
+    },
+    {
+      path: "/airecipedisplay/:id",
+      element: <AIRecipeDisplay />,
     },
     {
       path: "/top",
