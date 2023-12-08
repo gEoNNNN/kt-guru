@@ -14,7 +14,7 @@ export default function Token() {
     if (timeDifference < 2) {
       const refreshToken = async () => {
         try {
-          const response = await axios.put("http://127.0.0.1:8000/api/auth/token-refresh", {}, {
+          const response = await axios.put("https://kitchenguru.onrender.com/api/auth/token-refresh", {}, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

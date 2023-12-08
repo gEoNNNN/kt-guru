@@ -16,7 +16,7 @@ export default function Register() {
   const [message, setMessage] = useState();
   const handleButton = (data: any) => {
     axios
-      .post("http://127.0.0.1:8000/api/auth/registration", data)
+      .post("https://kitchenguru.onrender.com/api/auth/registration", data)
       .then((response: any) => {
         if (response.status === 201) {
           navigate("/login");

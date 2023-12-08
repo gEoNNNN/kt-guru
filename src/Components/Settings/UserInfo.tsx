@@ -22,7 +22,7 @@ export default function UserInfo() {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/users/profile",
+          "https://kitchenguru.onrender.com/api/users/profile",
           { headers }
         );
         console.log(response.data);
@@ -44,7 +44,7 @@ export default function UserInfo() {
     };
 
     try {
-      await axios.delete("http://127.0.0.1:8000/api/recipes/delete-recipe", {
+      await axios.delete("https://kitchenguru.onrender.com/api/recipes/delete-recipe", {
         headers,
         data: {
           recipe_id: recipeId,
@@ -129,7 +129,7 @@ export default function UserInfo() {
 
                     <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                       <img
-                        src={`http://127.0.0.1:8000${recipe.images[0]?.image}`}
+                        src={`https://kitchenguru.onrender.com${recipe.images[0]?.image}`}
                         alt={recipe.title}
                         className="w-full h-[150px] object-cover rounded-[18px]"
                       />

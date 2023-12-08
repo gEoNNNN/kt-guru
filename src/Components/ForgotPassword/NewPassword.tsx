@@ -21,7 +21,7 @@ export default function NewPassword() {
   const handleButton = (data: any) => {
     axios
       .put(
-        `http://127.0.0.1:8000/api/auth/password-recovery-change?email=${email}`,
+        `https://kitchenguru.onrender.com/api/auth/password-recovery-change?email=${email}`,
         data
       )
       .then((response: any) => {

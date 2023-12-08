@@ -24,7 +24,7 @@ export default function AIRecipe() {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/users/profile",
+          "https://kitchenguru.onrender.com/api/users/profile",
           { headers }
         );
         console.log(response.data);
@@ -38,7 +38,7 @@ export default function AIRecipe() {
     const fetchFavoriteRecipes = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/recipes/create-ai-recipes",
+          "https://kitchenguru.onrender.com/api/recipes/create-ai-recipes",
           { headers }
         );
         console.log(response.data);

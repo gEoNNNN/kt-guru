@@ -53,7 +53,7 @@ export default function MainPage() {
 
   const sendIngredientsToBackend = () => {
     const ingredientsString = ingredients.join(", ");
-    const url = `http://127.0.0.1:8000/api/recipes/search?category=${selectedCategory}&ingredients=${ingredientsString}`;
+    const url = `https://kitchenguru.onrender.com/api/recipes/search?category=${selectedCategory}&ingredients=${ingredientsString}`;
     fetchRecipes(url);
   };
 
@@ -81,7 +81,7 @@ export default function MainPage() {
 
   const fetchIngredients = async () => {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/recipes/get-ingredients"
+      "https://kitchenguru.onrender.com/api/recipes/get-ingredients"
     );
     if (response.status === 200 && Array.isArray(response.data)) {
       const ingredientNames = response.data.map(
@@ -97,7 +97,7 @@ export default function MainPage() {
 
     const sendCategoriesToBackend = async () => {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/recipes/get-recipes?category=${category}`
+        `https://kitchenguru.onrender.com/api/recipes/get-recipes?category=${category}`
       );
       if (response.status === 200) {
         console.log(response);
@@ -130,7 +130,7 @@ export default function MainPage() {
         };
 
         await axios.post(
-          `http://127.0.0.1:8000/api/users/add-to-watch-list?recipe_id=${recipeId}`,
+          `https://kitchenguru.onrender.com/api/users/add-to-watch-list?recipe_id=${recipeId}`,
           {},
           {
             headers,
@@ -234,7 +234,7 @@ export default function MainPage() {
                             <img
                               src={
                                 recipe.images[0].image.startsWith("/recipe")
-                                  ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                                  ? `https://kitchenguru.onrender.com${recipe.images[0].image}`
                                   : decodeURIComponent(
                                       recipe.images[0].image.slice(1)
                                     )

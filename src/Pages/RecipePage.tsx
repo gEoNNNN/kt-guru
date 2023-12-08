@@ -10,7 +10,7 @@ export default function RecipePage() {
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/recipes/${id}`
+          `https://kitchenguru.onrender.com/api/recipes/${id}`
         );
         setRecipe(response.data);
       } catch (error) {
@@ -28,7 +28,7 @@ export default function RecipePage() {
       <h1>{recipe.title}</h1>
       {recipe.images && recipe.images[0] && (
         <img
-          src={`http://127.0.0.1:8000${recipe.images[0].image}`}
+          src={`https://kitchenguru.onrender.com${recipe.images[0].image}`}
           alt={recipe.title}
         />
       )}

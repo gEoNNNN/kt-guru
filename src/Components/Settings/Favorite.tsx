@@ -17,7 +17,7 @@ export default function Favorite() {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/users/profile",
+          "https://kitchenguru.onrender.com/api/users/profile",
           { headers }
         );
         console.log(response.data);
@@ -31,7 +31,7 @@ export default function Favorite() {
     const fetchFavoriteRecipes = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/recipes/get-favorites",
+          "https://kitchenguru.onrender.com/api/recipes/get-favorites",
           { headers }
         );
         console.log(response.data);
@@ -84,7 +84,7 @@ export default function Favorite() {
                       <img
                         src={
                           recipe.images[0].image.startsWith("/recipe")
-                            ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                            ? `https://kitchenguru.onrender.com${recipe.images[0].image}`
                             : decodeURIComponent(
                                 recipe.images[0].image.slice(1)
                               )

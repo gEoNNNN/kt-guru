@@ -13,7 +13,7 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const handleButton = (data: any) => {
     axios
-      .post("http://127.0.0.1:8000/api/auth/login", data)
+      .post("https://kitchenguru.onrender.com/api/auth/login", data)
       .then((response: any) => {
         if (response.status === 200) {
           navigate("/main");

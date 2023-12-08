@@ -11,7 +11,7 @@ export default function ForgotPassword() {
 
   const handleButton = (data: any) => {
     axios
-      .post("http://127.0.0.1:8000/api/auth/password-recovery-request", data)
+      .post("https://kitchenguru.onrender.com/api/auth/password-recovery-request", data)
       .then((response) => {
         console.log("Response from password-recovery-request:", response.data);
 
@@ -21,7 +21,7 @@ export default function ForgotPassword() {
             data.email + code,
             "utf8"
           ).toString("base64");
-          const link = `http://localhost:5173/newpassword/${encodedData}`;
+          const link = `https://kitchenguru.onrender.com/newpassword/${encodedData}`;
           setSuccesMessage("The email has been sent succesfully !");
 
           const jsonData = {
@@ -30,7 +30,7 @@ export default function ForgotPassword() {
           };
 
           return axios.post(
-            "http://127.0.0.1:8000/api/auth/send-email",
+            "https://kitchenguru.onrender.com/api/auth/send-email",
             jsonData
           );
         }

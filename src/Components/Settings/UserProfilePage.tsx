@@ -14,7 +14,7 @@ export default function UserProfilePage() {
       console.log(username);
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/users/profile?username=${username}`
+          `https://kitchenguru.onrender.com/api/users/profile?username=${username}`
         );
         console.log(response.data);
         setAvatar(response.data.profile.avatar);
@@ -66,7 +66,7 @@ export default function UserProfilePage() {
                   <div className="relative group w-[310px] h-[220px] rounded-md ">
                     <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full transition-opacity duration-300 group-hover:opacity-0 ">
                       <img
-                        src={`http://127.0.0.1:8000${recipe.images[0]?.image}`}
+                        src={`https://kitchenguru.onrender.com${recipe.images[0]?.image}`}
                         alt={recipe.title}
                         className="w-full h-[150px] object-cover rounded-[18px]"
                       />

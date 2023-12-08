@@ -24,7 +24,7 @@ export default function Top() {
   useEffect(() => {
     axios
       .get(
-        `http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
+        `https://kitchenguru.onrender.com/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
       )
       .then((response: any) => {
         setData(response.data.results);
@@ -42,7 +42,7 @@ export default function Top() {
 
     axios
       .get(
-        `http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${newSortByValue}`
+        `https://kitchenguru.onrender.com/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${newSortByValue}`
       )
       .then((response: any) => {
         setData(response.data.results);
@@ -59,7 +59,7 @@ export default function Top() {
     if (minDuration === "") {
       axios
         .get(
-          `http://127.0.0.1:8000/api/recipes/best100?duration_min=${"0"}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
+          `https://kitchenguru.onrender.com/api/recipes/best100?duration_min=${"0"}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
         )
         .then((response: any) => {
           setData(response.data.results);
@@ -72,7 +72,7 @@ export default function Top() {
     } else {
       axios
         .get(
-          `http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
+          `https://kitchenguru.onrender.com/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
         )
         .then((response: any) => {
           setData(response.data.results);
@@ -88,7 +88,7 @@ export default function Top() {
     setMaxDuration(event.target.value);
     axios
       .get(
-        `http://127.0.0.1:8000/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
+        `https://kitchenguru.onrender.com/api/recipes/best100?duration_min=${minDuration.toString()}&duration_max=${maxDuration.toString()}&category=${categories.toString()}&sort_by=${sortby.toString()}`
       )
       .then((response: any) => {
         setData(response.data.results);
@@ -123,7 +123,7 @@ export default function Top() {
     ].join("&");
 
     axios
-      .get(`http://127.0.0.1:8000/api/recipes/best100?${queryParams}`)
+      .get(`https://kitchenguru.onrender.com/api/recipes/best100?${queryParams}`)
       .then((response: any) => {
         setData(response.data.results);
         setNext(response.data.next);
@@ -140,7 +140,7 @@ export default function Top() {
     if (token !== null) {
       try {
         await axios.post(
-          `http://127.0.0.1:8000/api/users/add-to-watch-list?recipe_id=${recipeId}`,
+          `https://kitchenguru.onrender.com/api/users/add-to-watch-list?recipe_id=${recipeId}`,
           {},
           {
             headers: {
@@ -212,7 +212,7 @@ export default function Top() {
                           <img
                             src={
                               recipe.images[0].image.startsWith("/recipe")
-                                ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                                ? `https://kitchenguru.onrender.com${recipe.images[0].image}`
                                 : decodeURIComponent(
                                     recipe.images[0].image.slice(1)
                                   )
@@ -307,7 +307,7 @@ export default function Top() {
                             //src={http://127.0.0.1:8000${recipe.images[0].image}}
                             src={
                               recipe.images[0].image.startsWith("/recipe")
-                                ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                                ? `https://kitchenguru.onrender.com${recipe.images[0].image}`
                                 : decodeURIComponent(
                                     recipe.images[0].image.slice(1)
                                   )

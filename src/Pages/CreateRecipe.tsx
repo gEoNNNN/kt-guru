@@ -71,7 +71,7 @@ function CreateRecipe() {
     console.log(formData);
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/recipes/create-recipe",
+        "https://kitchenguru.onrender.com/api/recipes/create-recipe",
         formData,
         {
           headers: {

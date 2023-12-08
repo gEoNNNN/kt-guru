@@ -24,7 +24,7 @@ export default function AIRecipe() {
         ingredients: ingredients,
       };
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/recipes/generate-ai-recipes",
+        "https://kitchenguru.onrender.com/api/recipes/generate-ai-recipes",
         requestData
       );
       console.log(response.data);

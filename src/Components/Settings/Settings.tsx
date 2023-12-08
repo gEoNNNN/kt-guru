@@ -23,7 +23,7 @@ export default function Settings() {
     async function fetchUserProfile() {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/users/profile",
+          "https://kitchenguru.onrender.com/api/users/profile",
           { headers }
         );
         setNickname(response.data.username);
@@ -41,7 +41,7 @@ export default function Settings() {
     if (newNickname) {
       try {
         const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-profile",
+          "https://kitchenguru.onrender.com/api/users/update-profile",
           {
             username: newNickname,
           },
@@ -61,7 +61,7 @@ export default function Settings() {
     if (newEmail) {
       try {
         const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-profile",
+          "https://kitchenguru.onrender.com/api/users/update-profile",
           {
             email: newEmail,
           },
@@ -80,7 +80,7 @@ export default function Settings() {
   const handlePasswordChange = async () => {
     try {
       const response = await axios.put(
-        "http://127.0.0.1:8000/api/auth/change-password/",
+        "https://kitchenguru.onrender.com/api/auth/change-password/",
         {
           password: currentPassword,
           new_password: newPassword,
@@ -108,7 +108,7 @@ export default function Settings() {
 
       try {
         const response = await axios.patch(
-          "http://127.0.0.1:8000/api/users/update-profile",
+          "https://kitchenguru.onrender.com/api/users/update-profile",
           formData,
           {
             headers: {

@@ -56,7 +56,7 @@ function RecipeDisplayPage() {
       if (token) {
         try {
           const userProfileResponse = await axios.get(
-            "http://127.0.0.1:8000/api/users/profile",
+            "https://kitchenguru.onrender.com/api/users/profile",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ function RecipeDisplayPage() {
     }
     try {
       await axios.delete(
-        `http://127.0.0.1:8000/api/recipes/update-review/${id}/`,
+        `https://kitchenguru.onrender.com/api/recipes/update-review/${id}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -113,7 +113,7 @@ function RecipeDisplayPage() {
     try {
       if (isFavorite) {
         await axios.delete(
-          "http://127.0.0.1:8000/api/recipes/delete-favorites",
+          "https://kitchenguru.onrender.com/api/recipes/delete-favorites",
           {
             headers: headers,
             data: data,
@@ -122,7 +122,7 @@ function RecipeDisplayPage() {
         console.log("Recipe removed from favorites");
       } else {
         await axios.post(
-          "http://127.0.0.1:8000/api/recipes/add-favorites",
+          "https://kitchenguru.onrender.com/api/recipes/add-favorites",
           data,
           { headers }
         );
@@ -147,7 +147,7 @@ function RecipeDisplayPage() {
     };
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/recipes/recipe-review",
+        "https://kitchenguru.onrender.com/api/recipes/recipe-review",
         payload,
         {
           headers: {
@@ -159,7 +159,7 @@ function RecipeDisplayPage() {
 
       try {
         const userProfileResponse = await axios.get(
-          "http://127.0.0.1:8000/api/users/profile",
+          "https://kitchenguru.onrender.com/api/users/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -201,7 +201,7 @@ function RecipeDisplayPage() {
 
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/recipes/get-recipe?recipe_id=${id}`,
+          `https://kitchenguru.onrender.com/api/recipes/get-recipe?recipe_id=${id}`,
           { headers }
         );
 
@@ -211,7 +211,7 @@ function RecipeDisplayPage() {
 
         try {
           const reviewResponse = await axios.get(
-            `http://127.0.0.1:8000/api/recipes/recipe-review?recipe_id=${id}`,
+            `https://kitchenguru.onrender.com/api/recipes/recipe-review?recipe_id=${id}`,
             { headers }
           );
           setReviews(reviewResponse.data.results);
@@ -298,7 +298,7 @@ function RecipeDisplayPage() {
             <img
               src={
                 recipe.images[0].image.startsWith("/recipe")
-                  ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                  ? `https://kitchenguru.onrender.com${recipe.images[0].image}`
                   : decodeURIComponent(recipe.images[0].image.slice(1))
               }
               alt={recipe.title}
@@ -337,14 +337,14 @@ function RecipeDisplayPage() {
       </div>
       <div className="mt-[7%] relative">
         <div
-          className="h-[600px] bg-contain bg-center bg-no-repeat "
+          className="h-[600px] lg:h-[660px] bg-contain bg-center bg-no-repeat "
           style={{ backgroundImage: `url(${contactUs})` }}
         >
           <div className="ml-[28%] pt-[3%] flex items-center space-x-2">
             <img
               src={
                 recipe.images[0].image.startsWith("/recipe")
-                  ? `http://127.0.0.1:8000${recipe.images[0].image}`
+                  ? `https://kitchenguru.onrender.com${recipe.images[0].image}`
                   : decodeURIComponent(recipe.images[0].image.slice(1))
               }
               className="rounded-full w-[50px] h-[50px]"
@@ -406,7 +406,7 @@ function RecipeDisplayPage() {
                   <div className="flex gap-[20px] border-b-[2px] items-center">
                     <div className="flex items-center space-x-2 flex-col mt-[3px] mb-[10px]">
                       <img
-                        src={`http://127.0.0.1:8000${review.avatar}`}
+                        src={`https://kitchenguru.onrender.com${review.avatar}`}
                         alt={review.username}
                         className="rounded-full w-[70px] h-[70px]"
                       />
