@@ -23,7 +23,7 @@ export default function AIRecipeDisplay() {
         };
 
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/recipes/get-ai-recipes?recipe_id=${id}`,
+          `https://kitchenguru.onrender.com/api/recipes/get-ai-recipes?recipe_id=${id}`,
           { headers }
         );
         console.log(response.data);
@@ -44,7 +44,7 @@ export default function AIRecipeDisplay() {
     <div className="flex items-center justify-start h-screen overflow-hidden">
       <div className="flex flex-col items-center z-10 h-[70vh]">
         <img
-          src={`http://127.0.0.1:8000${recipe.image}`}
+          src={`https://kitchenguru.onrender.com${recipe.image}`}
           className="rounded-full w-[250px] h-[250px]"
           alt="Recipe"
         />
