@@ -16,6 +16,7 @@ export default function AIRecipe() {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
 
+  
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -29,7 +30,7 @@ export default function AIRecipe() {
       );
       console.log(response.data);
       setMessage(response.data.message);
-      setPhoto(response.data.image_url);
+      setPhoto(response.data.image);
 
       setShowResults(true);
     } catch (error) {
@@ -70,29 +71,29 @@ export default function AIRecipe() {
     }
   }, [displayedMessage]);
 
-  // const handleSaveRecipe = async () => {
-  //   try {
-  //     const requestData = {
-  //       message: message,
-  //       image_url: photo,
-  //     };
+  const handleSaveRecipe = async () => {
+    try {
+      const requestData = {
+        message: message,
+        image: photo,
+      };
 
-  //     const token = localStorage.getItem("access_token");
-  //     const headers = {
-  //       Authorization: `Bearer ${token}`,
-  //     };
+      const token = localStorage.getItem("access_token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
 
-  //     const response = await axios.post(
-  //       "http://127.0.0.1:8000/api/recipes/create-ai-recipes",
-  //       requestData,
-  //       { headers: headers }
-  //     );
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/recipes/create-ai-recipes",
+        requestData,
+        { headers: headers }
+      );
 
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error("Error saving AI recipe:", error);
-  //   }
-  // };
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error saving AI recipe:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -111,7 +112,7 @@ export default function AIRecipe() {
           <div className="flex items-center justify-start h-screen overflow-hidden">
             <div className="flex flex-col items-center z-10 h-[70vh]">
               <img
-                src={photo}
+                src={`http://127.0.0.1:8000${photo}`}
                 className="rounded-full w-[250px] h-[250px]"
               ></img>
               <img src={robot_reading} className="w-[350px] h-[350px]"></img>
@@ -122,12 +123,12 @@ export default function AIRecipe() {
                 >
                   Test AI Again
                 </button>
-                {/* <button
+                <button
                   onClick={handleSaveRecipe}
                   className="bg-33B249 text-white px-2 md:px-4 py-1 rounded-lg cursor-pointer transition duration-200 hover:bg-black"
                 >
                   Save AI Recipe
-                </button> */}
+                </button>
               </div>
             </div>
 

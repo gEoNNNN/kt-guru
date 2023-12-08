@@ -6,7 +6,13 @@ export default function AIRecipe() {
   const [avatar, setAvatar] = useState("");
   const [username, setUsername] = useState("");
   const [aiRecipes, setAIRecipes] = useState<
-    { title: string; message: string; image_url: string }[]
+    {
+      id: string | number;
+      key: string | number;
+      title: string;
+      message: string;
+      image_url: string;
+    }[]
   >([]);
 
   const extractTitleFromMessage = (message: string) => {
@@ -43,11 +49,15 @@ export default function AIRecipe() {
         );
         console.log(response.data);
 
-        const recipes = response.data.map((recipe: any) => ({
-          title: extractTitleFromMessage(recipe.message),
-          message: recipe.message,
-          image_url: recipe.image_url,
-        }));
+        const recipes = response.data.results.map(
+          (recipe: any, index: any) => ({
+            key: index,
+            title: extractTitleFromMessage(recipe.message),
+            message: recipe.message,
+            image_url: recipe.image,
+            id: recipe.id,
+          })
+        );
 
         setAIRecipes(recipes);
       } catch (error) {
@@ -71,28 +81,26 @@ export default function AIRecipe() {
       </div>
       <div className="">
         <div className="flex flex-wrap justify-center gap-4 mt-8">
-          {aiRecipes.map((recipe: any) => {
-            return (
-              <Link
-                to={`/recipedisplay/${recipe.id}`}
-                key={recipe.id}
-                style={{ zIndex: 10 }}
-              >
-                <div className="relative group w-[310px] h-[220px] rounded-md ">
-                  <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full ">
-                    {recipe.image_url && recipe.image_url[0] && (
-                      <img
-                        src={recipe.image_url}
-                        alt={recipe.title}
-                        className="w-full h-[150px] object-cover rounded-[18px]"
-                      />
-                    )}
-                    <div className="mt-4 text-center">{recipe.title}</div>
-                  </div>
+          {aiRecipes.map((recipe) => (
+            <Link
+              to={`/airecipedisplay/${recipe.id}`} // Update this line to include the recipe ID
+              key={recipe.key} // Assuming each recipe has a unique 'key' property
+              style={{ zIndex: 10 }}
+            >
+              <div className="relative group w-[310px] h-[220px] rounded-md ">
+                <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-md w-full ">
+                  {recipe.image_url && (
+                    <img
+                      src={recipe.image_url}
+                      alt={recipe.title}
+                      className="w-full h-[150px] object-cover rounded-[18px]"
+                    />
+                  )}
+                  <div className="mt-4 text-center">{recipe.title}</div>
                 </div>
-              </Link>
-            );
-          })}
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

@@ -91,7 +91,7 @@ export default function UserInfo() {
                 />
                 <div className="mt-4 text-center">Add Recipe</div>
               </button>
-            </div>
+            </div>  
 
             {recipes.map((recipe: any) => {
               console.log(recipe);

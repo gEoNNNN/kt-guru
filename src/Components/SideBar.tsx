@@ -4,6 +4,7 @@ import history from "../assets/history.png";
 import logout from "../assets/logout.png";
 import home from "../assets/App.png";
 import settingsImage from "../assets/settings.png";
+import ai_recipe from "../assets/openai.svg"
 import { useNavigate, useParams } from "react-router-dom";
 
 interface ISidebar {
@@ -58,6 +59,17 @@ function Sidebar({ onSelectionChange }: ISidebar) {
               />
               <span className="text-2xl">Favorites</span>
             </button>
+            <button
+              className="flex items-center space-x-2 "
+              onClick={() => onSelectionChange("airecipe")}
+            >
+              <img
+                className="w-[50px] h-[50px]"
+                src={ai_recipe}
+                alt="AI recipe Icon"
+              />
+              <span className="text-2xl">AI Recipes</span>
+            </button>{" "}
             <button
               className="flex items-center mb-3 space-x-2"
               onClick={() => onSelectionChange("history")}

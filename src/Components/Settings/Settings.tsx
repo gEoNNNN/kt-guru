@@ -57,8 +57,13 @@ export default function Settings() {
     }
   };
 
+  const isValidEmail = (email: any) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+
   const handleEmailChange = async () => {
-    if (newEmail) {
+    if (newEmail && isValidEmail(newEmail)) {
       try {
         const response = await axios.patch(
           "https://kitchenguru.onrender.com/api/users/update-profile",
@@ -74,6 +79,8 @@ export default function Settings() {
       } catch (error) {
         console.error("Error updating email:", error);
       }
+    } else {
+      alert("Please enter a valid email address.");
     }
   };
 

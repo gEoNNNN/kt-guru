@@ -7,7 +7,7 @@ import Settings from "../Settings/Settings";
 import UserInfo from "../Settings/UserInfo";
 import UserProfilePage from "../Settings/UserProfilePage";
 
-// import AIRecipe from "../Settings/AIRecipe";
+import AIRecipe from "../Settings/AIRecipe";
 
 function SettingsBar() {
   const { username } = useParams<{ username?: string }>();
@@ -22,7 +22,7 @@ function SettingsBar() {
       <div className="flex w-3/4 h-screen ">
         {currentPage === "profile" && <UserInfo />}
         {currentPage === "favorites" && <Favorite />}
-        {/* {currentPage === "airecipe" && <AIRecipe />} */}
+        {currentPage === "airecipe" && <AIRecipe />}
         {currentPage === "history" && <History />}
         {currentPage === "settings" && <Settings />}
         {currentPage === "user_profile" && <UserProfilePage />}
