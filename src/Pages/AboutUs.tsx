@@ -54,10 +54,10 @@ export default function AboutUs() {
           src={Eugen}
           className=" w-[100%] rounded-[7%] right-[228px] top-[1372px]"
         ></img>
-        <img src={Renat} className="w-[100%] rounded-[7%] "></img>
-        <img src={Danik} className="w-[100%] rounded-[7%] "></img>
-        <img src={Victor} className="w-[100%] rounded-[7%]"></img>
-        <img src={Sergiu} className="w-[100%] rounded-[7%]"></img>
+        <img src={template} className="w-[100%] rounded-[7%] "></img>
+        <img src={template} className="w-[100%] rounded-[7%] "></img>
+        <img src={template} className="w-[100%] rounded-[7%]"></img>
+        <img src={template} className="w-[100%] rounded-[7%]"></img>
       </div>
       <div className="flex justify-center">
         <div
