@@ -6,7 +6,7 @@ import notFavorite from "../assets/not_favorite.png";
 import favorite from "../assets/favorite.png";
 import CommentForm from "../Components/CommentForm";
 import contactUs from "../assets/contactUs.png";
-import StarRating from "../Components/StarRate";
+import StarRating from "../Components/StarRate"; //comment
 interface Recipe {
   category: string;
   created_by: any;
