@@ -1,14 +1,10 @@
 import Navbar from "../Components/Navbar";
-import template from "../assets/template.png";
+import template from "../assets/template.png"; // Placeholder image used for all photos
 import food from "../assets/food.png";
 import contactUs from "../assets/contactUs.png";
 import CommentForm from "../Components/CommentForm";
-import Renat from "../assets/Renat2.jpeg";
-import Danik from "../assets/Danik.jpeg";
-import Victor from "../assets/Victor.jpeg";
-import Eugen from "../assets/Eugen.jpeg"
-import Toti from "../assets/toti.jpeg";
-import Sergiu from "../assets/Sergiu.jpeg"
+
+// Removed individual image imports since they are no longer needed
 
 export default function AboutUs() {
   return (
@@ -28,7 +24,7 @@ export default function AboutUs() {
         <div className="w-[40%] text-center p-[20px]">
           <span className="text-6xl text-white">Our Mission</span>
           <span className="line-clamp-none text-xl text-justify text-white">
-            One of the most iconic forms of coking is grilling, where food is
+            One of the most iconic forms of cooking is grilling, where food is
             placed directly over an open flame or hot coals. This method imparts
             a smoky, charred flavor to ingredients like meat, vegetables, and
             even fruits. The sizzle of food hitting the grill and the
@@ -46,14 +42,8 @@ export default function AboutUs() {
         <span className="text-6xl">Meet our team</span>
       </div>
       <div className="pb-[4%] ml-[17.2%] h-[770px] w-[959px] grid grid-rows-3 grid-flow-col gap-[25px]">
-        <img
-          src={Toti}
-          className="w-[100%] rounded-[7%] row-span-2 col-span-2"
-        ></img>
-        <img
-          src={Eugen}
-          className=" w-[100%] rounded-[7%] right-[228px] top-[1372px]"
-        ></img>
+        <img src={template} className="w-[100%] rounded-[7%] row-span-2 col-span-2"></img>
+        <img src={template} className=" w-[100%] rounded-[7%] right-[228px] top-[1372px]"></img>
         <img src={template} className="w-[100%] rounded-[7%] "></img>
         <img src={template} className="w-[100%] rounded-[7%] "></img>
         <img src={template} className="w-[100%] rounded-[7%]"></img>
@@ -61,11 +51,11 @@ export default function AboutUs() {
       </div>
       <div className="flex justify-center">
         <div
-          className="w-[700px] h-[500px] bg-contain bg-center bg-no-repeat pb-[50px] "
+          className="w-[700px] h-[500px] bg-contain bg-center bg-no-repeat pb-[50px]"
           style={{ backgroundImage: `url(${contactUs})` }}
         >
           <div className="h-[600px] text-center p-[4%]">
-            <span className="text-5xl ">Contact Us</span>
+            <span className="text-5xl">Contact Us</span>
             <br />
             <CommentForm
               style="mt-[60px] h-[250px] w-[83%] rounded-[10px] border-[1px] border-black px-[10px] py-[10px] resize-none pb-[50px]"
